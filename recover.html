@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Inicia sesión en Gorila Sport, el sistema web del club deportivo." />
-  <title>Login — Gorila Sport</title>
+  <meta name="description" content="Recupera tu contraseña de Gorila Sport." />
+  <title>Recuperar contraseña — Gorila Sport</title>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -14,43 +14,39 @@
         <img class="brand-logo-img" src="assets/logo-gorila.svg" alt="Logo Gorila Sport" width="48" height="48" />
         <div class="brand-title">
           <strong>Gorila Sport</strong>
-          <span>Tu plataforma deportiva</span>
+          <span>Recuperación de acceso</span>
         </div>
       </a>
       <nav class="nav" aria-label="Navegación principal">
         <a href="index.html">Inicio</a>
+        <a href="login.html">Login</a>
         <a href="register.html">Registro</a>
-        <a href="recover.html">Recuperar</a>
       </nav>
     </div>
   </header>
 
   <main class="auth-page">
-    <section class="auth-card" aria-labelledby="login-title">
+    <section class="auth-card" aria-labelledby="recover-title">
       <header class="auth-card-header">
         <img class="auth-logo" src="assets/logo-gorila.svg" alt="Gorila Sport" width="100" height="100" />
-        <h1 id="login-title">Iniciar sesión</h1>
-        <p>Accede con tu correo y contraseña para entrar al club.</p>
+        <h1 id="recover-title">Recuperar contraseña</h1>
+        <p>Ingresa tu correo y te enviaremos un enlace para restablecer tu acceso.</p>
       </header>
 
-      <form id="login-form" action="#" method="post" novalidate>
+      <form id="recover-form" action="#" method="post" novalidate>
         <div class="form-group">
           <label for="email">Correo electrónico</label>
           <input type="email" id="email" name="email" autocomplete="email" required placeholder="tu@correo.com" />
         </div>
-        <div class="form-group">
-          <label for="password">Contraseña</label>
-          <input type="password" id="password" name="password" autocomplete="current-password" required placeholder="••••••••" />
-        </div>
-        <button type="submit" class="btn btn-primary btn-login" id="login-submit">Iniciar sesión</button>
+        <button type="submit" class="btn btn-primary btn-login" id="recover-submit">Recuperar contraseña</button>
       </form>
 
-      <p id="form-message" class="message is-hidden" role="status" aria-live="polite"></p>
+      <div id="recover-success" class="recover-success is-hidden" role="status" aria-live="polite">
+        <p class="recover-success-title">✓ Solicitud enviada</p>
+        <p>Se ha enviado un enlace de recuperación a su correo.</p>
+      </div>
 
-      <nav class="auth-links" aria-label="Enlaces de cuenta">
-        <a href="recover.html">¿Olvidaste tu contraseña?</a>
-        <a href="register.html">Registrarse</a>
-      </nav>
+      <p class="form-footer"><a href="login.html">Volver al login</a></p>
     </section>
   </main>
 
@@ -58,6 +54,6 @@
     <p>&copy; 2026 Gorila Sport — Club deportivo</p>
   </footer>
 
-  <script src="js/auth.js"></script>
+  <script src="js/recover.js"></script>
 </body>
 </html>

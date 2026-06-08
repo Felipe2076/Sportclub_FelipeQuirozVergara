@@ -29,9 +29,6 @@ jobs:
           mkdir -p _site
           cp *.html _site/
           cp -r css js assets _site/
-          if [ -f _site/Index.html ]; then
-            mv _site/Index.html _site/index.html
-          fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
