@@ -3,785 +3,104 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gorila Sport | Tu mundo deportivo</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=DM+Sans:wght@400;500;600;700&display=swap');
-
-    :root {
-      --primary: #ff6b35;
-      --primary-dark: #e55100;
-      --accent: #004e89;
-      --accent-light: #1e40af;
-      --bg-light: #f8f6f1;
-      --bg-card: #ffffff;
-      --text-dark: #1a1a1a;
-      --text-muted: #666;
-      --border: #e5e5e5;
-      --success: #10b981;
-      --radius: 20px;
-      font-family: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: linear-gradient(135deg, var(--bg-light) 0%, #fff9f5 100%);
-      color: var(--text-dark);
-      min-height: 100vh;
-    }
-
-    img { max-width: 100%; display: block; }
-    a { color: inherit; text-decoration: none; }
-    button { font: inherit; cursor: pointer; }
-
-    .page { width: min(1220px, calc(100% - 32px)); margin: 0 auto; }
-    
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: linear-gradient(135deg, var(--accent) 0%, #00396b 100%);
-      color: #fff;
-      box-shadow: 0 8px 24px rgba(0,0,0,.12);
-      backdrop-filter: blur(10px);
-    }
-
-    .topbar-inner {
-      width: min(1220px, calc(100% - 32px));
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      padding: 16px 0;
-      flex-wrap: wrap;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex-shrink: 0;
-    }
-
-    .brand-logo {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 1.2rem;
-      color: #fff;
-      box-shadow: 0 6px 16px rgba(255, 107, 53, 0.3);
-      flex-shrink: 0;
-    }
-
-    .brand-text strong {
-      display: block;
-      font-size: 1.15rem;
-      letter-spacing: 0.02em;
-      font-weight: 800;
-    }
-
-    .brand-text span {
-      display: block;
-      font-size: 0.85rem;
-      opacity: 0.92;
-      font-weight: 500;
-    }
-
-    .nav {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .nav a {
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-weight: 600;
-      transition: background .2s ease;
-      color: rgba(255,255,255,.95);
-    }
-
-    .nav a:hover {
-      background: rgba(255,255,255,.15);
-    }
-
-    .topbar-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border: none;
-      border-radius: 999px;
-      padding: 12px 24px;
-      font-weight: 700;
-      transition: transform .2s ease, box-shadow .2s ease;
-      cursor: pointer;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      color: #fff;
-      box-shadow: 0 6px 16px rgba(255, 107, 53, 0.3);
-    }
-
-    .btn-primary:hover {
-      box-shadow: 0 10px 24px rgba(255, 107, 53, 0.4);
-    }
-
-    .btn-ghost {
-      background: rgba(255,255,255,.12);
-      color: #fff;
-      border: 1px solid rgba(255,255,255,.2);
-    }
-
-    .btn-ghost:hover {
-      background: rgba(255,255,255,.18);
-    }
-
-    main {
-      padding: 48px 0 60px;
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 40px;
-      align-items: center;
-      margin-bottom: 60px;
-    }
-
-    .hero-copy { max-width: 600px; }
-
-    .hero-copy .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 18px;
-      border-radius: 999px;
-      background: rgba(255, 107, 53, 0.12);
-      color: var(--primary);
-      font-weight: 700;
-      font-size: 0.9rem;
-      margin-bottom: 20px;
-      border: 1px solid rgba(255, 107, 53, 0.2);
-    }
-
-    .hero-copy .chip::before {
-      content: '';
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    }
-
-    .hero-copy h1 {
-      margin: 0 0 24px;
-      font-size: clamp(2.8rem, 4vw, 4rem);
-      line-height: 1.1;
-      color: var(--text-dark);
-      letter-spacing: -0.02em;
-    }
-
-    .hero-copy p {
-      margin: 0 0 28px;
-      color: var(--text-muted);
-      font-size: 1.1rem;
-      line-height: 1.7;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 32px;
-    }
-
-    .banner {
-      border-radius: 18px;
-      padding: 18px 22px;
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      color: #047857;
-      font-weight: 600;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 24px;
-    }
-
-    .stat-card {
-      border-radius: 16px;
-      padding: 20px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      box-shadow: 0 4px 12px rgba(0,0,0,.04);
-    }
-
-    .stat-card strong {
-      display: block;
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-      color: var(--primary);
-    }
-
-    .stat-card span {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    .hero-image {
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,.15);
-      aspect-ratio: 4/5;
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-    }
-
-    .hero-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .mission-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 24px;
-      margin-bottom: 60px;
-    }
-
-    .mission-card {
-      border-radius: 20px;
-      padding: 28px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      box-shadow: 0 8px 24px rgba(0,0,0,.06);
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-
-    .mission-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(0,0,0,.1);
-    }
-
-    .mission-card h3 {
-      margin-top: 0;
-      margin-bottom: 12px;
-      font-size: 1.2rem;
-      color: var(--accent);
-    }
-
-    .mission-card p {
-      margin: 0;
-      color: var(--text-muted);
-      line-height: 1.7;
-    }
-
-    .panel {
-      border-radius: 24px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      box-shadow: 0 8px 24px rgba(0,0,0,.06);
-      padding: 40px;
-      margin-bottom: 60px;
-    }
-
-    .panel h2 {
-      margin-top: 0;
-      font-size: 2.2rem;
-      margin-bottom: 8px;
-      color: var(--text-dark);
-    }
-
-    .panel > p {
-      color: var(--text-muted);
-      margin-bottom: 32px;
-    }
-
-    .section-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
-    }
-
-    .feature-box {
-      border-radius: 18px;
-      padding: 24px;
-      background: linear-gradient(135deg, rgba(255, 107, 53, 0.04) 0%, rgba(30, 64, 175, 0.04) 100%);
-      border: 1px solid var(--border);
-      transition: transform .2s ease;
-    }
-
-    .feature-box:hover {
-      transform: translateX(4px);
-    }
-
-    .feature-box h3 {
-      margin-top: 0;
-      margin-bottom: 12px;
-      color: var(--accent);
-    }
-
-    .feature-box p {
-      margin: 0;
-      color: var(--text-muted);
-    }
-
-    .auth-section {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 40px;
-      margin-bottom: 60px;
-    }
-
-    .auth-panel {
-      border-radius: 24px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 32px;
-      box-shadow: 0 8px 24px rgba(0,0,0,.06);
-    }
-
-    .auth-panel h3 {
-      margin-top: 0;
-      margin-bottom: 24px;
-      font-size: 1.8rem;
-      color: var(--accent);
-    }
-
-    .tabs {
-      display: inline-flex;
-      border-radius: 999px;
-      overflow: hidden;
-      background: var(--bg-light);
-      border: 1px solid var(--border);
-      margin-bottom: 24px;
-    }
-
-    .tab {
-      padding: 12px 20px;
-      cursor: pointer;
-      color: var(--text-muted);
-      font-weight: 700;
-      transition: background .2s ease, color .2s ease;
-      border: none;
-      background: transparent;
-    }
-
-    .tab.active {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: #fff;
-    }
-
-    .form-grid {
-      display: grid;
-      gap: 16px;
-    }
-
-    label {
-      display: grid;
-      gap: 10px;
-      font-weight: 600;
-      color: var(--text-dark);
-    }
-
-    input, select, textarea {
-      width: 100%;
-      border-radius: 12px;
-      border: 2px solid var(--border);
-      background: var(--bg-light);
-      color: var(--text-dark);
-      padding: 14px 16px;
-      font: inherit;
-      transition: border-color .2s ease, background .2s ease;
-    }
-
-    textarea {
-      min-height: 110px;
-      resize: vertical;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--primary);
-      background: #fff;
-    }
-
-    .form-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .form-footer .hint {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-    }
-
-    .alert {
-      margin-top: 20px;
-      border-radius: 14px;
-      padding: 16px 18px;
-      background: rgba(255, 107, 53, 0.1);
-      border: 1px solid rgba(255, 107, 53, 0.2);
-      color: var(--primary);
-      display: none;
-    }
-
-    .alert.show {
-      display: block;
-    }
-
-    .alert.error {
-      background: rgba(239, 68, 68, 0.1);
-      border-color: rgba(239, 68, 68, 0.2);
-      color: #dc2626;
-    }
-
-    .dashboard {
-      display: grid;
-      gap: 24px;
-    }
-
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .dashboard-card {
-      border-radius: 18px;
-      padding: 22px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      box-shadow: 0 4px 12px rgba(0,0,0,.04);
-    }
-
-    .dashboard-card strong {
-      display: block;
-      font-size: 1.3rem;
-      margin-bottom: 8px;
-      color: var(--primary);
-    }
-
-    .dashboard-card span {
-      color: var(--text-muted);
-    }
-
-    .dashboard-list {
-      display: grid;
-      gap: 16px;
-    }
-
-    .dashboard-list-item {
-      border-radius: 16px;
-      padding: 16px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 8px rgba(0,0,0,.03);
-    }
-
-    .dashboard-list-item strong {
-      display: block;
-      margin-bottom: 6px;
-      color: var(--accent);
-    }
-
-    .footer {
-      margin-top: 60px;
-      padding: 32px;
-      border-radius: 24px;
-      background: linear-gradient(135deg, var(--accent), #00396b);
-      color: #fff;
-      text-align: center;
-      box-shadow: 0 8px 24px rgba(0,78,137,.2);
-    }
-
-    @media (max-width: 1024px) {
-      .hero, .auth-section, .mission-grid, .stats-grid, .dashboard-grid, .section-grid {
-        grid-template-columns: 1fr;
-      }
-      .hero { gap: 24px; }
-      .topbar-inner { flex-direction: column; align-items: stretch; }
-      .topbar-actions { justify-content: center; }
-      .panel { padding: 24px; }
-    }
-
-    @media (max-width: 640px) {
-      .hero-copy h1 { font-size: 2.2rem; }
-      .panel h2 { font-size: 1.6rem; }
-    }
-  </style>
+  <meta name="description" content="Gorila Sport — Sistema web para la gestión de usuarios del club deportivo." />
+  <title>Gorila Sport | Club deportivo</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/home.css" />
 </head>
 <body>
-  <div class="page">
-    <header class="topbar">
-      <div class="topbar-inner">
-        <a class="brand" href="#home">
-          <div class="brand-logo">🦍</div>
-          <div class="brand-text">
-            <strong>Gorila Sport</strong>
-            <span>Tu mejor versión comienza hoy</span>
-          </div>
-        </a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html">
+        <img class="brand-logo-img" src="assets/logo-gorila.svg" alt="Logo Gorila Sport" width="48" height="48" />
+        <div class="brand-title">
+          <strong>Gorila Sport</strong>
+          <span>Tu mejor versión comienza hoy</span>
+        </div>
+      </a>
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#valores">Valores</a>
+        <a href="#acceso">Acceso</a>
+      </nav>
+      <div class="topbar-actions">
+        <a class="btn btn-ghost" href="login.html">Entrar</a>
+        <a class="btn btn-primary" href="register.html">Crear cuenta</a>
+      </div>
+    </div>
+  </header>
 
-        <nav class="nav" aria-label="Navegación principal">
-          <a href="#home">Inicio</a>
-          <a href="#valores">Valores</a>
-          <a href="#registro">Acceso</a>
-        </nav>
-
-        <div class="topbar-actions" aria-label="Acciones principales">
-          <button class="btn btn-ghost" type="button" onclick="openAuth('login')">Entrar</button>
-          <button class="btn btn-primary" type="button" onclick="openAuth('register')">Crear cuenta</button>
+  <main class="home-main page">
+    <section class="hero" id="inicio">
+      <div class="hero-copy">
+        <span class="chip">Bienvenido a Gorila Sport</span>
+        <h1>Entrena con foco, crece con comunidad.</h1>
+        <p>Sistema web del club deportivo con páginas de login, registro y recuperación de contraseña. Diseño claro, responsivo y coherente.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="register.html">Comenzar ahora</a>
+          <a class="btn btn-ghost" href="login.html">Ya tengo cuenta</a>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card">
+            <strong>HTML5 semántico</strong>
+            <span>Estructura clara con header, main, section y footer</span>
+          </article>
+          <article class="stat-card">
+            <strong>CSS3 responsivo</strong>
+            <span>Estilos coherentes en móvil, tablet y escritorio</span>
+          </article>
+          <article class="stat-card">
+            <strong>Experiencia simple</strong>
+            <span>Formularios claros y fáciles de usar</span>
+          </article>
         </div>
       </div>
-    </header>
+      <figure class="hero-image">
+        <img src="https://images.unsplash.com/photo-1517836357463-d25ddfcbf042?w=600&h=750&fit=crop" alt="Persona entrenando en un gimnasio" width="600" height="750" loading="lazy" />
+      </figure>
+    </section>
 
-    <main>
-      <div class="page">
-        <section class="hero" id="home">
-          <div class="hero-copy">
-            <span class="chip">Bienvenido a Gorila Sport</span>
-            <h1>Entrena con foco, crece con comunidad.</h1>
-            <p>Plataforma deportiva diseñada para atletas, entrenadores y administradores. Registra tus datos, inicia sesión y accede a un dashboard personalizado según tu rol.</p>
+    <section class="mission-grid" id="valores" aria-labelledby="valores-title">
+      <h2 id="valores-title" class="visually-hidden">Valores del club</h2>
+      <article class="mission-card">
+        <h2>Quiénes somos</h2>
+        <p>Comunidad enfocada en bienestar, compromiso y superación personal dentro del club deportivo.</p>
+      </article>
+      <article class="mission-card">
+        <h2>Beneficios</h2>
+        <p>Acceso organizado para usuarios nuevos y existentes con flujos de registro e inicio de sesión.</p>
+      </article>
+      <article class="mission-card">
+        <h2>Visión</h2>
+        <p>Integrar tecnología y deporte para mejorar la experiencia de cada miembro del club.</p>
+      </article>
+    </section>
 
-            <div class="hero-actions">
-              <button class="btn btn-primary" type="button" onclick="openAuth('register')">Comenzar ahora</button>
-              <button class="btn btn-ghost" type="button" onclick="openAuth('login')">Ya tengo cuenta</button>
-            </div>
-
-            <div class="banner"><strong>🚀 Backend activo.</strong> Los usuarios se guardan en el servidor cuando inicias sesión y son persistentes.</div>
-            <div class="stats-grid">
-              <div class="stat-card"><strong>Registro seguro</strong><span>Contraseñas cifradas con bcrypt</span></div>
-              <div class="stat-card"><strong>Roles integrados</strong><span>Admin, Coach, User</span></div>
-              <div class="stat-card"><strong>Persistencia real</strong><span>Datos guardados en backend</span></div>
-            </div>
-          </div>
-
-          <div class="hero-image">
-            <img src="https://images.unsplash.com/photo-1517836357463-d25ddfcbf042?w=400&h=600&fit=crop" alt="Mujer entrenando" />
-          </div>
-        </section>
-
-        <section class="mission-grid" id="valores">
-          <article class="mission-card">
-            <h3>Quiénes somos</h3>
-            <p>Somos una comunidad enfocada en el bienestar, el compromiso y la superación personal. Cada usuario recibe el seguimiento que merece.</p>
-          </article>
-          <article class="mission-card">
-            <h3>Beneficios</h3>
-            <p>Registro rápido, dashboards personalizados, seguimiento de progreso y acceso seguro. Todo diseñado para tu experiencia.</p>
-          </article>
-          <article class="mission-card">
-            <h3>Visión</h3>
-            <p>Ser el ecosistema deportivo de referencia, integrando tecnología, entrenamiento y comunidad para mejorar la calidad de vida.</p>
-          </article>
-        </section>
-
-        <section class="panel">
-          <h2>Cómo funciona</h2>
-          <p>La plataforma integra un frontend responsivo con un backend Node.js que almacena usuarios y gestiona autenticación.</p>
-          <div class="section-grid">
-            <div class="feature-box">
-              <h3>Frontend moderno</h3>
-              <p>Formularios controlados, validación en tiempo real y almacenamiento seguro del token en navegador.</p>
-            </div>
-            <div class="feature-box">
-              <h3>Backend robusto</h3>
-              <p>API Express con endpoints de registro, login y dashboard. Usuarios persistidos en JSON con contraseñas cifradas.</p>
-            </div>
-            <div class="feature-box">
-              <h3>Roles diferenciados</h3>
-              <p>Admin recibe métricas del sistema, Coach gestiona atletas, User monitorea su progreso personal.</p>
-            </div>
-            <div class="feature-box">
-              <h3>Despliegue fácil</h3>
-              <p>Ejecuta `npm install` y `npm start` en el backend. El frontend se conecta automáticamente a `http://localhost:4000`.</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="auth-section" id="registro">
-          <div class="auth-panel">
-            <h3>Acceso a tu cuenta</h3>
-            <div class="tabs" role="tablist">
-              <button class="tab active" id="tab-register" role="tab" aria-selected="true" onclick="setTab('register')">Registro</button>
-              <button class="tab" id="tab-login" role="tab" aria-selected="false" onclick="setTab('login')">Login</button>
-            </div>
-            <form id="authForm">
-              <div class="form-grid" id="registerFields">
-                <label>Nombre completo
-                  <input type="text" name="name" placeholder="Ej. Felipe Quiroz" autocomplete="name" required />
-                </label>
-                <label>Rol
-                  <select name="role" required>
-                    <option value="User">User</option>
-                    <option value="Coach">Coach</option>
-                    <option value="Admin">Admin</option>
-                  </select>
-                </label>
-              </div>
-              <div class="form-grid">
-                <label>Email
-                  <input type="email" name="email" placeholder="tu@correo.com" autocomplete="email" required />
-                </label>
-                <label>Contraseña
-                  <input type="password" name="password" placeholder="Mínimo 8 caracteres" autocomplete="current-password" required minlength="8" />
-                </label>
-                <label id="confirmLabel">Confirmar contraseña
-                  <input type="password" name="confirmPassword" placeholder="Repite tu contraseña" autocomplete="new-password" required minlength="8" />
-                </label>
-              </div>
-              <div class="form-footer">
-                <div class="hint" id="formHint">Completa el formulario y crea tu perfil.</div>
-                <button class="btn btn-primary" type="submit" id="submitButton">Crear cuenta</button>
-              </div>
-            </form>
-            <div class="alert" id="statusBar" aria-live="polite"></div>
-          </div>
-
-          <div class="auth-panel">
-            <h3>Tu dashboard</h3>
-            <p>Después de iniciar sesión, verás un panel personalizado según tu rol:</p>
-            <div class="dashboard">
-              <div class="dashboard-card"><strong>👤 Usuario</strong><span>Monitorea tu actividad y progreso personal</span></div>
-              <div class="dashboard-card"><strong>🏅 Coach</strong><span>Gestiona atletas y planes de entrenamiento</span></div>
-              <div class="dashboard-card"><strong>⚙️ Admin</strong><span>Supervisa el sistema y usuarios registrados</span></div>
-            </div>
-            <div id="dashboardExtra"></div>
-          </div>
-        </section>
-
-        <footer class="footer">
-          <p><strong>Gorila Sport</strong> es tu plataforma de rendimiento deportivo. Registra usuarios, gestiona equipos y crece como comunidad.</p>
-          <p style="opacity: 0.92;">Backend activo en http://localhost:4000 · Todos los datos persisten automáticamente</p>
-        </footer>
+    <section class="access-section" id="acceso" aria-labelledby="acceso-title">
+      <h2 id="acceso-title">Páginas del sistema</h2>
+      <p>Accede a las tres páginas requeridas del proyecto académico.</p>
+      <div class="access-grid">
+        <article class="access-card">
+          <h3>Login</h3>
+          <p>Ingresa con correo y contraseña. Incluye enlaces a registro y recuperación.</p>
+          <a class="btn btn-primary" href="login.html">Ir al login</a>
+        </article>
+        <article class="access-card">
+          <h3>Registro</h3>
+          <p>Alta de nuevos usuarios con campos obligatorios y opcionales personalizables.</p>
+          <a class="btn btn-primary" href="register.html">Ir al registro</a>
+        </article>
+        <article class="access-card">
+          <h3>Recuperar contraseña</h3>
+          <p>Solicita un enlace de recuperación con confirmación visual simulada.</p>
+          <a class="btn btn-primary" href="recover.html">Recuperar acceso</a>
+        </article>
       </div>
-    </main>
-  </div>
+    </section>
 
-  <script>
-    const apiBase = 'http://localhost:4000/api';
-    let formMode = 'register';
-
-    const authForm = document.getElementById('authForm');
-    const registerFields = document.getElementById('registerFields');
-    const confirmLabel = document.getElementById('confirmLabel');
-    const submitButton = document.getElementById('submitButton');
-    const formHint = document.getElementById('formHint');
-    const statusBar = document.getElementById('statusBar');
-
-    function setTab(mode) {
-      formMode = mode;
-      document.getElementById('tab-register').classList.toggle('active', mode === 'register');
-      document.getElementById('tab-login').classList.toggle('active', mode === 'login');
-      registerFields.style.display = mode === 'register' ? 'grid' : 'none';
-      confirmLabel.style.display = mode === 'register' ? 'grid' : 'none';
-      submitButton.textContent = mode === 'register' ? 'Crear cuenta' : 'Iniciar sesión';
-      formHint.textContent = mode === 'register' ? 'Completa el formulario y crea tu perfil.' : 'Ingresa tus credenciales para acceder.';
-      setStatus('');
-    }
-
-    function openAuth(mode) {
-      setTab(mode);
-      document.getElementById('registro').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    function setStatus(message, isError = false) {
-      statusBar.textContent = message;
-      statusBar.className = 'alert';
-      if (message) statusBar.classList.add('show');
-      if (isError) statusBar.classList.add('error');
-    }
-
-    authForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const formData = new FormData(authForm);
-      const name = formData.get('name')?.trim();
-      const email = formData.get('email')?.trim();
-      const password = formData.get('password')?.trim();
-      const confirmPassword = formData.get('confirmPassword')?.trim();
-      const role = formData.get('role');
-
-      if (!email || !password) {
-        setStatus('Email y contraseña son obligatorios.', true);
-        return;
-      }
-      if (formMode === 'register') {
-        if (!name) {
-          setStatus('El nombre completo es obligatorio.', true);
-          return;
-        }
-        if (password !== confirmPassword) {
-          setStatus('Las contraseñas no coinciden.', true);
-          return;
-        }
-      }
-
-      submitButton.disabled = true;
-      submitButton.textContent = formMode === 'register' ? 'Registrando...' : 'Validando...';
-      setStatus('Procesando...', false);
-
-      try {
-        const payload = { email, password };
-        if (formMode === 'register') {
-          payload.name = name;
-          payload.role = role;
-        }
-
-        const response = await fetch(`${apiBase}/${formMode}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        });
-
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.message || 'Error en el servidor.');
-        }
-
-        localStorage.setItem('gorilaToken', data.token);
-        localStorage.setItem('gorilaUser', JSON.stringify(data.user));
-        setStatus('✓ Autenticación exitosa. Redirigiendo...', false);
-        setTimeout(() => {
-          const route = data.user.role === 'Admin' ? 'dashboard_admin.html' : data.user.role === 'Coach' ? 'dashboard_coach.html' : 'dashboard_usuario.html';
-          window.location.href = route;
-        }, 800);
-      } catch (error) {
-        setStatus(error.message, true);
-      } finally {
-        submitButton.disabled = false;
-        submitButton.textContent = formMode === 'register' ? 'Crear cuenta' : 'Iniciar sesión';
-      }
-    });
-
-    window.addEventListener('DOMContentLoaded', () => {
-      setTab('register');
-    });
-  </script>
+    <footer class="home-footer">
+      <p><strong>Gorila Sport</strong> — Proyecto web del club deportivo · HTML5 + CSS3</p>
+    </footer>
+  </main>
 </body>
 </html>
