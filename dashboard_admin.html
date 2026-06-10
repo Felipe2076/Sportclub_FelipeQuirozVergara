@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Panel — Gorila Sport</title>
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
@@ -21,15 +22,15 @@
     <div class="main-content">
       <header class="topbar">
         <div class="topbar-brand">
-          <img src="assets/logo.png" alt="Logo" width="40" height="40" />
+          <img src="assets/logo.png" alt="Logo" width="32" height="32" />
           <strong>ADMIN PANEL</strong>
         </div>
         <div class="topbar-user">
-          <input type="text" placeholder="Buscar..." style="padding: 0.5rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-dark); color: white;" />
-          <i class="fas fa-bell" style="color: var(--text-muted); cursor: pointer;"></i>
-          <div class="user-profile" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-            <img src="https://i.pravatar.cc/40" style="border-radius: 50%;" alt="Avatar" />
-            <span id="admin-name" style="font-weight: 600;">Cargando...</span>
+          <input type="text" placeholder="Buscar..." />
+          <i class="fas fa-bell"></i>
+          <div class="user-profile">
+            <img src="https://i.pravatar.cc/40" alt="Avatar" />
+            <span id="admin-name">Cargando...</span>
           </div>
         </div>
       </header>
@@ -37,26 +38,51 @@
       <main class="dashboard-container">
         <header class="dashboard-header">
           <div>
-            <h1>CLUB DEPORTIVO ADMIN DASHBOARD</h1>
-            <p style="color: var(--text-muted);">Centralización de operaciones CRUD de socios</p>
+            <h1>Panel de Administración</h1>
+            <p>Centralización de operaciones y gestión de socios</p>
           </div>
-          <button class="btn btn-primary" onclick="showAddUserForm()">+ AÑADIR NUEVO SOCIO</button>
+          <button class="btn btn-primary" onclick="showAddUserForm()">
+            <i class="fas fa-plus"></i> Añadir nuevo socio
+          </button>
         </header>
+
+        <div class="stat-grid">
+          <div class="stat-card-dash">
+            <div class="stat-icon"><i class="fas fa-users"></i></div>
+            <div class="stat-value" id="stat-total">0</div>
+            <div class="stat-label">Total socios</div>
+          </div>
+          <div class="stat-card-dash">
+            <div class="stat-icon" style="color: var(--accent);"><i class="fas fa-user-tie"></i></div>
+            <div class="stat-value" id="stat-coaches">0</div>
+            <div class="stat-label">Coaches</div>
+          </div>
+          <div class="stat-card-dash">
+            <div class="stat-icon" style="color: var(--info);"><i class="fas fa-user-graduate"></i></div>
+            <div class="stat-value" id="stat-athletes">0</div>
+            <div class="stat-label">Atletas</div>
+          </div>
+          <div class="stat-card-dash">
+            <div class="stat-icon" style="color: var(--danger);"><i class="fas fa-shield-alt"></i></div>
+            <div class="stat-value" id="stat-admins">0</div>
+            <div class="stat-label">Administradores</div>
+          </div>
+        </div>
 
         <div id="user-form-container" class="crud-form" style="display: none;">
           <h3 id="form-title">Nuevo Socio</h3>
           <div class="form-grid">
             <div class="form-group">
-              <label>Nombre</label>
+              <label>Nombre completo</label>
               <input type="text" id="user-name" placeholder="Ej. Juan Pérez" />
             </div>
             <div class="form-group">
-              <label>Email</label>
+              <label>Correo electrónico</label>
               <input type="email" id="user-email" placeholder="juan@correo.com" />
             </div>
             <div class="form-group">
               <label>Contraseña</label>
-              <input type="password" id="user-password" placeholder="••••••••" />
+              <input type="password" id="user-password" placeholder="Mínimo 8 caracteres" />
             </div>
             <div class="form-group">
               <label>Rol</label>
@@ -67,18 +93,18 @@
               </select>
             </div>
           </div>
-          <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+          <div class="form-actions">
             <button class="btn btn-ghost" onclick="hideAddUserForm()">Cancelar</button>
-            <button class="btn btn-primary" id="save-user-btn">Guardar Socio</button>
+            <button class="btn btn-primary" id="save-user-btn">
+              <i class="fas fa-save"></i> Guardar Socio
+            </button>
           </div>
         </div>
 
         <div class="grid-layout">
           <div class="card">
-            <div class="card-header">
-              <i class="fas fa-users"></i> GESTIÓN DE SOCIOS
-            </div>
-            <div class="card-body">
+            <div class="card-header"><i class="fas fa-users"></i> Gestión de Socios</div>
+            <div class="card-body" style="padding: 0;">
               <table class="data-table">
                 <thead>
                   <tr>
@@ -88,33 +114,33 @@
                     <th>Acciones</th>
                   </tr>
                 </thead>
-                <tbody id="users-table-body">
-                  <!-- Cargado dinámicamente -->
-                </tbody>
+                <tbody id="users-table-body"></tbody>
               </table>
             </div>
           </div>
 
           <div class="card">
-            <div class="card-header">
-              <i class="fas fa-calendar-check"></i> RESERVAS DE INSTALACIONES
-            </div>
-            <div class="card-body" style="text-align: center; color: var(--text-muted);">
-              <p>Módulo de reservas en desarrollo...</p>
-              <div style="background: var(--bg-dark); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px dashed var(--border-color);">
-                Próximamente: Calendario interactivo de canchas
+            <div class="card-header"><i class="fas fa-calendar-check"></i> Reservas de Instalaciones</div>
+            <div class="card-body">
+              <div class="module-placeholder">
+                <i class="fas fa-calendar-alt"></i>
+                <p>Módulo de reservas en desarrollo</p>
+                <div class="module-coming-soon">
+                  Próximamente: Calendario interactivo de canchas
+                </div>
               </div>
             </div>
           </div>
 
           <div class="card">
-            <div class="card-header">
-              <i class="fas fa-credit-card"></i> REGISTRO DE PAGOS
-            </div>
-            <div class="card-body" style="text-align: center; color: var(--text-muted);">
-              <p>Módulo de facturación en desarrollo...</p>
-              <div style="background: var(--bg-dark); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px dashed var(--border-color);">
-                Próximamente: Pasarela de pagos integrada
+            <div class="card-header"><i class="fas fa-credit-card"></i> Registro de Pagos</div>
+            <div class="card-body">
+              <div class="module-placeholder">
+                <i class="fas fa-credit-card"></i>
+                <p>Módulo de facturación en desarrollo</p>
+                <div class="module-coming-soon">
+                  Próximamente: Pasarela de pagos integrada
+                </div>
               </div>
             </div>
           </div>
@@ -122,19 +148,25 @@
 
         <div class="grid-layout" style="grid-template-columns: 1fr 2fr;">
           <div class="card">
-            <div class="card-header">RESUMEN DE SOCIOS</div>
-            <div class="card-body" style="display: flex; justify-content: center; align-items: center; height: 200px;">
-              <div style="width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(var(--primary) 70%, var(--border-color) 0); border: 10px solid var(--bg-dark); box-shadow: 0 0 20px var(--primary);"></div>
+            <div class="card-header">Resumen de Socios</div>
+            <div class="card-body" style="display: flex; justify-content: center; align-items: center; height: 220px;">
+              <div class="chart-ring" style="background: conic-gradient(var(--primary) 70%, var(--border-color) 0);">
+                <div class="chart-ring-inner">70%</div>
+              </div>
             </div>
           </div>
           <div class="card">
-            <div class="card-header">ASISTENCIA SEMANAL</div>
-            <div class="card-body" style="display: flex; align-items: flex-end; gap: 10px; height: 200px;">
-              <div style="flex: 1; background: var(--primary); height: 40%; border-radius: 4px 4px 0 0;"></div>
-              <div style="flex: 1; background: var(--primary); height: 70%; border-radius: 4px 4px 0 0;"></div>
-              <div style="flex: 1; background: var(--primary); height: 50%; border-radius: 4px 4px 0 0;"></div>
-              <div style="flex: 1; background: var(--primary); height: 90%; border-radius: 4px 4px 0 0;"></div>
-              <div style="flex: 1; background: var(--primary); height: 60%; border-radius: 4px 4px 0 0;"></div>
+            <div class="card-header">Asistencia Semanal</div>
+            <div class="card-body">
+              <div class="chart-visual" style="display: flex; align-items: flex-end; gap: 8px; height: 160px;">
+                <div class="bar" style="height: 40%;"></div>
+                <div class="bar" style="height: 65%;"></div>
+                <div class="bar" style="height: 50%;"></div>
+                <div class="bar" style="height: 85%;"></div>
+                <div class="bar" style="height: 60%;"></div>
+                <div class="bar" style="height: 75%;"></div>
+                <div class="bar" style="height: 45%;"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -158,15 +190,24 @@
           const tbody = document.getElementById('users-table-body');
           tbody.innerHTML = users.map(u => `
             <tr>
-              <td>${u.name}</td>
+              <td><strong>${u.name || 'Sin nombre'}</strong></td>
               <td>${u.email}</td>
               <td><span class="badge ${u.role === 'Admin' ? 'badge-danger' : (u.role === 'Coach' ? 'badge-warning' : 'badge-success')}">${u.role}</span></td>
               <td>
-                <button class="btn btn-ghost" style="padding: 4px 8px; font-size: 0.7rem;" onclick="editUser('${u._id}', '${u.name}', '${u.email}', '${u.role}')">Editar</button>
-                <button class="btn btn-danger" style="padding: 4px 8px; font-size: 0.7rem;" onclick="deleteUser('${u._id}')">Borrar</button>
+                <button class="btn btn-sm btn-ghost" onclick="editUser('${u._id}', '${u.name}', '${u.email}', '${u.role}')"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-sm btn-danger" onclick="deleteUser('${u._id}')"><i class="fas fa-trash"></i></button>
               </td>
             </tr>
           `).join('');
+
+          const total = users.length;
+          const coaches = users.filter(u => u.role === 'Coach').length;
+          const athletes = users.filter(u => u.role === 'User').length;
+          const admins = users.filter(u => u.role === 'Admin').length;
+          document.getElementById('stat-total').textContent = total;
+          document.getElementById('stat-coaches').textContent = coaches;
+          document.getElementById('stat-athletes').textContent = athletes;
+          document.getElementById('stat-admins').textContent = admins;
         } catch (error) {
           alert('Error cargando usuarios: ' + error.message);
         }
@@ -178,6 +219,8 @@
         document.getElementById('user-name').value = '';
         document.getElementById('user-email').value = '';
         document.getElementById('user-password').value = '';
+        document.getElementById('user-role').value = 'User';
+        delete document.getElementById('user-form-container').dataset.editId;
       };
 
       window.hideAddUserForm = () => {
@@ -208,7 +251,7 @@
           if (id) {
             await apiRequest(`/users/${id}`, { method: 'PUT', body: payload, auth: true });
           } else {
-            payload.password = payload.password || 'Pass123!'; // Default password for new users
+            payload.password = payload.password || 'Pass123!';
             await apiRequest('/register', { method: 'POST', body: payload });
           }
           hideAddUserForm();
@@ -228,11 +271,6 @@
           }
         }
       };
-
-      document.getElementById('logout-button').addEventListener('click', () => {
-        localStorage.clear();
-        window.location.href = 'login.html';
-      });
 
       loadUsers();
     });

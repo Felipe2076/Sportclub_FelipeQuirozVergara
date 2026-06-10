@@ -4,15 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Gorila Sport — Sistema web para la gestión de usuarios del club deportivo." />
+  <meta name="theme-color" content="#080c18" />
   <title>Gorila Sport | Club deportivo</title>
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/home.css" />
 </head>
 <body>
   <header class="topbar">
-    <div class="container topbar-inner">
+    <div class="topbar-inner">
       <a class="brand" href="index.html">
-        <img class="brand-logo-img" src="assets/logo.png" alt="Logo Gorila Sport" width="48" height="48" />
+        <img class="brand-logo-img" src="assets/logo.png" alt="Logo Gorila Sport" width="42" height="42" />
         <div class="brand-title">
           <strong>Gorila Sport</strong>
           <span>Tu mejor versión comienza hoy</span>
@@ -32,48 +33,71 @@
 
   <main class="home-main">
     <section class="hero" id="inicio">
-      <div class="hero-copy">
-        <span class="chip">Bienvenido a Gorila Sport</span>
-        <h1>Entrena con <span>foco</span>, crece con comunidad.</h1>
-        <p>Sistema web del club deportivo con gestión profesional de usuarios. Únete a la comunidad más fuerte de la ciudad y lleva tu entrenamiento al siguiente nivel.</p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="register.html">Comenzar ahora</a>
-          <a class="btn btn-ghost" href="login.html">Ya tengo cuenta</a>
+      <div class="hero-decoration"></div>
+      <div class="hero-decoration"></div>
+      <div class="hero-decoration"></div>
+      <div class="hero-decoration"></div>
+
+      <div class="container">
+        <div class="hero-copy">
+          <span class="chip">Bienvenido a Gorila Sport</span>
+          <h1>Entrena con <span>foco</span>, crece con comunidad.</h1>
+          <p>Sistema web del club deportivo con gestión profesional de usuarios. Únete a la comunidad más fuerte de la ciudad y lleva tu entrenamiento al siguiente nivel.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary btn-lg" href="register.html">Comenzar ahora</a>
+            <a class="btn btn-ghost btn-lg" href="login.html">Ya tengo cuenta</a>
+          </div>
+          <div class="stats-grid">
+            <article class="stat-card">
+              <strong>Entrenadores Expertos</strong>
+              <span>Cuerpo técnico certificado</span>
+            </article>
+            <article class="stat-card">
+              <strong>Equipamiento Top</strong>
+              <span>Maquinaria de última generación</span>
+            </article>
+            <article class="stat-card">
+              <strong>Comunidad Activa</strong>
+              <span>Cientos de atletas superándose</span>
+            </article>
+          </div>
         </div>
-        <div class="stats-grid">
-          <article class="stat-card">
-            <strong>Entrenadores Expertos</strong>
-            <span>Cuerpo técnico certificado</span>
-          </article>
-          <article class="stat-card">
-            <strong>Equipamiento Top</strong>
-            <span>Maquinaria de última generación</span>
-          </article>
-          <article class="stat-card">
-            <strong>Comunidad Activa</strong>
-            <span>Cientos de atletas superándose</span>
-          </article>
+        <div class="hero-image">
+          <figure>
+            <img src="assets/gym-interior.jpg" alt="Instalaciones de Gorila Sport" loading="lazy" />
+          </figure>
+          <div class="floating-badge">
+            <strong>+500</strong>
+            <span>Atletas activos</span>
+          </div>
         </div>
       </div>
-      <figure class="hero-image">
-        <img src="assets/gym-interior.jpg" alt="Instalaciones de Gorila Sport" loading="lazy" />
-      </figure>
     </section>
 
-    <section id="instalaciones" class="container">
+    <section id="instalaciones" class="container" style="padding-top: 4rem; padding-bottom: 4rem;">
       <h2 class="section-title">Nuestras <span>Instalaciones</span></h2>
+      <p class="section-subtitle">Espacios diseñados para que cada entrenamiento sea una experiencia única.</p>
       <div class="gallery-grid">
         <div class="gallery-item">
-          <img src="assets/two-women-training.jpg" alt="Entrenamiento personalizado" />
-          <div class="gallery-caption">Entrenamiento Personalizado y Comunidad</div>
+          <img src="assets/two-women-training.jpg" alt="Entrenamiento personalizado" loading="lazy" />
+          <div class="gallery-caption">
+            <span>Entrenamiento</span>
+            <strong>Personalizado y Comunidad</strong>
+          </div>
         </div>
         <div class="gallery-item">
-          <img src="assets/treadmills.jpg" alt="Zona de cardio" />
-          <div class="gallery-caption">Zona de Cardio de Alta Intensidad</div>
+          <img src="assets/treadmills.jpg" alt="Zona de cardio" loading="lazy" />
+          <div class="gallery-caption">
+            <span>Cardio</span>
+            <strong>Zona de Alta Intensidad</strong>
+          </div>
         </div>
         <div class="gallery-item">
-          <img src="assets/gym-interior.jpg" alt="Área de pesas" />
-          <div class="gallery-caption">Área de Pesas y Fuerza</div>
+          <img src="assets/gym-interior.jpg" alt="Área de pesas" loading="lazy" />
+          <div class="gallery-caption">
+            <span>Fuerza</span>
+            <strong>Área de Pesas y Potencia</strong>
+          </div>
         </div>
       </div>
     </section>
@@ -84,16 +108,25 @@
         <p>Gestiona tu perfil, entrena con planes personalizados y sigue tu progreso a través de nuestra plataforma segura.</p>
         <div class="access-grid">
           <article class="access-card">
+            <div class="icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
             <h3>Login</h3>
             <p>Ingresa con tu cuenta para acceder a tu panel de control personalizado y seguir tu rutina diaria.</p>
-            <a class="btn btn-ghost" href="login.html">Ir al login</a>
+            <a class="btn btn-primary" href="login.html">Ir al login</a>
           </article>
           <article class="access-card">
+            <div class="icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><polyline points="17 11 19 13 23 9"/></svg>
+            </div>
             <h3>Registro</h3>
             <p>Crea tu cuenta en segundos y comienza a transformar tu cuerpo hoy mismo.</p>
             <a class="btn btn-primary" href="register.html">Ir al registro</a>
           </article>
           <article class="access-card">
+            <div class="icon-wrap">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+            </div>
             <h3>Soporte</h3>
             <p>¿Tienes problemas con tu cuenta? Recupera tu contraseña de forma rápida y segura.</p>
             <a class="btn btn-ghost" href="recover.html">Recuperar acceso</a>
@@ -104,7 +137,7 @@
 
     <footer class="home-footer">
       <div class="container">
-        <p><strong>Gorila Sport</strong> — © 2026 | Potenciado por JSON y Node.js</p>
+        <p><strong>Gorila Sport</strong> &copy; 2026 — Club deportivo</p>
       </div>
     </footer>
   </main>
