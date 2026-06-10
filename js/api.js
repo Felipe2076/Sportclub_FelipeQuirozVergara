@@ -1,16 +1,3 @@
-function isDemoHost() {
-  return window.location.hostname.includes('github.io');
-}
-
-function assertBackendAvailable() {
-  if (window.location.protocol === 'file:') {
-    throw new Error(
-      'Abre la app desde http://localhost:4000/login.html con el backend iniciado. ' +
-      'Los datos se guardan en el servidor, no en el navegador.'
-    );
-  }
-}
-
 const GORILA_CONFIG = window.GORILA_CONFIG || {
   apiBase: 'http://localhost:4000/api',
   apiKey: 'gsk_69fc31b7a9eecdfa6616b19a19a06aad0162aedb56e90c65',
@@ -18,13 +5,6 @@ const GORILA_CONFIG = window.GORILA_CONFIG || {
 
 async function apiRequest(endpoint, options = {}) {
   const { method = 'GET', body = null, auth = false } = options;
-
-  // Solo GitHub Pages usa demo sin backend; todo lo demás va al servidor real
-  if (isDemoHost()) {
-    return handleDemoMode(endpoint, method, body);
-  }
-
-  assertBackendAvailable();
 
   const headers = {
     'Content-Type': 'application/json',
@@ -41,6 +21,11 @@ async function apiRequest(endpoint, options = {}) {
   const config = { method, headers };
   if (body) config.body = JSON.stringify(body);
 
+  // Si estamos en file:// o github.io, usamos datos simulados
+  if (window.location.protocol === 'file:' || window.location.hostname.includes('github.io')) {
+    return handleDemoMode(endpoint, method, body);
+  }
+
   const response = await fetch(`${GORILA_CONFIG.apiBase}${endpoint}`, config);
   const data = await response.json();
 
@@ -51,12 +36,8 @@ async function apiRequest(endpoint, options = {}) {
   return data;
 }
 
-// Demo solo lectura para GitHub Pages (sin persistencia)
 function handleDemoMode(endpoint, method) {
   return new Promise((resolve, reject) => {
-    if (method !== 'GET' && method !== 'POST') {
-      return reject(new Error('En modo demo no se pueden guardar cambios. Usa el backend local.'));
-    }
     if (endpoint === '/login' || endpoint === '/register') {
       resolve({
         token: 'demo-token',
@@ -64,8 +45,14 @@ function handleDemoMode(endpoint, method) {
       });
     } else if (endpoint === '/dashboard') {
       resolve({ role: 'Admin', date: new Date().toLocaleDateString('es-ES'), users: [] });
+    } else if (endpoint.startsWith('/users')) {
+      resolve([
+        { _id: '1', name: 'Admin Demo', email: 'admin@demo.com', role: 'Admin' },
+        { _id: '2', name: 'Coach Demo', email: 'coach@demo.com', role: 'Coach' },
+        { _id: '3', name: 'Atleta Demo', email: 'atleta@demo.com', role: 'User' },
+      ]);
     } else {
-      reject(new Error('Modo demo: inicia el backend para guardar datos reales.'));
+      reject(new Error('Modo demostración: inicia el backend real.'));
     }
   });
 }

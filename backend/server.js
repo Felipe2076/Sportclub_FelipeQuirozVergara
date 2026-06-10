@@ -22,6 +22,9 @@ if (!jwtSecret || !apiKey) {
 app.use(cors({ origin: true }));
 app.use(express.json());
 
+// Sirve archivos estáticos (HTML, CSS, JS, assets) desde la raíz del proyecto
+app.use(express.static(path.join(__dirname, '..')));
+
 // --- Helpers para el archivo JSON ---
 async function readUsers() {
   try {

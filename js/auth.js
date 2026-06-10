@@ -24,7 +24,7 @@ function hideMessage() {
 function setSubmitting(button, isSubmitting, defaultText) {
   if (!button) return;
   button.disabled = isSubmitting;
-  button.textContent = isSubmitting ? 'Processing...' : defaultText;
+  button.textContent = isSubmitting ? 'Cargando...' : defaultText;
 }
 
 function getDashboardRoute(role) {
@@ -43,12 +43,12 @@ async function registerUser(event) {
   const submitButton = document.getElementById('register-submit');
 
   if (!email || !password) {
-    showMessage('Email and password are required.', true);
+    showMessage('Correo y contraseña son obligatorios.', true);
     return;
   }
 
   if (password.length < 8) {
-    showMessage('Password must be at least 8 characters long.', true);
+    showMessage('La contraseña debe tener al menos 8 caracteres.', true);
     return;
   }
 
@@ -74,15 +74,15 @@ async function registerUser(event) {
 
     localStorage.setItem('gorilaToken', data.token);
     localStorage.setItem('gorilaUser', JSON.stringify(data.user));
-    showMessage('Registration successful. Redirecting...', false);
+    showMessage('Registro exitoso. Redirigiendo...', false);
     window.setTimeout(() => {
       window.location.href = getDashboardRoute(data.user.role);
     }, 800);
   } catch (error) {
-    const errorMessage = error.message || 'Unknown error during registration.';
+    const errorMessage = error.message || 'Error desconocido durante el registro.';
     showMessage(errorMessage, true);
   } finally {
-    setSubmitting(submitButton, false, 'Register');
+    setSubmitting(submitButton, false, 'Registrarse');
   }
 }
 
@@ -96,11 +96,11 @@ async function loginUser(event) {
   const submitButton = document.getElementById('login-submit');
 
   if (!email || !password) {
-    showMessage('Enter your email and password.', true);
+    showMessage('Ingresa tu correo y contraseña.', true);
     return;
   }
 
-  setSubmitting(submitButton, true, 'Sign In');
+  setSubmitting(submitButton, true, 'Ingresar');
 
   try {
     const data = await apiRequest('/login', {
@@ -110,15 +110,15 @@ async function loginUser(event) {
 
     localStorage.setItem('gorilaToken', data.token);
     localStorage.setItem('gorilaUser', JSON.stringify(data.user));
-    showMessage('Login successful. Redirecting...', false);
+    showMessage('Inicio de sesión exitoso. Redirigiendo...', false);
     window.setTimeout(() => {
       window.location.href = getDashboardRoute(data.user.role);
     }, 800);
   } catch (error) {
-    const errorMessage = error.message || 'Unknown error during login.';
+    const errorMessage = error.message || 'Error desconocido al iniciar sesión.';
     showMessage(errorMessage, true);
   } finally {
-    setSubmitting(submitButton, false, 'Sign In');
+    setSubmitting(submitButton, false, 'Ingresar');
   }
 }
 
