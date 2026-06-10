@@ -1,4 +1,67 @@
-<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM15.5 15.75C15.5 16.58 14.83 17.25 14 17.25H10C9.17 17.25 8.5 16.58 8.5 15.75V11.25C8.5 10.42 9.17 9.75 10 9.75H14C14.83 9.75 15.5 10.42 15.5 11.25V15.75Z" fill="#fff"/>
-<path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM15.5 15.75C15.5 16.58 14.83 17.25 14 17.25H10C9.17 17.25 8.5 16.58 8.5 15.75V11.25C8.5 10.42 9.17 9.75 10 9.75H14C14.83 9.75 15.5 10.42 15.5 11.25V15.75Z" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="shieldBg" x1="256" y1="32" x2="256" y2="480" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="100%" stop-color="#080c18"/>
+    </linearGradient>
+    <linearGradient id="emerald" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="emeraldDim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(52,211,153,0.3)"/>
+      <stop offset="100%" stop-color="rgba(5,150,105,0.3)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Shield outer -->
+  <path d="M256 16 L430 90 L430 230 Q430 360 256 480 Q82 360 82 230 L82 90 Z" fill="url(#shieldBg)" stroke="url(#emerald)" stroke-width="8"/>
+
+  <!-- Shield inner border -->
+  <path d="M256 56 L390 115 L390 220 Q390 335 256 440 Q122 335 122 220 L122 115 Z" fill="none" stroke="url(#emeraldDim)" stroke-width="3"/>
+
+  <!-- Gorilla head -->
+  <ellipse cx="256" cy="230" rx="88" ry="92" fill="#1e1e2e"/>
+
+  <!-- Ears -->
+  <ellipse cx="158" cy="190" rx="30" ry="36" fill="#1e1e2e" stroke="url(#emerald)" stroke-width="3"/>
+  <ellipse cx="158" cy="190" rx="16" ry="22" fill="#2a2a3e"/>
+  <ellipse cx="354" cy="190" rx="30" ry="36" fill="#1e1e2e" stroke="url(#emerald)" stroke-width="3"/>
+  <ellipse cx="354" cy="190" rx="16" ry="22" fill="#2a2a3e"/>
+
+  <!-- Face -->
+  <ellipse cx="256" cy="238" rx="56" ry="50" fill="#2e2e42"/>
+
+  <!-- Brow ridge -->
+  <path d="M190 208 Q256 190 322 208" fill="none" stroke="#1e1e2e" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Eyes -->
+  <ellipse cx="228" cy="218" rx="12" ry="14" fill="#080c18"/>
+  <ellipse cx="228" cy="218" rx="7" ry="8" fill="url(#emerald)"/>
+  <ellipse cx="226" cy="215" rx="3" ry="3" fill="#fff"/>
+
+  <ellipse cx="284" cy="218" rx="12" ry="14" fill="#080c18"/>
+  <ellipse cx="284" cy="218" rx="7" ry="8" fill="url(#emerald)"/>
+  <ellipse cx="282" cy="215" rx="3" ry="3" fill="#fff"/>
+
+  <!-- Nose -->
+  <ellipse cx="256" cy="242" rx="14" ry="10" fill="#1e1e2e"/>
+  <ellipse cx="250" cy="241" rx="5" ry="6" fill="#12121e"/>
+  <ellipse cx="262" cy="241" rx="5" ry="6" fill="#12121e"/>
+
+  <!-- Mouth -->
+  <path d="M234 258 Q256 272 278 258" fill="none" stroke="#12121e" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Head fur top -->
+  <path d="M178 148 Q190 130 200 145 Q215 125 228 142 Q240 128 256 140 Q272 128 284 142 Q297 125 312 145 Q322 130 334 148" fill="none" stroke="#1e1e2e" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Chest -->
+  <path d="M206 280 Q215 305 230 315 Q240 322 256 326 Q272 322 282 315 Q297 305 306 280" fill="#1e1e2e"/>
+
+  <!-- Text GORILA SPORT -->
+  <text x="256" y="395" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="38" letter-spacing="6" fill="url(#emerald)">GORILA</text>
+  <text x="256" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="16" letter-spacing="8" fill="#8892b0">SPORT</text>
+
+  <!-- Small star accent -->
+  <path d="M256 448 L259 454 L266 455 L261 460 L262 468 L256 464 L250 468 L251 460 L246 455 L253 454 Z" fill="url(#emerald)"/>
 </svg>
