@@ -7,7 +7,7 @@ const sportTypeGroup = document.getElementById('sport-type-group');
 function showMessage(text, isError = false) {
   if (!messageBox) return;
   messageBox.textContent = text;
-  messageBox.className = 'message show';
+  messageBox.className = 'message';
   messageBox.classList.toggle('error', isError);
   messageBox.classList.toggle('success', !isError);
   messageBox.classList.remove('is-hidden');

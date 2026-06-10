@@ -188,6 +188,14 @@
 
 .chart-bar .bar:hover { opacity: 0.8; }
 
+.bar {
+  flex: 1; background: linear-gradient(to top, var(--primary), var(--primary-hover));
+  border-radius: 4px 4px 0 0;
+  transition: height var(--transition);
+  min-height: 6px;
+}
+.bar:hover { opacity: 0.8; }
+
 .chart-ring {
   width: 120px; height: 120px; margin: 0 auto;
   border-radius: 50%;

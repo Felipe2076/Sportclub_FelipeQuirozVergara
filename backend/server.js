@@ -191,10 +191,35 @@ api.delete('/users/:id', authMiddleware, async (req, res) => {
 
 api.get('/dashboard', authMiddleware, async (req, res) => {
   const { role, name } = req.user;
-  const base = { welcome: `Welcome back, ${name}`, role, date: new Date().toLocaleDateString('es-ES') };
-  if (role === 'Admin') return res.json({ ...base, panels: [{ title: 'System Health', value: 'Stable', detail: 'No issues detected' }, { title: 'User Access', value: 'Full control', detail: 'Manage coaches and athletes' }, { title: 'Pending Requests', value: '3', detail: 'Approve new accounts' }] });
-  if (role === 'Coach') return res.json({ ...base, panels: [{ title: 'Planned Workouts', value: '5 sessions', detail: 'This week schedule' }, { title: 'Active Athletes', value: '12', detail: 'Tracking attendance' }, { title: 'Performance Score', value: '87%', detail: 'Team improvement trend' }] });
-  return res.json({ ...base, panels: [{ title: 'Goal Completion', value: '76%', detail: 'Weekly achievement' }, { title: 'Next Training', value: 'Wednesday', detail: 'Cardio and strength' }, { title: 'Nutrition Plan', value: 'Active', detail: 'Macros updated today' }] });
+  const date = new Date().toLocaleDateString('es-ES');
+  const users = await readUsers();
+  const safe = users.map(({ passwordHash, ...rest }) => rest);
+  const base = { welcome: `Bienvenido, ${name}`, role, date };
+
+  if (role === 'Admin') {
+    return res.json({ ...base, users: safe, panels: [
+      { title: 'System Health', value: 'Stable', detail: 'No issues detected' },
+      { title: 'User Access', value: 'Full control', detail: 'Manage coaches and athletes' },
+      { title: 'Pending Requests', value: '3', detail: 'Approve new accounts' },
+    ]});
+  }
+
+  if (role === 'Coach') {
+    const athletes = safe.filter(u => u.role === 'User').map(u => ({
+      id: u.id, name: u.name, email: u.email, status: 'On track',
+    }));
+    return res.json({ ...base, athletes, panels: [
+      { title: 'Planned Workouts', value: '5 sessions', detail: 'This week schedule' },
+      { title: 'Active Athletes', value: String(athletes.length), detail: 'Tracking attendance' },
+      { title: 'Performance Score', value: '87%', detail: 'Team improvement trend' },
+    ]});
+  }
+
+  return res.json({ ...base, panels: [
+    { title: 'Goal Completion', value: '76%', detail: 'Weekly achievement' },
+    { title: 'Next Training', value: 'Wednesday', detail: 'Cardio and strength' },
+    { title: 'Nutrition Plan', value: 'Active', detail: 'Macros updated today' },
+  ]});
 });
 
 api.get('/profile', authMiddleware, (req, res) => {

@@ -16,8 +16,9 @@ if (recoverForm) {
     submitButton.textContent = 'Enviando...';
 
     window.setTimeout(() => {
-      recoverForm.classList.add('is-hidden');
+      recoverForm.style.display = 'none';
       successBox.classList.remove('is-hidden');
+      successBox.style.display = 'block';
       submitButton.disabled = false;
       submitButton.textContent = 'Recuperar contraseña';
     }, 700);

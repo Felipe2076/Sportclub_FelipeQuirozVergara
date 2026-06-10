@@ -187,22 +187,25 @@
       const user = JSON.parse(localStorage.getItem('gorilaUser') || '{}');
       document.getElementById('admin-name').textContent = user.name || 'Admin';
 
+      function escHtml(str) { if (!str) return ''; return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
       async function loadUsers() {
         try {
           const users = await apiRequest('/users', { auth: true });
           const tbody = document.getElementById('users-table-body');
           tbody.innerHTML = users.map(u => {
-            const eid = u.id.replace(/'/g, "\\'");
-            const ename = (u.name || 'Sin nombre').replace(/'/g, "\\'");
-            const eemail = u.email.replace(/'/g, "\\'");
+            const uid = u.id || u._id || '';
+            const uname = (u.name || 'Sin nombre').replace(/'/g, "\\'");
+            const uemail = (u.email || '').replace(/'/g, "\\'");
+            const urole = (u.role || 'User').replace(/'/g, "\\'");
             return `
             <tr>
-              <td><strong>${u.name || 'Sin nombre'}</strong></td>
-              <td>${u.email}</td>
-              <td><span class="badge ${u.role === 'Admin' ? 'badge-danger' : (u.role === 'Coach' ? 'badge-warning' : 'badge-success')}">${u.role}</span></td>
+              <td><strong>${escHtml(u.name) || 'Sin nombre'}</strong></td>
+              <td>${escHtml(u.email)}</td>
+              <td><span class="badge ${u.role === 'Admin' ? 'badge-danger' : (u.role === 'Coach' ? 'badge-warning' : 'badge-success')}">${escHtml(u.role)}</span></td>
               <td>
-                <button class="btn btn-sm btn-ghost" onclick="editUser('${eid}','${ename}','${eemail}','${u.role}')"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-sm btn-danger" onclick="deleteUser('${eid}')"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-sm btn-ghost" onclick="editUser('${uid}','${uname}','${uemail}','${urole}')"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-sm btn-danger" onclick="deleteUser('${uid}')"><i class="fas fa-trash"></i></button>
               </td>
             </tr>`;
           }).join('');
@@ -227,7 +230,7 @@
         document.getElementById('user-email').value = '';
         document.getElementById('user-password').value = '';
         document.getElementById('user-role').value = 'User';
-        delete document.getElementById('user-form-container').dataset.editId;
+        document.getElementById('user-form-container').dataset.editId = '';
       };
 
       window.hideAddUserForm = () => {
@@ -258,7 +261,10 @@
           if (id) {
             await apiRequest(`/users/${id}`, { method: 'PUT', body: payload, auth: true });
           } else {
-            payload.password = payload.password || 'Pass123!';
+            if (!password) {
+              if (!confirm('No ingresaste contraseña. Se usará "Pass123!" por defecto. ¿Continuar?')) return;
+              payload.password = 'Pass123!';
+            }
             await apiRequest('/users', { method: 'POST', body: payload, auth: true });
           }
           hideAddUserForm();

@@ -36,23 +36,60 @@ async function apiRequest(endpoint, options = {}) {
   return data;
 }
 
-function handleDemoMode(endpoint, method) {
+const DEMO_USERS = [
+  { id: '1', name: 'Admin Demo', email: 'admin@demo.com', role: 'Admin' },
+  { id: '2', name: 'Coach Demo', email: 'coach@demo.com', role: 'Coach' },
+  { id: '3', name: 'Atleta Demo', email: 'atleta@demo.com', role: 'User' },
+];
+
+function handleDemoMode(endpoint, method, body) {
   return new Promise((resolve, reject) => {
     if (endpoint === '/login' || endpoint === '/register') {
-      resolve({
-        token: 'demo-token',
-        user: { id: 'demo', name: 'Demo', email: 'demo@gorilasport.com', role: 'Admin' },
-      });
-    } else if (endpoint === '/dashboard') {
-      resolve({ role: 'Admin', date: new Date().toLocaleDateString('es-ES'), users: [] });
-    } else if (endpoint.startsWith('/users')) {
-      resolve([
-        { _id: '1', name: 'Admin Demo', email: 'admin@demo.com', role: 'Admin' },
-        { _id: '2', name: 'Coach Demo', email: 'coach@demo.com', role: 'Coach' },
-        { _id: '3', name: 'Atleta Demo', email: 'atleta@demo.com', role: 'User' },
-      ]);
-    } else {
-      reject(new Error('Modo demostración: inicia el backend real.'));
+      const user = { id: 'demo', name: 'Demo', email: 'demo@gorilasport.com', role: 'Admin' };
+      localStorage.setItem('gorilaToken', 'demo-token');
+      localStorage.setItem('gorilaUser', JSON.stringify(user));
+      return resolve({ token: 'demo-token', user });
     }
+
+    if (endpoint === '/dashboard') {
+      const role = JSON.parse(localStorage.getItem('gorilaUser') || '{}').role || 'Admin';
+      const isAdmin = role === 'Admin';
+      return resolve({
+        role,
+        date: new Date().toLocaleDateString('es-ES'),
+        users: isAdmin ? DEMO_USERS : undefined,
+        athletes: role === 'Coach' ? DEMO_USERS.filter(u => u.role === 'User') : undefined,
+      });
+    }
+
+    if (endpoint === '/users' && method === 'POST') {
+      const newUser = { id: 'user-' + Date.now(), name: body?.name || 'Nuevo', email: body?.email || '', role: body?.role || 'User' };
+      DEMO_USERS.push(newUser);
+      return resolve({ message: 'User created successfully', user: newUser });
+    }
+
+    if (endpoint.startsWith('/users/') && method === 'DELETE') {
+      const id = endpoint.replace('/users/', '');
+      const idx = DEMO_USERS.findIndex(u => u.id === id);
+      if (idx !== -1) DEMO_USERS.splice(idx, 1);
+      return resolve({ message: 'User deleted successfully' });
+    }
+
+    if (endpoint.startsWith('/users/') && method === 'PUT') {
+      const id = endpoint.replace('/users/', '');
+      const user = DEMO_USERS.find(u => u.id === id);
+      if (user && body) {
+        if (body.name) user.name = body.name;
+        if (body.email) user.email = body.email;
+        if (body.role) user.role = body.role;
+      }
+      return resolve({ message: 'User updated successfully', user });
+    }
+
+    if (endpoint === '/users' || endpoint.startsWith('/users/')) {
+      return resolve(DEMO_USERS);
+    }
+
+    reject(new Error('Modo demostración: inicia el backend real.'));
   });
 }
