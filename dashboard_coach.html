@@ -31,6 +31,9 @@
           <div class="user-profile">
             <img src="https://i.pravatar.cc/40?img=12" alt="Avatar" />
           </div>
+          <button class="btn btn-sm btn-ghost" id="logout-button" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">
+            <i class="fas fa-sign-out-alt"></i> Salir
+          </button>
         </div>
       </header>
 
@@ -164,6 +167,12 @@
           console.error('Error loading athletes:', error);
         }
       }
+
+      document.getElementById('logout-button')?.addEventListener('click', () => {
+        localStorage.removeItem('gorilaToken');
+        localStorage.removeItem('gorilaUser');
+        window.location.href = 'login.html';
+      });
 
       loadAthletes();
     });

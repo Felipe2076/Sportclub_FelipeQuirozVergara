@@ -33,6 +33,9 @@
             <img src="https://i.pravatar.cc/40" alt="Avatar" />
             <span id="admin-name">Cargando...</span>
           </div>
+          <button class="btn btn-sm btn-ghost" id="logout-button" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">
+            <i class="fas fa-sign-out-alt"></i> Salir
+          </button>
         </div>
       </header>
 
@@ -188,17 +191,21 @@
         try {
           const users = await apiRequest('/users', { auth: true });
           const tbody = document.getElementById('users-table-body');
-          tbody.innerHTML = users.map(u => `
+          tbody.innerHTML = users.map(u => {
+            const eid = u.id.replace(/'/g, "\\'");
+            const ename = (u.name || 'Sin nombre').replace(/'/g, "\\'");
+            const eemail = u.email.replace(/'/g, "\\'");
+            return `
             <tr>
               <td><strong>${u.name || 'Sin nombre'}</strong></td>
               <td>${u.email}</td>
               <td><span class="badge ${u.role === 'Admin' ? 'badge-danger' : (u.role === 'Coach' ? 'badge-warning' : 'badge-success')}">${u.role}</span></td>
               <td>
-                <button class="btn btn-sm btn-ghost" onclick="editUser('${u._id}', '${u.name}', '${u.email}', '${u.role}')"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-sm btn-danger" onclick="deleteUser('${u._id}')"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-sm btn-ghost" onclick="editUser('${eid}','${ename}','${eemail}','${u.role}')"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-sm btn-danger" onclick="deleteUser('${eid}')"><i class="fas fa-trash"></i></button>
               </td>
-            </tr>
-          `).join('');
+            </tr>`;
+          }).join('');
 
           const total = users.length;
           const coaches = users.filter(u => u.role === 'Coach').length;
@@ -252,7 +259,7 @@
             await apiRequest(`/users/${id}`, { method: 'PUT', body: payload, auth: true });
           } else {
             payload.password = payload.password || 'Pass123!';
-            await apiRequest('/register', { method: 'POST', body: payload });
+            await apiRequest('/users', { method: 'POST', body: payload, auth: true });
           }
           hideAddUserForm();
           loadUsers();
@@ -271,6 +278,12 @@
           }
         }
       };
+
+      document.getElementById('logout-button')?.addEventListener('click', () => {
+        localStorage.removeItem('gorilaToken');
+        localStorage.removeItem('gorilaUser');
+        window.location.href = 'login.html';
+      });
 
       loadUsers();
     });

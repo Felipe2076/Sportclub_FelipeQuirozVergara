@@ -127,6 +127,32 @@ api.get('/users', authMiddleware, async (req, res) => {
   }
 });
 
+// CRUD - Crear Usuario (Solo Admin)
+api.post('/users', authMiddleware, async (req, res) => {
+  if (req.user.role !== 'Admin') return res.status(403).json({ message: 'Admin access required' });
+  try {
+    const { name, email, password, role } = req.body;
+    if (!name || !email || !password) return res.status(400).json({ message: 'Name, email and password are required' });
+    const users = await readUsers();
+    const normalizedEmail = email.trim().toLowerCase();
+    if (users.some((u) => u.email === normalizedEmail)) return res.status(409).json({ message: 'Email already registered' });
+    const passwordHash = await bcrypt.hash(password, 10);
+    const newUser = {
+      id: `user-${Date.now()}`,
+      name: name.trim(),
+      email: normalizedEmail,
+      passwordHash,
+      role: role || 'User',
+      createdAt: new Date().toISOString(),
+    };
+    users.push(newUser);
+    await writeUsers(users);
+    res.json({ message: 'User created successfully', user: newUser });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
 // CRUD - Actualizar Usuario (Solo Admin)
 api.put('/users/:id', authMiddleware, async (req, res) => {
   if (req.user.role !== 'Admin') return res.status(403).json({ message: 'Admin access required' });

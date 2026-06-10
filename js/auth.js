@@ -21,10 +21,11 @@ function hideMessage() {
   }
 }
 
-function setSubmitting(button, isSubmitting, defaultText) {
+function setSubmitting(button, isSubmitting) {
   if (!button) return;
+  if (!button.dataset.originalText) button.dataset.originalText = button.textContent;
   button.disabled = isSubmitting;
-  button.textContent = isSubmitting ? 'Cargando...' : defaultText;
+  button.textContent = isSubmitting ? 'Cargando...' : button.dataset.originalText;
 }
 
 function getDashboardRoute(role) {
@@ -64,7 +65,7 @@ async function registerUser(event) {
     level: formData.get('level') || null,
   };
 
-  setSubmitting(submitButton, true, 'Register');
+  setSubmitting(submitButton, true);
 
   try {
     const data = await apiRequest('/register', {
@@ -82,7 +83,7 @@ async function registerUser(event) {
     const errorMessage = error.message || 'Error desconocido durante el registro.';
     showMessage(errorMessage, true);
   } finally {
-    setSubmitting(submitButton, false, 'Registrarse');
+    setSubmitting(submitButton, false);
   }
 }
 
@@ -100,7 +101,7 @@ async function loginUser(event) {
     return;
   }
 
-  setSubmitting(submitButton, true, 'Ingresar');
+  setSubmitting(submitButton, true);
 
   try {
     const data = await apiRequest('/login', {
@@ -118,7 +119,7 @@ async function loginUser(event) {
     const errorMessage = error.message || 'Error desconocido al iniciar sesión.';
     showMessage(errorMessage, true);
   } finally {
-    setSubmitting(submitButton, false, 'Ingresar');
+    setSubmitting(submitButton, false);
   }
 }
 
