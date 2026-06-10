@@ -1,0 +1,16 @@
+{
+  "models": [
+    {
+      "title": "Gemini 1.5 Pro",
+      "provider": "google-generative-ai",
+      "model": "gemini-1.5-pro",
+      "apiKey": "AIzaSyBMIEQJfdouDY1Hi2ZySLmzdKhzWz-M7sI"
+    },
+    {
+      "title": "Gemini 1.5 Flash",
+      "provider": "google-generative-ai",
+      "model": "gemini-1.5-flash",
+      "apiKey": "TU_NUEVA_CLAVE_AQUI"
+    }
+  ]
+}

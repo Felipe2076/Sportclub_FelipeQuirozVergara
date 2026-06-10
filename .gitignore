@@ -1,0 +1,4 @@
+# Secretos locales — nunca subir a GitHub
+backend/.env
+js/config.js
+node_modules/

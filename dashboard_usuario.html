@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Panel — Gorila Sport</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <a href="#" class="sidebar-item active" title="Inicio"><i class="fas fa-home"></i></a>
+      <a href="#" class="sidebar-item" title="Mi Perfil"><i class="fas fa-user"></i></a>
+      <a href="#" class="sidebar-item" title="Mis Reservas"><i class="fas fa-calendar-check"></i></a>
+      <a href="#" class="sidebar-item" title="Pagos"><i class="fas fa-wallet"></i></a>
+      <a href="#" class="sidebar-item" title="Soporte"><i class="fas fa-headset"></i></a>
+      <a href="#" class="sidebar-item" title="Configuración"><i class="fas fa-cog"></i></a>
+    </aside>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-brand">
+          <img src="assets/logo.png" alt="Logo" width="40" height="40" />
+          <strong>MI PANEL</strong>
+        </div>
+        <div class="topbar-user">
+          <span id="user-welcome" style="font-weight: 600;">Cargando...</span>
+          <div class="user-profile" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <img src="https://i.pravatar.cc/40?img=3" style="border-radius: 50%;" alt="Avatar" />
+          </div>
+        </div>
+      </header>
+
+      <main class="dashboard-container">
+        <header class="dashboard-header">
+          <div>
+            <h1>Bienvenido a tu Espacio</h1>
+            <p style="color: var(--text-muted);">Sigue tu progreso y gestiona tu membresía</p>
+          </div>
+          <button class="btn btn-primary">RENOVAR MEMBRESÍA</button>
+        </header>
+
+        <div class="grid-layout">
+          <div class="card">
+            <div class="card-header">
+              <i class="fas fa-id-card"></i> MI MEMBRESÍA Y PERFIL
+            </div>
+            <div class="card-body" style="text-align: center;">
+              <img src="https://i.pravatar.cc/100" style="border-radius: 50%; border: 4px solid var(--primary); margin-bottom: 1rem;" alt="Profile" />
+              <h3 id="user-display-name">Cargando...</h3>
+              <p id="user-display-email" style="color: var(--text-muted); margin-bottom: 1.5rem;">...</p>
+              <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                <button class="btn btn-primary" style="font-size: 0.8rem;">Ver Datos</button>
+                <button class="btn btn-ghost" style="font-size: 0.8rem;">Solicitar Cambio</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <i class="fas fa-calendar-alt"></i> MIS RESERVAS
+            </div>
+            <div class="card-body">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Fecha</th><th>Cancha</th><th>Hora</th></tr>
+                </thead>
+                <tbody id="bookings-table">
+                  <tr><td colspan="3" style="text-align:center; color: var(--text-muted);">No tienes reservas activas</td></tr>
+                </tbody>
+              </table>
+              <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;">+ NUEVA RESERVA</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <i class="fas fa-credit-card"></i> MIS PAGOS Y FACTURAS
+            </div>
+            <div class="card-body">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Monto</th><th>Fecha</th><th>Estado</th></tr>
+                </thead>
+                <tbody id="payments-table">
+                  <tr><td colspan="3" style="text-align:center; color: var(--text-muted);">No hay pagos registrados</td></tr>
+                </tbody>
+              </table>
+              <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;">REALIZAR PAGO</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-layout" style="grid-template-columns: 1fr 2fr;">
+          <div class="card">
+            <div class="card-header">MI ESTADO DE PAGO</div>
+            <div class="card-body" style="display: flex; justify-content: center; align-items: center; height: 200px;">
+              <div style="width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(var(--primary) 80%, var(--warning) 20%); border: 10px solid var(--bg-dark); box-shadow: 0 0 20px var(--primary);"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">MI ASISTENCIA Y ACTIVIDAD</div>
+            <div class="card-body" style="display: flex; align-items: flex-end; gap: 10px; height: 200px;">
+              <div style="flex: 1; background: var(--primary); height: 60%; border-radius: 4px 4px 0 0;"></div>
+              <div style="flex: 1; background: var(--primary); height: 40%; border-radius: 4px 4px 0 0;"></div>
+              <div style="flex: 1; background: var(--primary); height: 80%; border-radius: 4px 4px 0 0;"></div>
+              <div style="flex: 1; background: var(--primary); height: 100%; border-radius: 4px 4px 0 0;"></div>
+              <div style="flex: 1; background: var(--primary); height: 50%; border-radius: 4px 4px 0 0;"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const token = localStorage.getItem('gorilaToken');
+      if (!token) { window.location.href = 'login.html'; return; }
+
+      const user = JSON.parse(localStorage.getItem('gorilaUser') || '{}');
+      document.getElementById('user-welcome').textContent = `Hola, ${user.name || 'Atleta'}`;
+      document.getElementById('user-display-name').textContent = user.name || 'Atleta';
+      document.getElementById('user-display-email').textContent = user.email || '...';
+
+      document.getElementById('logout-button')?.addEventListener('click', () => {
+        localStorage.clear();
+        window.location.href = 'login.html';
+      });
+    });
+  </script>
+</body>
+</html>

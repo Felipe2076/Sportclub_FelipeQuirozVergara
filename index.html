@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Gorila Sport — Sistema web para la gestión de usuarios del club deportivo." />
+  <title>Gorila Sport | Club deportivo</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/home.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="index.html">
+        <img class="brand-logo-img" src="assets/logo.png" alt="Logo Gorila Sport" width="48" height="48" />
+        <div class="brand-title">
+          <strong>Gorila Sport</strong>
+          <span>Tu mejor versión comienza hoy</span>
+        </div>
+      </a>
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="#inicio">Inicio</a>
+        <a href="#instalaciones">Instalaciones</a>
+        <a href="#acceso">Acceso</a>
+      </nav>
+      <div class="topbar-actions">
+        <a class="btn btn-ghost" href="login.html">Entrar</a>
+        <a class="btn btn-primary" href="register.html">Crear cuenta</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="home-main container">
+    <section class="hero" id="inicio">
+      <div class="hero-copy">
+        <span class="chip">Bienvenido a Gorila Sport</span>
+        <h1>Entrena con <span>foco</span>, crece con comunidad.</h1>
+        <p>Sistema web del club deportivo con gestión profesional de usuarios. Únete a la comunidad más fuerte de la ciudad y lleva tu entrenamiento al siguiente nivel.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="register.html">Comenzar ahora</a>
+          <a class="btn btn-ghost" href="login.html">Ya tengo cuenta</a>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card">
+            <strong>Entrenadores Expertos</strong>
+            <span>Cuerpo técnico certificado</span>
+          </article>
+          <article class="stat-card">
+            <strong>Equipamiento Top</strong>
+            <span>Maquinaria de última generación</span>
+          </article>
+          <article class="stat-card">
+            <strong>Comunidad Activa</strong>
+            <span>Cientos de atletas superándose</span>
+          </article>
+        </div>
+      </div>
+      <figure class="hero-image">
+        <img src="assets/gym-interior.jpg" alt="Instalaciones de Gorila Sport" width="600" height="750" loading="lazy" />
+      </figure>
+    </section>
+
+    <section id="instalaciones">
+      <h2 class="section-title">Nuestras <span>Instalaciones</span></h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="assets/two-women-training.jpg" alt="Entrenamiento personalizado" />
+          <div class="gallery-caption">Entrenamiento Personalizado y Comunidad</div>
+        </div>
+        <div class="gallery-item">
+          <img src="assets/treadmills.jpg" alt="Zona de cardio" />
+          <div class="gallery-caption">Zona de Cardio de Alta Intensidad</div>
+        </div>
+        <div class="gallery-item">
+          <img src="assets/gym-interior.jpg" alt="Área de pesas" />
+          <div class="gallery-caption">Área de Pesas y Fuerza</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="access-section" id="acceso" aria-labelledby="acceso-title">
+      <h2 class="section-title" id="acceso-title">Acceso al <span>Sistema</span></h2>
+      <p>Gestiona tu perfil, entrena con planes personalizados y sigue tu progreso a través de nuestra plataforma segura.</p>
+      <div class="access-grid">
+        <article class="access-card">
+          <h3>Login</h3>
+          <p>Ingresa con tu cuenta para acceder a tu panel de control personalizado y seguir tu rutina diaria.</p>
+          <a class="btn btn-ghost" href="login.html">Ir al login</a>
+        </article>
+        <article class="access-card">
+          <h3>Registro</h3>
+          <p>Crea tu cuenta en segundos y comienza a transformar tu cuerpo hoy mismo.</p>
+          <a class="btn btn-primary" href="register.html">Ir al registro</a>
+        </article>
+        <article class="access-card">
+          <h3>Soporte</h3>
+          <p>¿Tienes problemas con tu cuenta? Recupera tu contraseña de forma rápida y segura.</p>
+          <a class="btn btn-ghost" href="recover.html">Recuperar acceso</a>
+        </article>
+      </div>
+    </section>
+
+    <footer class="home-footer">
+      <p><strong>Gorila Sport</strong> — © 2026 | Potenciado por JSON y Node.js</p>
+    </footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coach Panel — Gorila Sport</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <a href="#" class="sidebar-item active" title="Inicio"><i class="fas fa-home"></i></a>
+      <a href="#" class="sidebar-item" title="Atletas"><i class="fas fa-user-graduate"></i></a>
+      <a href="#" class="sidebar-item" title="Entrenamientos"><i class="fas fa-dumbbell"></i></a>
+      <a href="#" class="sidebar-item" title="Rendimiento"><i class="fas fa-chart-line"></i></a>
+      <a href="#" class="sidebar-item" title="Mensajes"><i class="fas fa-envelope"></i></a>
+      <a href="#" class="sidebar-item" title="Configuración"><i class="fas fa-cog"></i></a>
+    </aside>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-brand">
+          <img src="assets/logo.png" alt="Logo" width="40" height="40" />
+          <strong>COACH PANEL</strong>
+        </div>
+        <div class="topbar-user">
+          <span id="coach-welcome" style="font-weight: 600;">Cargando...</span>
+          <div class="user-profile" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <img src="https://i.pravatar.cc/40?img=12" style="border-radius: 50%;" alt="Avatar" />
+          </div>
+        </div>
+      </header>
+
+      <main class="dashboard-container">
+        <header class="dashboard-header">
+          <div>
+            <h1>Hola, Coach</h1>
+            <p style="color: var(--text-muted);">Seguimiento de rendimiento y planificación de equipo</p>
+          </div>
+          <button class="btn btn-primary">+ NUEVA EVALUACIÓN</button>
+        </header>
+
+        <div class="grid-layout">
+          <div class="card">
+            <div class="card-header">
+              <i class="fas fa-user-check"></i> MIS ATLETAS
+            </div>
+            <div class="card-body">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Atleta</th><th>Estado</th><th>Acciones</th></tr>
+                </thead>
+                <tbody id="athletes-table">
+                  <!-- Cargado dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <i class="fas fa-calendar-alt"></i> CALENDARIO DE COMPETICIONES
+            </div>
+            <div class="card-body" style="text-align: center; color: var(--text-muted);">
+              <p>Próximo evento: Torneo Regional</p>
+              <div style="background: var(--bg-dark); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px dashed var(--border-color);">
+                Fecha: 15 de Octubre | Lugar: Estadio Central
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <i class="fas fa-comments"></i> COMUNICACIÓN EQUIPO
+            </div>
+            <div class="card-body">
+              <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <div style="background: var(--bg-dark); padding: 0.8rem; border-radius: 8px; font-size: 0.85rem;">
+                  <strong>Ana García:</strong> ¿A qué hora es la sesión de cardio?
+                </div>
+                <div style="background: var(--bg-dark); padding: 0.8rem; border-radius: 8px; font-size: 0.85rem;">
+                  <strong>Mateo Díaz:</strong> He completado mi rutina de fuerza.
+                </div>
+              </div>
+              <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                <input type="text" placeholder="Escribir mensaje..." style="flex: 1; padding: 0.5rem; background: var(--bg-dark); border: 1px solid var(--border-color); color: white; border-radius: 8px;" />
+                <button class="btn btn-primary" style="padding: 0.5rem;">Enviar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-layout" style="grid-template-columns: 1fr 2fr;">
+          <div class="card">
+            <div class="card-header">ESTADO FÍSICO DEL EQUIPO</div>
+            <div class="card-body" style="display: flex; justify-content: center; align-items: center; height: 200px;">
+              <div style="width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(var(--primary) 60%, var(--warning) 20%, var(--danger) 20%); border: 10px solid var(--bg-dark); box-shadow: 0 0 20px var(--primary);"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">PROGRESO SEMANAL</div>
+            <div class="card-body" style="display: flex; align-items: flex-end; gap: 10px; height: 200px;">
+              <div style="flex: 1; background: var(--primary); height: 30%; border-radius: 4px 4px 0 0;"></div>
+              <div style="flex: 1; background: var(--primary); height: 80%; border-radius: 4px 4px 0 0;"></div>
+              <div style="flex: 1; background: var(--primary); height: 50%; border-radius: 4px 4px 0 0;"></div>
+              <div style="flex: 1; background: var(--primary); height: 90%; border-radius: 4px 4px 0 0;"></div>
+              <div style="flex: 1; background: var(--primary); height: 70%; border-radius: 4px 4px 0 0;"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const token = localStorage.getItem('gorilaToken');
+      if (!token) { window.location.href = 'login.html'; return; }
+
+      const user = JSON.parse(localStorage.getItem('gorilaUser') || '{}');
+      document.getElementById('coach-welcome').textContent = `Hola, Coach ${user.name || 'Diego'}`;
+
+      async function loadAthletes() {
+        try {
+          const data = await apiRequest('/dashboard', { auth: true });
+          const tbody = document.getElementById('athletes-table');
+          if (data.athletes) {
+            tbody.innerHTML = data.athletes.map(a => `
+              <tr>
+                <td>${a.name}</td>
+                <td><span class="badge ${a.status === 'On track' ? 'badge-success' : 'badge-warning'}">${a.status}</span></td>
+                <td><button class="btn btn-ghost" style="padding: 4px 8px; font-size: 0.7rem;">Perfil</button></td>
+              </tr>
+            `).join('');
+          }
+        } catch (error) {
+          console.error('Error loading athletes:', error);
+        }
+      }
+
+      document.getElementById('logout-button').addEventListener('click', () => {
+        localStorage.clear();
+        window.location.href = 'login.html';
+      });
+
+      loadAthletes();
+    });
+  </script>
+</body>
+</html>

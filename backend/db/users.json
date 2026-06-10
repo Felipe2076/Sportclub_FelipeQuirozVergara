@@ -1,0 +1,26 @@
+[
+  {
+    "id": "user-admin",
+    "name": "Administrador",
+    "email": "admin@gorilasport.com",
+    "passwordHash": "$2b$10$PlqIP/2zc4Cd0FqRThHP2ezdRh4h3l4XBiaDbFM.Nqm3PDVdo0ndO",
+    "role": "Admin",
+    "createdAt": "2026-06-09T23:16:48.931Z"
+  },
+  {
+    "id": "user-coach",
+    "name": "Coach Diego",
+    "email": "coach@gorilasport.com",
+    "passwordHash": "$2b$10$/fpkuRzCey.9qo.IkLysBu.krtzQHyccI1p7IkVTk8ru9ujeZWVV2",
+    "role": "Coach",
+    "createdAt": "2026-06-09T23:16:48.939Z"
+  },
+  {
+    "id": "user-atleta",
+    "name": "Atleta Ejemplar",
+    "email": "atleta@gorilasport.com",
+    "passwordHash": "$2b$10$FJiPA4IaVQojHhhfU1C.Au3217XD7FZPtCrPOVmbI3wWVTWULqA/6",
+    "role": "User",
+    "createdAt": "2026-06-09T23:16:48.945Z"
+  }
+]

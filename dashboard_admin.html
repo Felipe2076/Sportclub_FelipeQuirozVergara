@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel — Gorila Sport</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body>
+  <div class="page">
+    <aside class="sidebar">
+      <a href="#" class="sidebar-item active" title="Inicio"><i class="fas fa-home"></i></a>
+      <a href="#" class="sidebar-item" title="Usuarios"><i class="fas fa-users"></i></a>
+      <a href="#" class="sidebar-item" title="Reservas"><i class="fas fa-calendar-alt"></i></a>
+      <a href="#" class="sidebar-item" title="Pagos"><i class="fas fa-credit-card"></i></a>
+      <a href="#" class="sidebar-item" title="Notificaciones"><i class="fas fa-bell"></i></a>
+      <a href="#" class="sidebar-item" title="Configuración"><i class="fas fa-cog"></i></a>
+    </aside>
+
+    <div class="main-content">
+      <header class="topbar">
+        <div class="topbar-brand">
+          <img src="assets/logo.png" alt="Logo" width="40" height="40" />
+          <strong>ADMIN PANEL</strong>
+        </div>
+        <div class="topbar-user">
+          <input type="text" placeholder="Buscar..." style="padding: 0.5rem; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-dark); color: white;" />
+          <i class="fas fa-bell" style="color: var(--text-muted); cursor: pointer;"></i>
+          <div class="user-profile" style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <img src="https://i.pravatar.cc/40" style="border-radius: 50%;" alt="Avatar" />
+            <span id="admin-name" style="font-weight: 600;">Cargando...</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="dashboard-container">
+        <header class="dashboard-header">
+          <div>
+            <h1>CLUB DEPORTIVO ADMIN DASHBOARD</h1>
+            <p style="color: var(--text-muted);">Centralización de operaciones CRUD de socios</p>
+          </div>
+          <button class="btn btn-primary" onclick="showAddUserForm()">+ AÑADIR NUEVO SOCIO</button>
+        </header>
+
+        <div id="user-form-container" class="crud-form" style="display: none;">
+          <h3 id="form-title">Nuevo Socio</h3>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Nombre</label>
+              <input type="text" id="user-name" placeholder="Ej. Juan Pérez" />
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="user-email" placeholder="juan@correo.com" />
+            </div>
+            <div class="form-group">
+              <label>Contraseña</label>
+              <input type="password" id="user-password" placeholder="••••••••" />
+            </div>
+            <div class="form-group">
+              <label>Rol</label>
+              <select id="user-role">
+                <option value="User">Atleta</option>
+                <option value="Coach">Coach</option>
+                <option value="Admin">Admin</option>
+              </select>
+            </div>
+          </div>
+          <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+            <button class="btn btn-ghost" onclick="hideAddUserForm()">Cancelar</button>
+            <button class="btn btn-primary" id="save-user-btn">Guardar Socio</button>
+          </div>
+        </div>
+
+        <div class="grid-layout">
+          <div class="card">
+            <div class="card-header">
+              <i class="fas fa-users"></i> GESTIÓN DE SOCIOS
+            </div>
+            <div class="card-body">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="users-table-body">
+                  <!-- Cargado dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <i class="fas fa-calendar-check"></i> RESERVAS DE INSTALACIONES
+            </div>
+            <div class="card-body" style="text-align: center; color: var(--text-muted);">
+              <p>Módulo de reservas en desarrollo...</p>
+              <div style="background: var(--bg-dark); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px dashed var(--border-color);">
+                Próximamente: Calendario interactivo de canchas
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <i class="fas fa-credit-card"></i> REGISTRO DE PAGOS
+            </div>
+            <div class="card-body" style="text-align: center; color: var(--text-muted);">
+              <p>Módulo de facturación en desarrollo...</p>
+              <div style="background: var(--bg-dark); padding: 1rem; border-radius: 8px; margin-top: 1rem; border: 1px dashed var(--border-color);">
+                Próximamente: Pasarela de pagos integrada
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-layout" style="grid-template-columns: 1fr 2fr;">
+          <div class="card">
+            <div class="card-header">RESUMEN DE SOCIOS</div>
+            <div class="card-body" style="display: flex; justify-content: center; align-items: center; height: 200px;">
+              <div style="width: 120px; height: 120px; border-radius: 50%; background: conic-gradient(var(--primary) 70%, var(--border-color) 0); border: 10px solid var(--bg-dark); box-shadow: 0 0 20px var(--primary);"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header">ASISTENCIA SEMANAL</div>
+            <div class="card-body" style="display: flex; align-items: flex-end; gap: 10px; height: 200px;">
+              <div style="flex: 1; background: var(--primary); height: 40%; border-radius: 4px 4px 0 0;"></div>
+              <div style="flex: 1; background: var(--primary); height: 70%; border-radius: 4px 4px 0 0;"></div>
+              <div style="flex: 1; background: var(--primary); height: 50%; border-radius: 4px 4px 0 0;"></div>
+              <div style="flex: 1; background: var(--primary); height: 90%; border-radius: 4px 4px 0 0;"></div>
+              <div style="flex: 1; background: var(--primary); height: 60%; border-radius: 4px 4px 0 0;"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const token = localStorage.getItem('gorilaToken');
+      if (!token) { window.location.href = 'login.html'; return; }
+
+      const user = JSON.parse(localStorage.getItem('gorilaUser') || '{}');
+      document.getElementById('admin-name').textContent = user.name || 'Admin';
+
+      async function loadUsers() {
+        try {
+          const users = await apiRequest('/users', { auth: true });
+          const tbody = document.getElementById('users-table-body');
+          tbody.innerHTML = users.map(u => `
+            <tr>
+              <td>${u.name}</td>
+              <td>${u.email}</td>
+              <td><span class="badge ${u.role === 'Admin' ? 'badge-danger' : (u.role === 'Coach' ? 'badge-warning' : 'badge-success')}">${u.role}</span></td>
+              <td>
+                <button class="btn btn-ghost" style="padding: 4px 8px; font-size: 0.7rem;" onclick="editUser('${u._id}', '${u.name}', '${u.email}', '${u.role}')">Editar</button>
+                <button class="btn btn-danger" style="padding: 4px 8px; font-size: 0.7rem;" onclick="deleteUser('${u._id}')">Borrar</button>
+              </td>
+            </tr>
+          `).join('');
+        } catch (error) {
+          alert('Error cargando usuarios: ' + error.message);
+        }
+      }
+
+      window.showAddUserForm = () => {
+        document.getElementById('user-form-container').style.display = 'block';
+        document.getElementById('form-title').textContent = 'Nuevo Socio';
+        document.getElementById('user-name').value = '';
+        document.getElementById('user-email').value = '';
+        document.getElementById('user-password').value = '';
+      };
+
+      window.hideAddUserForm = () => {
+        document.getElementById('user-form-container').style.display = 'none';
+      };
+
+      window.editUser = (id, name, email, role) => {
+        showAddUserForm();
+        document.getElementById('form-title').textContent = 'Editar Socio';
+        document.getElementById('user-name').value = name;
+        document.getElementById('user-email').value = email;
+        document.getElementById('user-password').value = '';
+        document.getElementById('user-role').value = role;
+        document.getElementById('user-form-container').dataset.editId = id;
+      };
+
+      document.getElementById('save-user-btn').addEventListener('click', async () => {
+        const id = document.getElementById('user-form-container').dataset.editId;
+        const payload = {
+          name: document.getElementById('user-name').value,
+          email: document.getElementById('user-email').value,
+          role: document.getElementById('user-role').value,
+        };
+        const password = document.getElementById('user-password').value;
+        if (password) payload.password = password;
+
+        try {
+          if (id) {
+            await apiRequest(`/users/${id}`, { method: 'PUT', body: payload, auth: true });
+          } else {
+            payload.password = payload.password || 'Pass123!'; // Default password for new users
+            await apiRequest('/register', { method: 'POST', body: payload });
+          }
+          hideAddUserForm();
+          loadUsers();
+        } catch (error) {
+          alert('Error al guardar: ' + error.message);
+        }
+      });
+
+      window.deleteUser = async (id) => {
+        if (confirm('¿Estás seguro de eliminar este usuario?')) {
+          try {
+            await apiRequest(`/users/${id}`, { method: 'DELETE', auth: true });
+            loadUsers();
+          } catch (error) {
+            alert('Error al eliminar: ' + error.message);
+          }
+        }
+      };
+
+      document.getElementById('logout-button').addEventListener('click', () => {
+        localStorage.clear();
+        window.location.href = 'login.html';
+      });
+
+      loadUsers();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Regístrate en Gorila Sport y únete al club deportivo." />
+  <title>Registro — Gorila Sport</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="index.html">
+        <img class="brand-logo-img" src="assets/logo.png" alt="Logo Gorila Sport" width="48" height="48" />
+        <div class="brand-title">
+          <strong>Gorila Sport</strong>
+          <span>Únete a la comunidad</span>
+        </div>
+      </a>
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="index.html">Inicio</a>
+        <a href="login.html">Login</a>
+        <a href="recover.html">Recuperar</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="auth-page" style="display: flex; justify-content: center; align-items: center; min-height: calc(100vh - 70px); padding: 2rem;">
+    <section class="auth-card auth-card-wide" aria-labelledby="register-title" style="max-width: 600px; width: 100%;">
+      <header class="auth-card-header" style="text-align: center; margin-bottom: 2rem;">
+        <img class="auth-logo" src="assets/logo.png" alt="Gorila Sport" width="100" height="100" style="margin-bottom: 1rem;" />
+        <span class="form-kicker">Nuevo miembro</span>
+        <h1 id="register-title">Registro de usuario</h1>
+        <p>Completa los campos obligatorios. Los demás nos ayudan a personalizar tu experiencia.</p>
+      </header>
+
+      <form id="register-form" action="#" method="post" novalidate>
+        <fieldset class="form-fieldset" style="border: none; padding: 0; margin-bottom: 1.5rem;">
+          <legend style="font-weight: bold; margin-bottom: 1rem; color: var(--primary);">Datos obligatorios</legend>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label for="email">Correo electrónico <span class="required" style="color: red;">*</span></label>
+            <input type="email" id="email" name="email" autocomplete="email" required placeholder="tu@correo.com" />
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label for="password">Contraseña <span class="required" style="color: red;">*</span></label>
+            <input type="password" id="password" name="password" autocomplete="new-password" required minlength="8" placeholder="Mínimo 8 caracteres" />
+          </div>
+        </fieldset>
+
+        <fieldset class="form-fieldset form-fieldset-optional" style="border: none; padding: 0; margin-bottom: 1.5rem;">
+          <legend style="font-weight: bold; margin-bottom: 1rem; color: var(--text-muted);">Información adicional (opcional)</legend>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label for="name">Nombre</label>
+            <input type="text" id="name" name="name" autocomplete="name" placeholder="Ej. Felipe Quiroz" />
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label for="age">Edad</label>
+            <input type="number" id="age" name="age" min="1" max="120" placeholder="Ej. 25" />
+          </div>
+          <div class="form-group form-group-checkbox" style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <input type="checkbox" id="practicesSport" name="practicesSport" value="yes" />
+            <label class="checkbox-label" for="practicesSport">¿Practica deporte?</label>
+          </div>
+          <div class="form-group" id="sport-type-group" hidden style="margin-bottom: 1rem;">
+            <label for="sportType">Tipo de deporte</label>
+            <select id="sportType" name="sportType">
+              <option value="">Selecciona una opción</option>
+              <option value="running">Running</option>
+              <option value="crossfit">CrossFit</option>
+              <option value="spinning">Spinning</option>
+              <option value="futbol">Fútbol</option>
+              <option value="natacion">Natación</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 1rem;">
+            <label for="personalGoal">Objetivo personal</label>
+            <textarea id="personalGoal" name="personalGoal" rows="3" placeholder="Ej. Mejorar resistencia y bajar de peso" style="background: var(--bg-dark); border: 1px solid var(--border-color); color: white; border-radius: 8px; padding: 0.8rem;"></textarea>
+          </div>
+          <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label for="level">Nivel</label>
+            <select id="level" name="level">
+              <option value="">Selecciona tu nivel</option>
+              <option value="beginner">Principiante</option>
+              <option value="intermediate">Intermedio</option>
+              <option value="advanced">Avanzado</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary btn-login" id="register-submit" style="width: 100%;">Registrarse</button>
+      </form>
+
+      <p id="form-message" class="message is-hidden" role="status" aria-live="polite" style="margin-top: 1rem; text-align: center;"></p>
+
+      <p class="form-footer" style="margin-top: 1.5rem; text-align: center; font-size: 0.9rem;">¿Ya tienes cuenta? <a href="login.html">Volver al login</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+    <p>&copy; 2026 Gorila Sport — Club deportivo</p>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
