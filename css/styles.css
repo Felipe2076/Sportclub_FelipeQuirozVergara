@@ -2,12 +2,15 @@
   --bg-dark: #0a0e17;
   --bg-panel: #111827;
   --bg-card: #1f2937;
+  --bg-card-hover: #374151;
   --primary: #10b981;
   --primary-hover: #059669;
   --accent: #ff6b35;
   --text-main: #f3f4f6;
+  --text-light: #ffffff;
   --text-muted: #9ca3af;
   --border-color: #374151;
+  --border: #374151;
   --danger: #ef4444;
   --warning: #f59e0b;
   --sidebar-width: 80px;
@@ -20,7 +23,7 @@ body {
   color: var(--text-main);
 }
 
-/* CONTENEDOR GLOBAL - ESTO ES LO QUE FALTABA */
+/* CONTENEDOR GLOBAL */
 .container {
   width: 100%;
   max-width: 1200px;
