@@ -2,3 +2,4 @@
 backend/.env
 js/config.js
 node_modules/
+dist/

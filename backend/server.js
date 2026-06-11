@@ -22,8 +22,13 @@ if (!jwtSecret || !apiKey) {
 app.use(cors({ origin: true }));
 app.use(express.json());
 
-// Sirve archivos estáticos (HTML, CSS, JS, assets) desde la raíz del proyecto
-app.use(express.static(path.join(__dirname, '..')));
+// Sirve el build de React (Vite) en producción, o archivos estáticos en desarrollo
+const distPath = path.join(__dirname, '..', 'dist');
+if (require('fs').existsSync(distPath)) {
+  app.use(express.static(distPath));
+} else {
+  app.use(express.static(path.join(__dirname, '..')));
+}
 
 // --- Helpers para el archivo JSON ---
 async function readUsers() {
@@ -228,5 +233,15 @@ api.get('/profile', authMiddleware, (req, res) => {
 });
 
 app.use('/api', api);
-app.use((req, res) => res.status(404).json({ message: 'Route not found' }));
-app.listen(port, () => console.log(`Gorila Sport backend API running on http://localhost:${port}`));
+
+// SPA fallback: sirve index.html para rutas del frontend (React Router)
+app.get('*', (req, res) => {
+  const indexHtml = path.join(distPath, 'index.html');
+  if (require('fs').existsSync(indexHtml)) {
+    res.sendFile(indexHtml);
+  } else {
+    res.status(404).json({ message: 'Route not found' });
+  }
+});
+
+app.listen(port, () => console.log(`SportClub backend API running on http://localhost:${port}`));
