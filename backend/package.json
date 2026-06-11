@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
+    "dev:frontend": "cd .. && npx vite",
+    "dev:all": "concurrently -n API,VITE -c cyan,green \"node server.js\" \"cd .. && npx vite\"",
     "generate-secrets": "node scripts/generate-secrets.js"
   },
   "dependencies": {
@@ -17,5 +19,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.6.3",
     "react-bootstrap": "^2.10.10"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3"
   }
 }
