@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <defs>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffd633"/>
+      <stop offset="100%" stop-color="#F2B705"/>
+    </linearGradient>
+  </defs>
+  <!-- Shield -->
+  <path d="M128 8 L215 45 L215 115 Q215 180 128 240 Q41 180 41 115 L41 45 Z" fill="#2E1A47" stroke="url(#goldGrad)" stroke-width="4"/>
+  <!-- Gorilla head -->
+  <ellipse cx="128" cy="115" rx="44" ry="46" fill="#1a0f2a"/>
+  <!-- Ears -->
+  <ellipse cx="79" cy="95" rx="15" ry="18" fill="#1a0f2a" stroke="url(#goldGrad)" stroke-width="2"/>
+  <ellipse cx="79" cy="95" rx="8" ry="11" fill="#3a205a"/>
+  <ellipse cx="177" cy="95" rx="15" ry="18" fill="#1a0f2a" stroke="url(#goldGrad)" stroke-width="2"/>
+  <ellipse cx="177" cy="95" rx="8" ry="11" fill="#3a205a"/>
+  <!-- Face -->
+  <ellipse cx="128" cy="119" rx="28" ry="25" fill="#3a205a"/>
+  <!-- Eyes gold -->
+  <ellipse cx="114" cy="109" rx="6" ry="7" fill="#120a1e"/>
+  <ellipse cx="114" cy="109" rx="3.5" ry="4" fill="url(#goldGrad)"/>
+  <ellipse cx="142" cy="109" rx="6" ry="7" fill="#120a1e"/>
+  <ellipse cx="142" cy="109" rx="3.5" ry="4" fill="url(#goldGrad)"/>
+  <!-- Nose -->
+  <ellipse cx="128" cy="121" rx="7" ry="5" fill="#1a0f2a"/>
+  <ellipse cx="125" cy="120" rx="2.5" ry="3" fill="#120a1e"/>
+  <ellipse cx="131" cy="120" rx="2.5" ry="3" fill="#120a1e"/>
+  <!-- Mouth -->
+  <path d="M117 129 Q128 136 139 129" fill="none" stroke="#120a1e" stroke-width="2" stroke-linecap="round"/>
+  <!-- Fur -->
+  <path d="M89 74 Q95 65 100 74 Q107 62 114 71 Q120 64 128 70 Q136 64 142 71 Q149 62 156 74 Q161 65 167 74" fill="none" stroke="#1a0f2a" stroke-width="6" stroke-linecap="round"/>
+  <!-- Star accent -->
+  <path d="M128 142 L130 146 L134 147 L131 150 L132 154 L128 152 L124 154 L125 150 L122 147 L126 146 Z" fill="url(#goldGrad)"/>
+</svg>
