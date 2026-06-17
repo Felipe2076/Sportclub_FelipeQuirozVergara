@@ -1,7 +1,7 @@
 [
   {
     "id": "user-admin",
-    "name": "Administrador",
+    "name": "Administrador SportClub",
     "email": "admin@gorilasport.com",
     "passwordHash": "$2b$10$/UrVpqsUX2mJnz1hs1E80.gJ6B2QeKyf7rwqLOyv4jHy87cULTLmu",
     "role": "Admin",

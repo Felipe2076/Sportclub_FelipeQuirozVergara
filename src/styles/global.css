@@ -13,7 +13,7 @@
   /* Texto — 3 niveles jerárquicos */
   --text-primary: #e8e0f4;
   --text-secondary: #b8aad0;
-  --text-muted: #8070a0;
+  --text-muted: #9a86b8;
 
   /* Marca */
   --purple: #4a2c8a;
@@ -99,7 +99,7 @@ body {
 
 .form-control::placeholder {
   color: var(--text-muted) !important;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
 }
 
 /* ═══════ Gold Button ═══════ */

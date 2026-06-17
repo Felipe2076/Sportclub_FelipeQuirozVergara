@@ -232,6 +232,32 @@ api.get('/profile', authMiddleware, (req, res) => {
   res.json({ id, name, email, role, createdAt });
 });
 
+api.put('/profile', authMiddleware, async (req, res) => {
+  try {
+    const { name, email, currentPassword, newPassword } = req.body;
+    const users = await readUsers();
+    const index = users.findIndex((u) => u.id === req.user.id);
+    if (index === -1) return res.status(404).json({ message: 'User not found' });
+
+    if (name) users[index].name = name.trim();
+    if (email) users[index].email = email.trim().toLowerCase();
+
+    if (currentPassword && newPassword) {
+      const valid = await bcrypt.compare(currentPassword, users[index].passwordHash);
+      if (!valid) return res.status(400).json({ message: 'Current password is incorrect' });
+      if (newPassword.length < 6) return res.status(400).json({ message: 'New password must be at least 6 characters' });
+      users[index].passwordHash = await bcrypt.hash(newPassword, 10);
+    }
+
+    await writeUsers(users);
+    const { passwordHash, ...safeUser } = users[index];
+    const token = generateToken(users[index]);
+    res.json({ message: 'Profile updated successfully', user: safeUser, token });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
 app.use('/api', api);
 
 // SPA fallback: sirve index.html para rutas del frontend (React Router)
