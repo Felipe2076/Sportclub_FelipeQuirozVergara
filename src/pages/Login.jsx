@@ -29,46 +29,38 @@ export default function Login() {
   return (
     <div className="auth-page">
       <Container>
-        <Row className="justify-content-center align-items-center min-vh-100">
+        <Row className="justify-content-center w-100 mx-0">
           <Col md={5} lg={4}>
-            <Card className="auth-card shadow-lg">
-              <Card.Body className="p-4">
+            <Card className="auth-card">
+              <Card.Body className="p-4 p-md-5">
                 <div className="text-center mb-4">
-                  <img src="/logo-icon.svg" alt="SportClub" height="56" className="auth-logo mb-2" />
-                  <h3 className="fw-bold text-purple">SportClub</h3>
-                  <p className="text-muted small">Club deportivo — Iniciar sesión</p>
+                  <img src="/logo-icon.svg" alt="SportClub" height="60" className="auth-logo mb-3" />
+                  <h2 className="fw-bold" style={{ color: 'var(--text-primary)', fontSize: '1.5rem' }}>SportClub</h2>
+                  <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: 2 }}>Club deportivo — Iniciar sesión</p>
                 </div>
 
-                {error && <Alert variant="danger" className="py-2 small">{error}</Alert>}
+                {error && <Alert variant="danger" className="py-2 small" style={{ borderRadius: 10, background: 'rgba(192,64,96,0.15)', border: '1px solid rgba(192,64,96,0.3)', color: '#f0a0b0' }}>{error}</Alert>}
 
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
-                    <Form.Label className="small fw-semibold">Correo electrónico</Form.Label>
-                    <Form.Control
-                      type="email" placeholder="ejemplo@correo.com"
-                      value={email} onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
+                    <Form.Label>Correo electrónico</Form.Label>
+                    <Form.Control type="email" placeholder="ejemplo@correo.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
                   </Form.Group>
 
-                  <Form.Group className="mb-3">
-                    <Form.Label className="small fw-semibold">Contraseña</Form.Label>
-                    <Form.Control
-                      type="password" placeholder="••••••••"
-                      value={password} onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
+                  <Form.Group className="mb-4">
+                    <Form.Label>Contraseña</Form.Label>
+                    <Form.Control type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
                   </Form.Group>
 
-                  <Button variant="gold" type="submit" className="w-100 mb-3" disabled={loading}>
+                  <Button variant="" type="submit" className="btn-gold w-100 mb-3" disabled={loading}>
                     {loading ? <Spinner size="sm" animation="border" /> : 'Ingresar'}
                   </Button>
                 </Form>
 
-                <div className="text-center small">
-                  <Link to="/register" className="text-purple">Crear cuenta</Link>
-                  <span className="mx-2 text-muted">|</span>
-                  <Link to="/recover" className="text-purple">¿Olvidaste tu contraseña?</Link>
+                <div className="text-center small" style={{ color: 'var(--text-muted)' }}>
+                  <Link to="/register" style={{ color: 'var(--gold)' }}>Crear cuenta</Link>
+                  <span className="mx-2">·</span>
+                  <Link to="/recover" style={{ color: 'var(--gold)' }}>¿Olvidaste tu contraseña?</Link>
                 </div>
               </Card.Body>
             </Card>

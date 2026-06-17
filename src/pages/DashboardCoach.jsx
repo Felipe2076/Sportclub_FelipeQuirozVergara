@@ -3,6 +3,8 @@ import { Row, Col, Card, Table, Badge } from 'react-bootstrap'
 import DashboardLayout from '../components/DashboardLayout'
 import api from '../services/api'
 
+const accent = 'var(--coach-color)'
+
 export default function DashboardCoach() {
   const [athletes, setAthletes] = useState([])
 
@@ -12,27 +14,29 @@ export default function DashboardCoach() {
     }).catch(() => {})
   }, [])
 
+  const stats = [
+    { icon: '👨‍🏫', label: 'Alumnos activos', value: String(athletes.length || 4), color: accent },
+    { icon: '🏋️', label: 'Clases semanales', value: '6', color: '#45b888' },
+    { icon: '🏆', label: 'Rendimiento', value: '87%', color: 'var(--gold)' },
+    { icon: '⏰', label: 'Sesiones esta semana', value: '12', color: '#40b898' },
+  ]
+
   return (
     <DashboardLayout>
-      <div className="dash-header mb-4">
-        <h3 className="fw-bold" style={{ color: '#27ae60' }}>Panel del Coach</h3>
-        <p className="text-white-50 small">Gestión de alumnos, clases y rendimiento</p>
+      <div className="mb-4">
+        <h2 className="dash-title" style={{ color: accent }}>Panel del Coach</h2>
+        <p className="dash-subtitle">Gestión de alumnos, clases y rendimiento</p>
       </div>
 
       <Row className="g-3 mb-4">
-        {[
-          { icon: '👨‍🏫', label: 'Alumnos activos', value: String(athletes.length || 4), color: '#27ae60' },
-          { icon: '🏋️', label: 'Clases semanales', value: '6', color: '#2ecc71' },
-          { icon: '🏆', label: 'Rendimiento', value: '87%', color: '#f1c40f' },
-          { icon: '⏰', label: 'Sesiones esta semana', value: '12', color: '#1abc9c' },
-        ].map((s) => (
+        {stats.map((s) => (
           <Col key={s.label} md={3}>
-            <Card className="stat-card h-100" style={{ borderLeft: `4px solid ${s.color}`, background: 'rgba(39,174,96,0.05)' }}>
+            <Card className="stat-card h-100" style={{ borderLeft: `4px solid ${s.color}` }}>
               <Card.Body className="d-flex align-items-center gap-3">
-                <span style={{ fontSize: 28 }}>{s.icon}</span>
+                <span style={{ fontSize: 28, lineHeight: 1 }}>{s.icon}</span>
                 <div>
-                  <div className="fw-bold fs-4" style={{ color: s.color }}>{s.value}</div>
-                  <div className="small text-white-50">{s.label}</div>
+                  <div className="fw-bold fs-4" style={{ color: s.color, lineHeight: 1.2 }}>{s.value}</div>
+                  <div style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>{s.label}</div>
                 </div>
               </Card.Body>
             </Card>
@@ -42,8 +46,8 @@ export default function DashboardCoach() {
 
       <Row className="g-3">
         <Col md={7}>
-          <Card className="list-card" style={{ background: 'rgba(39,174,96,0.03)' }}>
-            <Card.Header className="fw-semibold small" style={{ background: 'rgba(39,174,96,0.1)', color: '#27ae60', borderBottom: '1px solid rgba(39,174,96,0.2)' }}>
+          <Card className="list-card">
+            <Card.Header style={{ color: accent, background: 'rgba(61,170,122,0.08)' }}>
               👥 Mis Alumnos
             </Card.Header>
             <Card.Body className="p-0">
@@ -53,14 +57,14 @@ export default function DashboardCoach() {
                   {athletes.length > 0 ? athletes.map((a) => (
                     <tr key={a.id || a._id}>
                       <td className="fw-medium">{a.name}</td>
-                      <td className="text-white-50">{a.email}</td>
+                      <td style={{ color: 'var(--text-secondary)' }}>{a.email}</td>
                       <td><Badge bg="success">{a.status || 'Activo'}</Badge></td>
                     </tr>
                   )) : (
                     <>
-                      <tr><td>Ana García</td><td className="text-white-50">ana@email.com</td><td><Badge bg="success">Activo</Badge></td></tr>
-                      <tr><td>Mateo Díaz</td><td className="text-white-50">mateo@email.com</td><td><Badge bg="success">Activo</Badge></td></tr>
-                      <tr><td>Valentina Rojas</td><td className="text-white-50">valentina@email.com</td><td><Badge bg="warning" text="dark">En pausa</Badge></td></tr>
+                      <tr><td>Ana García</td><td style={{ color: 'var(--text-secondary)' }}>ana@email.com</td><td><Badge bg="success">Activo</Badge></td></tr>
+                      <tr><td>Mateo Díaz</td><td style={{ color: 'var(--text-secondary)' }}>mateo@email.com</td><td><Badge bg="success">Activo</Badge></td></tr>
+                      <tr><td>Valentina Rojas</td><td style={{ color: 'var(--text-secondary)' }}>valentina@email.com</td><td><Badge bg="warning" text="dark">En pausa</Badge></td></tr>
                     </>
                   )}
                 </tbody>
@@ -70,8 +74,8 @@ export default function DashboardCoach() {
         </Col>
 
         <Col md={5}>
-          <Card className="list-card mb-3" style={{ background: 'rgba(39,174,96,0.03)' }}>
-            <Card.Header className="fw-semibold small" style={{ background: 'rgba(39,174,96,0.1)', color: '#27ae60', borderBottom: '1px solid rgba(39,174,96,0.2)' }}>
+          <Card className="list-card mb-3">
+            <Card.Header style={{ color: accent, background: 'rgba(61,170,122,0.08)' }}>
               📚 Clases Asignadas
             </Card.Header>
             <Card.Body className="p-0">
@@ -86,8 +90,8 @@ export default function DashboardCoach() {
             </Card.Body>
           </Card>
 
-          <Card className="list-card" style={{ background: 'rgba(39,174,96,0.03)' }}>
-            <Card.Header className="fw-semibold small" style={{ background: 'rgba(39,174,96,0.1)', color: '#27ae60', borderBottom: '1px solid rgba(39,174,96,0.2)' }}>
+          <Card className="list-card">
+            <Card.Header style={{ color: accent, background: 'rgba(61,170,122,0.08)' }}>
               📅 Mi Horario
             </Card.Header>
             <Card.Body className="p-0">

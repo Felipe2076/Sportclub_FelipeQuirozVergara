@@ -3,6 +3,8 @@ import { Row, Col, Card, Table, Badge } from 'react-bootstrap'
 import DashboardLayout from '../components/DashboardLayout'
 import api from '../services/api'
 
+const accent = 'var(--user-color)'
+
 export default function DashboardUsuario() {
   const [data, setData] = useState(null)
 
@@ -10,27 +12,29 @@ export default function DashboardUsuario() {
     api.get('/dashboard').then(({ data }) => setData(data)).catch(() => {})
   }, [])
 
+  const stats = [
+    { icon: '📅', label: 'Reservas activas', value: '3', color: accent },
+    { icon: '🏋️', label: 'Entrenamientos', value: '8', color: 'var(--coach-color)' },
+    { icon: '⏱️', label: 'Horas este mes', value: '24', color: 'var(--gold)' },
+    { icon: '🔥', label: 'Racha actual', value: '5 días', color: 'var(--admin-color)' },
+  ]
+
   return (
     <DashboardLayout>
-      <div className="dash-header mb-4">
-        <h3 className="fw-bold" style={{ color: '#2980b9' }}>Mi Panel</h3>
-        <p className="text-white-50 small">Bienvenido a tu espacio de entrenamiento</p>
+      <div className="mb-4">
+        <h2 className="dash-title" style={{ color: accent }}>Mi Panel</h2>
+        <p className="dash-subtitle">Bienvenido a tu espacio de entrenamiento</p>
       </div>
 
       <Row className="g-3 mb-4">
-        {[
-          { icon: '📅', label: 'Reservas activas', value: '3', color: '#2980b9' },
-          { icon: '🏋️', label: 'Entrenamientos', value: '8', color: '#27ae60' },
-          { icon: '⏱️', label: 'Horas este mes', value: '24', color: '#f39c12' },
-          { icon: '🔥', label: 'Racha actual', value: '5 días', color: '#e74c3c' },
-        ].map((s) => (
+        {stats.map((s) => (
           <Col key={s.label} md={3}>
-            <Card className="stat-card h-100" style={{ borderLeft: `4px solid ${s.color}`, background: 'rgba(41,128,185,0.05)' }}>
+            <Card className="stat-card h-100" style={{ borderLeft: `4px solid ${s.color}` }}>
               <Card.Body className="d-flex align-items-center gap-3">
-                <span style={{ fontSize: 28 }}>{s.icon}</span>
+                <span style={{ fontSize: 28, lineHeight: 1 }}>{s.icon}</span>
                 <div>
-                  <div className="fw-bold fs-4" style={{ color: s.color }}>{s.value}</div>
-                  <div className="small text-white-50">{s.label}</div>
+                  <div className="fw-bold fs-4" style={{ color: s.color, lineHeight: 1.2 }}>{s.value}</div>
+                  <div style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>{s.label}</div>
                 </div>
               </Card.Body>
             </Card>
@@ -40,8 +44,8 @@ export default function DashboardUsuario() {
 
       <Row className="g-3">
         <Col md={6}>
-          <Card className="list-card" style={{ background: 'rgba(41,128,185,0.03)' }}>
-            <Card.Header className="fw-semibold small" style={{ background: 'rgba(41,128,185,0.1)', color: '#2980b9', borderBottom: '1px solid rgba(41,128,185,0.2)' }}>
+          <Card className="list-card">
+            <Card.Header style={{ color: accent, background: 'rgba(74,128,192,0.08)' }}>
               📋 Mis Reservas
             </Card.Header>
             <Card.Body className="p-0">
@@ -58,8 +62,8 @@ export default function DashboardUsuario() {
         </Col>
 
         <Col md={6}>
-          <Card className="list-card" style={{ background: 'rgba(41,128,185,0.03)' }}>
-            <Card.Header className="fw-semibold small" style={{ background: 'rgba(41,128,185,0.1)', color: '#2980b9', borderBottom: '1px solid rgba(41,128,185,0.2)' }}>
+          <Card className="list-card">
+            <Card.Header style={{ color: accent, background: 'rgba(74,128,192,0.08)' }}>
               🏆 Clases Disponibles
             </Card.Header>
             <Card.Body className="p-0">

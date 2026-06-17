@@ -1,11 +1,37 @@
+/* ═══════════════════════════════════════
+   SportClub — Design System
+   Paleta armoniosa + glassmorphism
+   ═══════════════════════════════════════ */
+
 :root {
-  --purple: #2E1A47;
-  --purple-dark: #1a0f2a;
-  --gold: #F2B705;
-  --gold-light: #ffd633;
-  --text-muted: #a090b8;
-  --bg-dark: #0d0a1a;
-  --bg-card: #1a1028;
+  /* Fondo */
+  --bg-base: #120e24;
+  --bg-card: #1e1838;
+  --bg-elevated: #2a2248;
+  --bg-glass: rgba(30, 24, 56, 0.75);
+
+  /* Texto — 3 niveles jerárquicos */
+  --text-primary: #e8e0f4;
+  --text-secondary: #b8aad0;
+  --text-muted: #8070a0;
+
+  /* Marca */
+  --purple: #4a2c8a;
+  --gold: #f0c040;
+  --gold-light: #ffd866;
+
+  /* Roles */
+  --user-color: #4a80c0;
+  --coach-color: #3daa7a;
+  --admin-color: #c04060;
+
+  /* Bordes */
+  --border-subtle: rgba(240, 192, 64, 0.12);
+  --border-glass: rgba(255, 255, 255, 0.06);
+
+  /* Sombras */
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-glass: 0 4px 24px rgba(0, 0, 0, 0.3);
 }
 
 * { box-sizing: border-box; }
@@ -13,37 +39,73 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: var(--bg-dark);
-  color: #eee;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  line-height: 1.6;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--purple-dark); }
+/* Scrollbar refinada */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
 
-/* Auth pages */
+/* ═══════ Auth Pages ═══════ */
 .auth-page {
-  background: linear-gradient(135deg, #0d0a1a 0%, #2E1A47 50%, #1a0f2a 100%);
+  background: linear-gradient(145deg, #0e0a1e 0%, #2a1860 45%, #1a1240 100%);
   min-height: 100vh;
+  display: flex;
+  align-items: center;
 }
 
 .auth-card {
-  background: var(--bg-card) !important;
-  border: 1px solid rgba(242, 183, 5, 0.15) !important;
-  border-radius: 16px !important;
+  background: var(--bg-glass) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 20px !important;
+  box-shadow: var(--shadow-card) !important;
 }
 
 .auth-logo {
-  filter: drop-shadow(0 0 12px rgba(242, 183, 5, 0.4));
+  filter: drop-shadow(0 0 20px rgba(240, 192, 64, 0.35));
 }
 
 .text-purple { color: var(--gold) !important; }
 
-/* Gold button */
+/* Form labels & inputs unificados */
+.form-label {
+  color: var(--text-secondary) !important;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  margin-bottom: 0.3rem;
+}
+
+.form-control, .form-select {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: var(--text-primary) !important;
+  border-radius: 10px !important;
+  padding: 0.6rem 0.9rem !important;
+  font-size: 0.9rem !important;
+  transition: all 0.25s;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 3px rgba(240, 192, 64, 0.15) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.form-control::placeholder {
+  color: var(--text-muted) !important;
+  font-size: 0.85rem;
+}
+
+/* ═══════ Gold Button ═══════ */
 .btn-gold {
-  background: linear-gradient(135deg, var(--gold), #d4a004);
-  color: #1a0f2a !important;
+  background: linear-gradient(135deg, var(--gold), #d4a030) !important;
+  color: #120e24 !important;
   font-weight: 700;
   border: none;
   border-radius: 10px;
@@ -51,85 +113,204 @@ body {
   transition: all 0.3s;
 }
 .btn-gold:hover {
-  background: linear-gradient(135deg, var(--gold-light), var(--gold));
-  box-shadow: 0 0 20px rgba(242, 183, 5, 0.3);
+  background: linear-gradient(135deg, var(--gold-light), var(--gold)) !important;
+  box-shadow: 0 0 24px rgba(240, 192, 64, 0.3);
   transform: translateY(-1px);
-  color: #1a0f2a !important;
+  color: #120e24 !important;
+}
+.btn-gold:active {
+  transform: translateY(0);
 }
 
-/* Dash layout */
-.dash-layout {
-  background: var(--bg-dark);
+/* ═══════ Glass Card (base) ═══════ */
+.glass-card {
+  background: var(--bg-glass) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--border-glass) !important;
+  border-radius: 16px !important;
+  box-shadow: var(--shadow-glass) !important;
+  transition: all 0.3s;
+}
+.glass-card:hover {
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.45);
+  transform: translateY(-2px);
 }
 
-/* Stat cards */
+/* ═══════ Stat Cards ═══════ */
 .stat-card {
-  border: 1px solid rgba(255, 255, 255, 0.06) !important;
-  border-radius: 12px !important;
-  background: rgba(255, 255, 255, 0.02) !important;
-  backdrop-filter: blur(4px);
+  border: 1px solid var(--border-glass) !important;
+  border-radius: 14px !important;
+  background: var(--bg-glass) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
   transition: all 0.3s;
 }
 .stat-card:hover {
+  box-shadow: var(--shadow-glass);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
 }
 
-/* List cards */
+/* ═══════ List Cards (tablas envolventes) ═══════ */
 .list-card {
-  border: 1px solid rgba(255, 255, 255, 0.06) !important;
-  border-radius: 12px !important;
+  border: 1px solid var(--border-glass) !important;
+  border-radius: 14px !important;
   overflow: hidden;
+  background: var(--bg-glass) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
 }
 
-/* Tables */
+.list-card .card-header {
+  font-size: 0.78rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-bottom: 1px solid var(--border-glass) !important;
+  padding: 0.8rem 1.2rem;
+}
+
+/* ═══════ Tables ═══════ */
 .table-dark {
   --bs-table-bg: transparent !important;
-  --bs-table-hover-bg: rgba(255,255,255,0.03) !important;
+  --bs-table-hover-bg: rgba(255, 255, 255, 0.04) !important;
 }
 
-.table-dark th {
-  color: var(--text-muted) !important;
-  font-weight: 600;
-  font-size: 0.75rem;
+.table-dark thead th {
+  color: var(--text-secondary) !important;
+  font-weight: 700;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-bottom-color: rgba(255,255,255,0.08) !important;
+  letter-spacing: 0.6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+  padding: 0.7rem 1rem !important;
+  background: rgba(255, 255, 255, 0.02);
 }
 
-.table-dark td {
-  border-color: rgba(255,255,255,0.04) !important;
+.table-dark tbody td {
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.03) !important;
+  padding: 0.65rem 1rem !important;
   vertical-align: middle;
 }
 
-/* Sidebar button hover */
+.table-dark tbody tr {
+  transition: background 0.2s;
+}
+
+.table-dark tbody tr:hover {
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* ═══════ Badges ═══════ */
+.badge {
+  font-weight: 600 !important;
+  font-size: 0.7rem !important;
+  padding: 0.3em 0.65em !important;
+  border-radius: 6px !important;
+}
+.badge.bg-primary { background: var(--user-color) !important; }
+.badge.bg-success { background: var(--coach-color) !important; }
+.badge.bg-danger { background: var(--admin-color) !important; }
+.badge.bg-warning { background: var(--gold) !important; color: #120e24 !important; }
+.badge.bg-info { background: #5880b8 !important; }
+
+/* ═══════ Modal ═══════ */
+.modal-content.bg-dark {
+  background: var(--bg-elevated) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 16px !important;
+}
+.modal-header, .modal-footer {
+  border-color: var(--border-glass) !important;
+}
+.modal-title {
+  color: var(--text-primary) !important;
+  font-size: 1rem !important;
+}
+
+/* ═══════ Navbar / Header ═══════ */
+.navbar-glass {
+  background: rgba(18, 14, 36, 0.85) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid var(--border-glass) !important;
+}
+
+/* ═══════ Sidebar ═══════ */
+.sidebar-glass {
+  background: rgba(18, 14, 36, 0.7) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-right: 1px solid rgba(240, 192, 64, 0.08) !important;
+}
+
+.sidebar-btn {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  transition: all 0.25s;
+  color: rgba(255, 255, 255, 0.35);
+}
 .sidebar-btn:hover {
-  background: rgba(255,255,255,0.08) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
   color: #fff !important;
 }
-
-/* Modal dark */
-.modal-content.bg-dark {
-  background: var(--bg-card) !important;
-  border: 1px solid rgba(242,183,5,0.15) !important;
+.sidebar-btn.active {
+  background: rgba(240, 192, 64, 0.15) !important;
+  color: var(--gold) !important;
+  box-shadow: 0 0 0 1px rgba(240, 192, 64, 0.3);
 }
 
-.modal-content .form-control,
-.modal-content .form-select {
-  background: rgba(255,255,255,0.05) !important;
-  border: 1px solid rgba(255,255,255,0.1) !important;
-  color: #eee !important;
+/* ═══════ Dash Header (título de página) ═══════ */
+.dash-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  margin-bottom: 0.2rem;
+}
+.dash-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
 }
 
-.modal-content .form-control:focus,
-.modal-content .form-select:focus {
-  border-color: var(--gold) !important;
-  box-shadow: 0 0 0 0.2rem rgba(242,183,5,0.15) !important;
+/* ═══════ Dashboard main bg ═══════ */
+.dash-main {
+  background: #120e24;
+  min-height: calc(100vh - 56px);
 }
 
-/* Badge roles */
-.badge.bg-primary { background: #2980b9 !important; }
-.badge.bg-success { background: #27ae60 !important; }
-.badge.bg-danger { background: #c0392b !important; }
-.badge.bg-warning { background: #f1c40f !important; color: #1a0f2a !important; }
-.badge.bg-info { background: #3498db !important; }
+.dropdown-menu {
+  background: var(--bg-elevated) !important;
+  border: 1px solid var(--border-glass) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-card) !important;
+}
+.dropdown-item {
+  color: var(--text-secondary) !important;
+  font-size: 0.85rem !important;
+  transition: all 0.2s;
+}
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: var(--text-primary) !important;
+}
+.dropdown-divider {
+  border-color: var(--border-glass) !important;
+}
+
+/* ═══════ Buttons outline ═══════ */
+.btn-outline-gold {
+  color: var(--gold) !important;
+  border: 1px solid var(--gold) !important;
+  background: transparent !important;
+  border-radius: 10px !important;
+  transition: all 0.25s;
+}
+.btn-outline-gold:hover {
+  background: var(--gold) !important;
+  color: #120e24 !important;
+}
