@@ -69,7 +69,10 @@ export default function Landing() {
               </div>
             </Col>
             <Col md={5} className="text-center d-none d-md-block">
-              <img src="/logo.png" alt="SportClub" style={{ maxWidth: '80%', opacity: 0.15, filter: 'drop-shadow(0 0 40px rgba(240,192,64,0.2))' }} />
+              <div style={{ position: 'relative', display: 'inline-block' }}>
+                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle, rgba(240,192,64,0.15) 0%, transparent 70%)', borderRadius: '50%', transform: 'scale(1.5)' }} />
+                <img src="/logo-icon.svg" alt="SportClub" style={{ width: '70%', opacity: 0.2, filter: 'drop-shadow(0 0 60px rgba(240,192,64,0.15))', position: 'relative' }} />
+              </div>
             </Col>
           </Row>
         </Container>
@@ -161,7 +164,7 @@ export default function Landing() {
       {/* === CTA FINAL === */}
       <section style={{
         padding: '5rem 0',
-        background: `linear-gradient(135deg, rgba(42,24,96,0.9), rgba(18,14,36,0.95)), url('/Gemini_Generated_Image_dkb4zadkb4zadkb4.jpg')`,
+        background: `linear-gradient(135deg, rgba(74,44,138,0.92), rgba(18,14,36,0.88)), url('/gym-interior.jpg')`,
         backgroundSize: 'cover', backgroundPosition: 'center',
       }}>
         <Container className="text-center">
