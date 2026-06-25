@@ -1,10 +1,13 @@
 const { Router } = require('express');
 const sportController = require('../controllers/sport.controller');
 const { authenticate } = require('../middlewares/auth.middleware');
+const { authorizeRole } = require('../middlewares/role.middleware');
 
 const router = Router();
 
 router.use(authenticate);
+router.use(authorizeRole(['admin']));
+
 router.get('/', sportController.getAll);
 router.get('/:id', sportController.getById);
 router.post('/', sportController.create);

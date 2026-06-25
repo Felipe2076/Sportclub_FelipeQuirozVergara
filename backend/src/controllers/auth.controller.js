@@ -3,6 +3,7 @@ const userService = require('../services/user.service');
 const { success } = require('../utils/api-response');
 const { validateLoginPayload } = require('../validators/auth.validator');
 const { validateUserPayload } = require('../validators/user.validator');
+const { signAccessToken } = require('../utils/jwt');
 
 async function login(req, res, next) {
     try {
@@ -38,7 +39,9 @@ async function registerUser(req, res, next) {
         }
 
         const user = await userService.createUser(data);
-        return success(res, 'Usuario registrado correctamente.', user, 201);
+        const token = signAccessToken(user);
+
+        return success(res, 'Usuario registrado correctamente.', { token, user });
     } catch (error) {
         next(error);
     }

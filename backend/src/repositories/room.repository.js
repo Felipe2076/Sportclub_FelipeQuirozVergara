@@ -11,7 +11,7 @@ async function findAll(filters = {}) {
 
     return Room.findAll({
         where,
-        order: [['created_at', 'DESC']]
+         order: [['created_at', 'DESC']]
     });
 }
 

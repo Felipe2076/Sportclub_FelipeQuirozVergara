@@ -19,13 +19,30 @@ export default function DashboardUsuario() {
 
   const loadData = async () => {
     try {
-      const [cls, res] = await Promise.all([
-        api.get('/classes'),
+      const [clsRes, resRes] = await Promise.all([
+        api.get('/class-schedules'),
         api.get('/reservations'),
       ])
-      setClasses(cls.data)
-      setReservations(res.data)
-    } catch { /* silent */ }
+      
+      const clsData = clsRes.data.data || []
+      const resData = resRes.data.data || []
+      
+      // Map the class-schedules to the expected format for the table
+      // Since class-schedules is a schedule and not a sport-based class, we'll mock it.
+      const mappedClasses = clsData.map(c => ({
+        id: c.id,
+        name: 'Sesión de Entrenamiento',
+        schedule: 'Horario definido',
+        coach: 'Coach',
+        capacity: 10,
+        vacants: 5
+      }))
+
+      setClasses(mappedClasses)
+      setReservations(resData)
+    } catch (err) { 
+      console.error("Error loading data:", err)
+    }
   }
 
   useEffect(() => { loadData() }, [])
@@ -61,7 +78,7 @@ export default function DashboardUsuario() {
   const handleCancel = async (reservationId) => {
     const result = await Swal.fire({
       title: '¿Cancelar reserva?',
-      text: 'Esta acción no se puede deshacer',
+      text: 'Esta accion no se puede deshacer',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, cancelar',
@@ -96,7 +113,7 @@ export default function DashboardUsuario() {
       <Row className="g-3 mb-4">
         {stats.map((s) => (
           <Col key={s.label} md={3}>
-            <Card className="stat-card h-100" style={{ borderLeft: `4px solid ${s.color}` }}>
+             <Card className="stat-card h-100" style={{ borderLeft: `4px solid ${s.color}` }}>
               <Card.Body className="d-flex align-items-center gap-3">
                 <span style={{ fontSize: 22, lineHeight: 1, color: s.color }}>{s.icon}</span>
                 <div>
@@ -177,8 +194,8 @@ export default function DashboardUsuario() {
                   <tbody>
                     {reservations.map((r) => (
                       <tr key={r.id}>
-                        <td className="fw-medium">{r.className}</td>
-                        <td style={{ color: 'var(--text-secondary)' }}>{r.schedule}</td>
+                        <td className="fw-medium">{r.className || 'Clase'}</td>
+                        <td style={{ color: 'var(--text-secondary)' }}>{r.schedule || '-'}</td>
                         <td><Badge bg="success">Confirmada</Badge></td>
                         <td className="text-center">
                           <Button
@@ -202,7 +219,7 @@ export default function DashboardUsuario() {
         <Col md={6}>
           <Card className="list-card">
             <Card.Header style={{ color: accent, background: 'rgba(90,144,208,0.08)' }}>
-              <TrophyIcon size={14} /> Clases Disponibles
+              <DumbbellIcon size={14} /> Clases Disponibles
             </Card.Header>
             <Card.Body className="p-0">
               <Table className="mb-0 small" variant="dark">

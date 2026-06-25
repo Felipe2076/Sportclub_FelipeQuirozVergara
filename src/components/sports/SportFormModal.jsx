@@ -28,8 +28,8 @@ export default function SportFormModal({ show, handleClose, handleSave, selected
 
   const validate = () => {
     const errs = {}
-    if (!formData.name.trim()) errs.name = 'El nombre del deporte es obligatorio.'
-    if (!formData.objective.trim()) errs.objective = 'El objetivo es obligatorio.'
+    if (!formData.name.trim() || formData.name.trim().length < 3) errs.name = 'El nombre debe tener al menos 3 caracteres.'
+    if (!formData.objective.trim() || formData.objective.trim().length < 5) errs.objective = 'El objetivo debe tener al menos 5 caracteres.'
     if (!formData.duration || Number(formData.duration) < 1) errs.duration = 'La duracion debe ser un numero mayor a 0.'
     setErrors(errs)
     return Object.keys(errs).length === 0

@@ -22,7 +22,7 @@ export default function DashboardCoach() {
   const [athletes, setAthletes] = useState([])
 
   useEffect(() => {
-    api.get('/dashboard').then(({ data }) => {
+    api.get('/coach/dashboard').then(({ data }) => {
       if (data.athletes) setAthletes(data.athletes)
     }).catch(() => {})
   }, [])
@@ -44,7 +44,7 @@ export default function DashboardCoach() {
       <Row className="g-3 mb-4">
         {stats.map((s) => (
           <Col key={s.label} md={3}>
-            <Card className="stat-card h-100" style={{ borderLeft: `4px solid ${s.color}` }}>
+             <Card className="stat-card h-100" style={{ borderLeft: `4px solid ${s.color}` }}>
               <Card.Body className="d-flex align-items-center gap-3">
                 <span style={{ fontSize: 22, lineHeight: 1, color: s.color }}>{s.icon}</span>
                 <div>
@@ -72,7 +72,7 @@ export default function DashboardCoach() {
                   <Tooltip
                     contentStyle={{ background: '#2e3a70', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 13 }}
                     labelStyle={{ color: '#eef0f8' }}
-                    formatter={(v) => [`${v}%`, 'Rendimiento']}
+                     formatter={(v) => [`${v}%`, 'Rendimiento']}
                   />
                   <Bar dataKey="rendimiento" fill={coachGreen} radius={[0, 6, 6, 0]} maxBarSize={20} />
                 </BarChart>
@@ -97,7 +97,7 @@ export default function DashboardCoach() {
                   <Tooltip
                     contentStyle={{ background: '#2e3a70', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, fontSize: 13 }}
                     labelStyle={{ color: '#eef0f8' }}
-                    formatter={(v) => [`${v}%`, '']}
+                     formatter={(v) => [`${v}%`, '']}
                   />
                 </PieChart>
               </ResponsiveContainer>
@@ -126,7 +126,7 @@ export default function DashboardCoach() {
                 <tbody>
                   {athletes.length > 0 ? athletes.map((a) => (
                     <tr key={a.id || a._id}>
-                      <td className="fw-medium">{a.name}</td>
+                      <td className="fw-medium">{a.full_name || a.name}</td>
                       <td style={{ color: 'var(--text-secondary)' }}>{a.email}</td>
                       <td><Badge bg="success">{a.status || 'Activo'}</Badge></td>
                     </tr>

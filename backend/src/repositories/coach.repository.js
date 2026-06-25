@@ -33,7 +33,7 @@ async function findMyClasses(coachId) {
                 ]
             }
         ],
-        order: [["created_at", "DESC"]]
+        order: [["createdAt", "DESC"]]
     });
 }
 
@@ -90,7 +90,7 @@ async function findMyRooms(coachId) {
                 as: "sport"
             }
         ],
-        order: [["created_at", "DESC"]]
+        order: [["createdAt", "DESC"]]
     });
 }
 

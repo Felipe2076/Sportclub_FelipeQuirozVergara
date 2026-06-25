@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Card, Form, Button, Alert, Spinner, Row, Col } from 'react-bootstrap'
 import DashboardLayout from '../components/DashboardLayout'
 import api from '../services/api'
@@ -7,6 +8,7 @@ import { authService } from '../services/authService'
 const roleColors = { Admin: 'var(--admin-color)', Coach: 'var(--coach-color)', User: 'var(--user-color)' }
 
 export default function EditProfile() {
+  const navigate = useNavigate()
   const user = authService.getUser()
   const color = roleColors[user?.role] || roleColors.User
   const initials = user?.name?.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || 'U'
@@ -27,14 +29,15 @@ export default function EditProfile() {
     setSuccess('')
     setLoading(true)
     try {
+      // 1. Handle Password Change
       if (password.current && password.newPass) {
         if (password.newPass !== password.confirm) {
           setError('Las contraseñas nuevas no coinciden')
           setLoading(false)
           return
         }
-        if (password.newPass.length < 6) {
-          setError('La nueva contraseña debe tener al menos 6 caracteres')
+if (password.newPass.length < 8) {
+          setError('La nueva contraseña debe tener al menos 8 caracteres')
           setLoading(false)
           return
         }
@@ -47,12 +50,18 @@ export default function EditProfile() {
         setPassword({ current: '', newPass: '', confirm: '' })
       }
 
+      // 2. Handle Profile Update
       if (form.name !== user?.name || form.email !== user?.email) {
-        const { data: res } = await api.put('/auth/me', {
+        const { data } = await api.put('/auth/me', {
           full_name: form.name,
           email: form.email,
         })
-        const updatedUser = { ...user, name: res.data.full_name || res.data.name || form.name, email: res.data.email || form.email }
+        // Update local user object
+        const updatedUser = { 
+          ...user, 
+          name: data.data.full_name || data.data.name || form.name, 
+          email: data.data.email || form.email 
+        }
         localStorage.setItem('sportUser', JSON.stringify(updatedUser))
         setSuccess('Perfil actualizado correctamente')
       }
@@ -103,8 +112,8 @@ export default function EditProfile() {
 
                 <h6 style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: 1, marginBottom: '1rem' }}>Cambiar contrase\u00f1a <span style={{ color: 'var(--text-muted)', fontWeight: 400, textTransform: 'none', fontSize: '0.7rem' }}>(opcional)</span></h6>
                 <Form.Group className="mb-3">
-                  <Form.Label>Contrase\u00f1a actual</Form.Label>
-                  <Form.Control type="password" value={password.current} onChange={(e) => setPassword({...password, current: e.target.value})} placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" />
+                  <Form.Label>Contraseña actual</Form.Label>
+                  <Form.Control type="password" value={password.current} onChange={(e) => setPassword({...password, current: e.target.value})} placeholder="••••••••" />
                 </Form.Group>
                 <Row>
                   <Col md={6}>
@@ -125,7 +134,7 @@ export default function EditProfile() {
                   <Button variant="" type="submit" className="btn-gold" disabled={loading} style={{ flex: 1 }}>
                     {loading ? <Spinner size="sm" animation="border" /> : 'Guardar cambios'}
                   </Button>
-                  <Button variant="" onClick={() => window.history.back()}
+                  <Button variant="" onClick={() => navigate(-1)}
                     style={{ color: 'var(--text-secondary)', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10 }}>
                     Cancelar
                   </Button>

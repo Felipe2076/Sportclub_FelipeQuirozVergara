@@ -23,11 +23,11 @@ export default function Register() {
     e.preventDefault()
     setError('')
     if (form.password !== form.confirm) { setError('Las contraseñas no coinciden'); return }
-    if (form.password.length < 6) { setError('La contraseña debe tener al menos 6 caracteres'); return }
+    if (form.password.length < 8) { setError('La contraseña debe tener al menos 8 caracteres'); return }
     setLoading(true)
     try {
-      await authService.register(form.name, form.email, form.password)
-      navigate('/login')
+      const user = await authService.register(form.name, form.email, form.password)
+      navigate(roleRedirect[user.role] || '/dashboard/usuario')
     } catch (err) {
       setError(err.response?.data?.message || 'Error al registrarse')
     } finally {

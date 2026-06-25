@@ -36,7 +36,7 @@ async function findAvailableClasses(filters = {}) {
                 required: false
             }
         ],
-        order: [["created_at", "DESC"]]
+        order: [["createdAt", "DESC"]]
     });
 }
 
@@ -69,14 +69,14 @@ async function findClassById(id) {
 async function findAvailableSports() {
     return Sport.findAll({
         where: { status: true },
-        order: [["created_at", "DESC"]]
+        order: [["createdAt", "DESC"]]
     });
 }
 
 async function findAvailableRooms() {
     return Room.findAll({
         where: { status: true },
-        order: [["created_at", "DESC"]]
+        order: [["createdAt", "DESC"]]
     });
 }
 

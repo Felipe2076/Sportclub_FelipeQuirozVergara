@@ -79,7 +79,7 @@ export default function UserFormModal({ show, handleClose, handleSave, selectedU
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder={selectedUser ? 'Nueva contraseña' : 'Mínimo 6 caracteres'}
+              placeholder={selectedUser ? 'Nueva contraseña' : 'Mínimo 8 caracteres'}
               required={!selectedUser}
             />
           </Form.Group>

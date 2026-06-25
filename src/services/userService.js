@@ -21,10 +21,10 @@ export async function updateUser(id, userData) {
   if (userData.email) payload.email = userData.email
   if (userData.password) payload.password = userData.password
   if (userData.role) payload.role = userData.role.toLowerCase()
-  const { data } = await api.put(/users/, payload)
+  const { data } = await api.put(`/users/${id}`, payload)
   return data.data
 }
 
 export async function deleteUser(id) {
-  await api.delete(/users/)
+  await api.delete(`/users/${id}`)
 }

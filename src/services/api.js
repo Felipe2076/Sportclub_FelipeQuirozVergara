@@ -6,7 +6,7 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('sportToken')
-  if (token) config.headers.Authorization = Bearer 
+  if (token) config.headers.Authorization = `Bearer ${token}` 
   return config
 })
 

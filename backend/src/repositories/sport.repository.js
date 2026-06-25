@@ -10,7 +10,7 @@ async function findAll(filters = {}) {
         where.status = filters.status === 'true' || filters.status === true;
     }
 
-    return Sport.findAll({
+     return Sport.findAll({
         where,
         order: [['created_at', 'DESC']]
     });

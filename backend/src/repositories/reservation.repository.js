@@ -46,7 +46,7 @@ async function findAll(filters = {}) {
                 ]
             }
         ],
-        order: [["created_at", "DESC"]]
+         order: [["created_at", "DESC"]]
     });
 }
 
