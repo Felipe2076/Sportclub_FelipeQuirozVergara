@@ -1,8 +1,18 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap'
+import { authService } from '../services/authService'
+
+const roleRedirect = { Admin: '/dashboard/admin', Coach: '/dashboard/coach', User: '/dashboard/usuario' }
 
 export default function Recover() {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const user = authService.getUser()
+    if (user) navigate(roleRedirect[user.role] || '/dashboard/usuario', { replace: true })
+  }, [navigate])
+
   const [email, setEmail] = useState('')
   const [sent, setSent] = useState(false)
 
@@ -19,7 +29,9 @@ export default function Recover() {
             <Card className="auth-card">
               <Card.Body className="p-4 p-md-5">
                 <div className="text-center mb-4">
-                  <img src="/logo-icon.svg" alt="SportClub" height="48" className="auth-logo mb-2" />
+                                  <span className="d-inline-flex align-items-center justify-content-center rounded-circle mb-2" style={{ width: 60, height: 60, background: 'rgba(240,192,64,0.1)', border: '2px solid rgba(240,192,64,0.2)' }}>
+                  <img src="/logo-nuevo.png" alt="SportClub" height="38" className="auth-logo" style={{ borderRadius: 6, objectFit: 'contain' }} />
+                </span>
                   <h2 className="fw-bold" style={{ color: 'var(--text-primary)', fontSize: '1.3rem' }}>Recuperar contraseña</h2>
                 </div>
 

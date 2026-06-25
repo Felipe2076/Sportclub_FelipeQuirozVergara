@@ -1,26 +1,25 @@
 {
-  "name": "gorila-sport-backend",
+  "name": "backend-api-frontend-users",
   "version": "1.0.0",
-  "description": "Backend API for Gorila Sport platform",
-  "main": "server.js",
+  "description": "Backend base con Express, JWT y Sequelize para apoyar actividades de Front End.",
+  "main": "src/server.js",
+  "type": "commonjs",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
-    "dev:frontend": "cd .. && npx vite",
-    "dev:all": "concurrently -n API,VITE -c cyan,green \"node server.js\" \"cd .. && npx vite\"",
-    "generate-secrets": "node scripts/generate-secrets.js"
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
   },
   "dependencies": {
-    "bcrypt": "^5.1.0",
-    "bootstrap": "^5.3.8",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.18.4",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^9.6.3",
-    "react-bootstrap": "^2.10.10"
+    "morgan": "^1.10.0",
+    "mysql2": "^3.22.5",
+    "sequelize": "^6.37.7",
+    "sqlite3": "^6.0.1"
   },
   "devDependencies": {
-    "concurrently": "^10.0.3"
+    "nodemon": "^3.1.10"
   }
 }

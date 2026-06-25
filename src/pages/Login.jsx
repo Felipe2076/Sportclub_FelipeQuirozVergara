@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from 'react-bootstrap'
 import { authService } from '../services/authService'
@@ -6,11 +6,17 @@ import { authService } from '../services/authService'
 const roleRedirect = { Admin: '/dashboard/admin', Coach: '/dashboard/coach', User: '/dashboard/usuario' }
 
 export default function Login() {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const user = authService.getUser()
+    if (user) navigate(roleRedirect[user.role] || '/dashboard/usuario', { replace: true })
+  }, [navigate])
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -34,7 +40,9 @@ export default function Login() {
             <Card className="auth-card">
               <Card.Body className="p-4 p-md-5">
                 <div className="text-center mb-4">
-                  <img src="/logo-icon.svg" alt="SportClub" height="60" className="auth-logo mb-3" />
+                                  <span className="d-inline-flex align-items-center justify-content-center rounded-circle mb-3" style={{ width: 72, height: 72, background: 'rgba(240,192,64,0.1)', border: '2px solid rgba(240,192,64,0.2)' }}>
+                  <img src="/logo-nuevo.png" alt="SportClub" height="48" className="auth-logo" style={{ borderRadius: 6, objectFit: 'contain' }} />
+                </span>
                   <h2 className="fw-bold" style={{ color: 'var(--text-primary)', fontSize: '1.5rem' }}>SportClub</h2>
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: 2 }}>Club deportivo — Iniciar sesión</p>
                 </div>

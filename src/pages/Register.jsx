@@ -1,13 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from 'react-bootstrap'
 import { authService } from '../services/authService'
 
+const roleRedirect = { Admin: '/dashboard/admin', Coach: '/dashboard/coach', User: '/dashboard/usuario' }
+
 export default function Register() {
-  const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '', role: 'User' })
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const user = authService.getUser()
+    if (user) navigate(roleRedirect[user.role] || '/dashboard/usuario', { replace: true })
+  }, [navigate])
+
+  const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' })
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const navigate = useNavigate()
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
@@ -18,8 +26,8 @@ export default function Register() {
     if (form.password.length < 6) { setError('La contraseña debe tener al menos 6 caracteres'); return }
     setLoading(true)
     try {
-      await authService.register(form.name, form.email, form.password, form.role)
-      navigate('/dashboard/usuario')
+      await authService.register(form.name, form.email, form.password)
+      navigate('/login')
     } catch (err) {
       setError(err.response?.data?.message || 'Error al registrarse')
     } finally {
@@ -35,7 +43,9 @@ export default function Register() {
             <Card className="auth-card">
               <Card.Body className="p-4 p-md-5">
                 <div className="text-center mb-4">
-                  <img src="/logo-icon.svg" alt="SportClub" height="48" className="auth-logo mb-2" />
+                  <span className="d-inline-flex align-items-center justify-content-center rounded-circle mb-2" style={{ width: 60, height: 60, background: 'rgba(240,192,64,0.1)', border: '2px solid rgba(240,192,64,0.2)' }}>
+                    <img src="/logo-nuevo.png" alt="SportClub" height="38" style={{ borderRadius: 6, objectFit: 'contain' }} />
+                  </span>
                   <h2 className="fw-bold" style={{ color: 'var(--text-primary)', fontSize: '1.4rem' }}>Crear cuenta</h2>
                   <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Únete a SportClub</p>
                 </div>
@@ -65,13 +75,6 @@ export default function Register() {
                       </Form.Group>
                     </Col>
                   </Row>
-                  <Form.Group className="mb-4">
-                    <Form.Label>Tipo de usuario</Form.Label>
-                    <Form.Select name="role" value={form.role} onChange={handleChange}>
-                      <option value="User">Atleta</option>
-                      <option value="Coach">Coach</option>
-                    </Form.Select>
-                  </Form.Group>
 
                   <Button variant="" type="submit" className="btn-gold w-100 mb-3" disabled={loading}>
                     {loading ? <Spinner size="sm" animation="border" /> : 'Crear cuenta'}

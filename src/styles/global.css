@@ -5,33 +5,33 @@
 
 :root {
   /* Fondo */
-  --bg-base: #120e24;
-  --bg-card: #1e1838;
-  --bg-elevated: #2a2248;
-  --bg-glass: rgba(30, 24, 56, 0.75);
+  --bg-base: #1a2650;
+  --bg-card: #243060;
+  --bg-elevated: #2e3a70;
+  --bg-glass: rgba(36, 48, 96, 0.75);
 
   /* Texto — 3 niveles jerárquicos */
-  --text-primary: #e8e0f4;
-  --text-secondary: #b8aad0;
-  --text-muted: #9a86b8;
+  --text-primary: #eef0f8;
+  --text-secondary: #c0caec;
+  --text-muted: #8a96b8;
 
   /* Marca */
-  --purple: #4a2c8a;
+  --purple: #5a3c9a;
   --gold: #f0c040;
   --gold-light: #ffd866;
 
   /* Roles */
-  --user-color: #4a80c0;
+  --user-color: #5a90d0;
   --coach-color: #3daa7a;
-  --admin-color: #c04060;
+  --admin-color: #d04050;
 
   /* Bordes */
   --border-subtle: rgba(240, 192, 64, 0.12);
-  --border-glass: rgba(255, 255, 255, 0.06);
+  --border-glass: rgba(255, 255, 255, 0.08);
 
   /* Sombras */
-  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --shadow-glass: 0 4px 24px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-glass: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
 * { box-sizing: border-box; }
@@ -51,7 +51,9 @@ body {
 
 /* ═══════ Auth Pages ═══════ */
 .auth-page {
-  background: linear-gradient(145deg, #0e0a1e 0%, #2a1860 45%, #1a1240 100%);
+  background: linear-gradient(rgba(26,38,80,0.88), rgba(18,26,62,0.82)), url(/dashboard-bg.png);
+  background-size: cover;
+  background-position: center;
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -105,7 +107,7 @@ body {
 /* ═══════ Gold Button ═══════ */
 .btn-gold {
   background: linear-gradient(135deg, var(--gold), #d4a030) !important;
-  color: #120e24 !important;
+  color: #1a2650 !important;
   font-weight: 700;
   border: none;
   border-radius: 10px;
@@ -116,7 +118,7 @@ body {
   background: linear-gradient(135deg, var(--gold-light), var(--gold)) !important;
   box-shadow: 0 0 24px rgba(240, 192, 64, 0.3);
   transform: translateY(-1px);
-  color: #120e24 !important;
+  color: #1a2650 !important;
 }
 .btn-gold:active {
   transform: translateY(0);
@@ -212,7 +214,7 @@ body {
 .badge.bg-primary { background: var(--user-color) !important; }
 .badge.bg-success { background: var(--coach-color) !important; }
 .badge.bg-danger { background: var(--admin-color) !important; }
-.badge.bg-warning { background: var(--gold) !important; color: #120e24 !important; }
+.badge.bg-warning { background: var(--gold) !important; color: #1a2650 !important; }
 .badge.bg-info { background: #5880b8 !important; }
 
 /* ═══════ Modal ═══════ */
@@ -231,7 +233,7 @@ body {
 
 /* ═══════ Navbar / Header ═══════ */
 .navbar-glass {
-  background: rgba(18, 14, 36, 0.85) !important;
+  background: rgba(18, 26, 62, 0.88) !important;
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
   border-bottom: 1px solid var(--border-glass) !important;
@@ -239,7 +241,7 @@ body {
 
 /* ═══════ Sidebar ═══════ */
 .sidebar-glass {
-  background: rgba(18, 14, 36, 0.7) !important;
+  background: rgba(18, 26, 62, 0.75) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   border-right: 1px solid rgba(240, 192, 64, 0.08) !important;
@@ -279,7 +281,6 @@ body {
 
 /* ═══════ Dashboard main bg ═══════ */
 .dash-main {
-  background: #120e24;
   min-height: calc(100vh - 56px);
 }
 
@@ -312,5 +313,5 @@ body {
 }
 .btn-outline-gold:hover {
   background: var(--gold) !important;
-  color: #120e24 !important;
+  color: #1a2650 !important;
 }

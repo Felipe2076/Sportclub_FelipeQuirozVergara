@@ -18,7 +18,7 @@ const quotes = [
 
 export default function Landing() {
   return (
-    <div style={{ background: '#120e24', minHeight: '100vh' }}>
+    <div style={{ background: 'linear-gradient(rgba(26,38,80,0.92), rgba(18,26,62,0.85)), url(/dashboard-bg.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed', minHeight: '100vh' }}>
       {/* === NAVBAR === */}
       <nav style={{
         position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
@@ -28,7 +28,9 @@ export default function Landing() {
         <Container>
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex align-items-center gap-2">
-              <img src="/logo-icon.svg" alt="SportClub" height="32" />
+              <span className="d-inline-flex align-items-center justify-content-center" style={{ width: 36, height: 36, background: 'rgba(240,192,64,0.1)', border: '1px solid rgba(240,192,64,0.2)', borderRadius: 8 }}>
+                <img src="/logo-nuevo.png" alt="SportClub" height="28" style={{ objectFit: 'contain', borderRadius: 4 }} />
+              </span>
               <span style={{ fontWeight: 800, fontSize: '1.2rem', color: 'var(--gold)', letterSpacing: 1 }}>SPORTCLUB</span>
             </div>
             <div className="d-flex gap-2">
@@ -71,7 +73,9 @@ export default function Landing() {
             <Col md={5} className="text-center d-none d-md-block">
               <div style={{ position: 'relative', display: 'inline-block' }}>
                 <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle, rgba(240,192,64,0.15) 0%, transparent 70%)', borderRadius: '50%', transform: 'scale(1.5)' }} />
-                <img src="/logo-icon.svg" alt="SportClub" style={{ width: '70%', opacity: 0.2, filter: 'drop-shadow(0 0 60px rgba(240,192,64,0.15))', position: 'relative' }} />
+                <span className="d-inline-flex align-items-center justify-content-center" style={{ width: 180, height: 180, background: 'rgba(240,192,64,0.06)', border: '1px solid rgba(240,192,64,0.1)', borderRadius: 24, position: 'relative' }}>
+                  <img src="/logo-nuevo.png" alt="SportClub" style={{ width: '70%', opacity: 0.5, filter: 'drop-shadow(0 0 60px rgba(240,192,64,0.15))', position: 'relative', borderRadius: 8 }} />
+                </span>
               </div>
             </Col>
           </Row>
@@ -181,7 +185,9 @@ export default function Landing() {
         <Container>
           <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
             <div className="d-flex align-items-center gap-2">
-              <img src="/logo-icon.svg" alt="" height="24" />
+              <span className="d-inline-flex align-items-center justify-content-center" style={{ width: 28, height: 28, background: 'rgba(240,192,64,0.1)', border: '1px solid rgba(240,192,64,0.2)', borderRadius: 6 }}>
+                <img src="/logo-nuevo.png" alt="" height="20" style={{ objectFit: 'contain', borderRadius: 3 }} />
+              </span>
               <span style={{ color: 'var(--gold)', fontWeight: 700, fontSize: '0.9rem' }}>SPORTCLUB</span>
             </div>
             <div style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>

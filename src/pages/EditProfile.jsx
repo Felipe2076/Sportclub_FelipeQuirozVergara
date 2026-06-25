@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Card, Form, Button, Alert, Spinner, Row, Col } from 'react-bootstrap'
 import DashboardLayout from '../components/DashboardLayout'
 import api from '../services/api'
@@ -8,7 +7,6 @@ import { authService } from '../services/authService'
 const roleColors = { Admin: 'var(--admin-color)', Coach: 'var(--coach-color)', User: 'var(--user-color)' }
 
 export default function EditProfile() {
-  const navigate = useNavigate()
   const user = authService.getUser()
   const color = roleColors[user?.role] || roleColors.User
   const initials = user?.name?.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || 'U'
@@ -27,28 +25,41 @@ export default function EditProfile() {
     e.preventDefault()
     setError('')
     setSuccess('')
-
-    if (password.newPass && password.newPass !== password.confirm) {
-      setError('Las contraseñas nuevas no coinciden')
-      return
-    }
-    if (password.newPass && password.newPass.length < 6) {
-      setError('La nueva contraseña debe tener al menos 6 caracteres')
-      return
-    }
-
-    const payload = { name: form.name, email: form.email }
-    if (password.current && password.newPass) {
-      payload.currentPassword = password.current
-      payload.newPassword = password.newPass
-    }
-
     setLoading(true)
     try {
-      const { data } = await api.put('/profile', payload)
-      localStorage.setItem('gorilaUser', JSON.stringify(data.user))
-      setSuccess('Perfil actualizado correctamente')
-      setPassword({ current: '', newPass: '', confirm: '' })
+      if (password.current && password.newPass) {
+        if (password.newPass !== password.confirm) {
+          setError('Las contraseñas nuevas no coinciden')
+          setLoading(false)
+          return
+        }
+        if (password.newPass.length < 6) {
+          setError('La nueva contraseña debe tener al menos 6 caracteres')
+          setLoading(false)
+          return
+        }
+        await api.put('/auth/me/password', {
+          current_password: password.current,
+          new_password: password.newPass,
+          confirm_password: password.confirm,
+        })
+        setSuccess('Contraseña actualizada correctamente')
+        setPassword({ current: '', newPass: '', confirm: '' })
+      }
+
+      if (form.name !== user?.name || form.email !== user?.email) {
+        const { data: res } = await api.put('/auth/me', {
+          full_name: form.name,
+          email: form.email,
+        })
+        const updatedUser = { ...user, name: res.data.full_name || res.data.name || form.name, email: res.data.email || form.email }
+        localStorage.setItem('sportUser', JSON.stringify(updatedUser))
+        setSuccess('Perfil actualizado correctamente')
+      }
+
+      if (!password.current && !password.newPass && form.name === user?.name && form.email === user?.email) {
+        setSuccess('No hay cambios para guardar')
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Error al actualizar perfil')
     } finally {
@@ -80,32 +91,32 @@ export default function EditProfile() {
               {success && <Alert variant="" className="py-2 small" style={{ borderRadius: 10, background: 'rgba(61,170,122,0.15)', border: '1px solid rgba(61,170,122,0.3)', color: '#a0e0c0' }}>{success}</Alert>}
 
               <Form onSubmit={handleSubmit}>
-                <h6 style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: 1, marginBottom: '1rem' }}>Información personal</h6>
+                <h6 style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: 1, marginBottom: '1rem' }}>Informaci\u00f3n personal</h6>
                 <Form.Group className="mb-3">
                   <Form.Label>Nombre completo</Form.Label>
                   <Form.Control value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} placeholder="Tu nombre" />
                 </Form.Group>
                 <Form.Group className="mb-4">
-                  <Form.Label>Correo electrónico</Form.Label>
+                  <Form.Label>Correo electr\u00f3nico</Form.Label>
                   <Form.Control type="email" value={form.email} onChange={(e) => setForm({...form, email: e.target.value})} placeholder="tu@correo.com" />
                 </Form.Group>
 
-                <h6 style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: 1, marginBottom: '1rem' }}>Cambiar contraseña <span style={{ color: 'var(--text-muted)', fontWeight: 400, textTransform: 'none', fontSize: '0.7rem' }}>(opcional)</span></h6>
+                <h6 style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: 1, marginBottom: '1rem' }}>Cambiar contrase\u00f1a <span style={{ color: 'var(--text-muted)', fontWeight: 400, textTransform: 'none', fontSize: '0.7rem' }}>(opcional)</span></h6>
                 <Form.Group className="mb-3">
-                  <Form.Label>Contraseña actual</Form.Label>
-                  <Form.Control type="password" value={password.current} onChange={(e) => setPassword({...password, current: e.target.value})} placeholder="••••••••" />
+                  <Form.Label>Contrase\u00f1a actual</Form.Label>
+                  <Form.Control type="password" value={password.current} onChange={(e) => setPassword({...password, current: e.target.value})} placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" />
                 </Form.Group>
                 <Row>
                   <Col md={6}>
                     <Form.Group className="mb-3">
-                      <Form.Label>Nueva contraseña</Form.Label>
-                      <Form.Control type="password" value={password.newPass} onChange={(e) => setPassword({...password, newPass: e.target.value})} placeholder="Mín. 6 caracteres" />
+                      <Form.Label>Nueva contrase\u00f1a</Form.Label>
+                      <Form.Control type="password" value={password.newPass} onChange={(e) => setPassword({...password, newPass: e.target.value})} placeholder="M\u00edn. 6 caracteres" />
                     </Form.Group>
                   </Col>
                   <Col md={6}>
                     <Form.Group className="mb-4">
                       <Form.Label>Confirmar nueva</Form.Label>
-                      <Form.Control type="password" value={password.confirm} onChange={(e) => setPassword({...password, confirm: e.target.value})} placeholder="Repetir contraseña" />
+                      <Form.Control type="password" value={password.confirm} onChange={(e) => setPassword({...password, confirm: e.target.value})} placeholder="Repetir contrase\u00f1a" />
                     </Form.Group>
                   </Col>
                 </Row>
@@ -114,7 +125,7 @@ export default function EditProfile() {
                   <Button variant="" type="submit" className="btn-gold" disabled={loading} style={{ flex: 1 }}>
                     {loading ? <Spinner size="sm" animation="border" /> : 'Guardar cambios'}
                   </Button>
-                  <Button variant="" onClick={() => navigate(-1)}
+                  <Button variant="" onClick={() => window.history.back()}
                     style={{ color: 'var(--text-secondary)', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10 }}>
                     Cancelar
                   </Button>

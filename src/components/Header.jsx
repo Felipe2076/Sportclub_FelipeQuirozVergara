@@ -23,7 +23,9 @@ export default function Header() {
     <Navbar className="navbar-glass px-3" sticky="top">
       <Container fluid>
         <Navbar.Brand className="d-flex align-items-center gap-2 fw-bold" style={{ letterSpacing: 1, color: 'var(--text-primary)' }}>
-          <img src="/logo-icon.svg" alt="" width="28" height="28" />
+          <span className="d-inline-flex align-items-center justify-content-center rounded-circle" style={{ width: 32, height: 32, background: 'rgba(240,192,64,0.12)', border: '1px solid rgba(240,192,64,0.2)' }}>
+            <img src="/logo-nuevo.png" alt="" width="24" height="24" style={{ objectFit: 'contain' }} />
+          </span>
           {cfg.label}
         </Navbar.Brand>
 

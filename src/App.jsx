@@ -10,6 +10,7 @@ import DashboardUsuario from './pages/DashboardUsuario'
 import DashboardCoach from './pages/DashboardCoach'
 import DashboardAdmin from './pages/DashboardAdmin'
 import EditProfile from './pages/EditProfile'
+import Unauthorized from './pages/Unauthorized'
 
 const roleDefault = { Admin: '/dashboard/admin', Coach: '/dashboard/coach', User: '/dashboard/usuario' }
 
@@ -40,7 +41,7 @@ export default function App() {
         <Route path="/dashboard/perfil" element={
           <ProtectedRoute><EditProfile /></ProtectedRoute>
         } />
-
+        <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="*" element={<HomeRoute />} />
       </Routes>
     </BrowserRouter>

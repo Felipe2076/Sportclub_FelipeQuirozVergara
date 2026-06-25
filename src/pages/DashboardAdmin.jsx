@@ -1,97 +1,158 @@
-import { useEffect, useState } from 'react'
-import { Row, Col, Card, Table, Badge, Button, Modal, Form } from 'react-bootstrap'
-import DashboardLayout from '../components/DashboardLayout'
-import api from '../services/api'
+import { useEffect, useState, useCallback } from "react"
+import { Row, Col, Card, Table, Badge, Button, Form } from "react-bootstrap"
+import Swal from "sweetalert2"
+import DashboardLayout from "../components/DashboardLayout"
+import UserFormModal from "../components/users/UserFormModal"
+import SportFormModal from "../components/sports/SportFormModal"
+import { UsersIcon, DumbbellIcon, ShieldIcon, ChartIcon } from "../components/Icons"
+import { getUsers, createUser, updateUser, deleteUser } from "../services/userService"
+import { getSports, createSport, updateSport, deleteSport, toggleSportStatus } from "../services/sportService"
 
-const accent = 'var(--admin-color)'
+const accent = "var(--admin-color)"
+
+function formatDate(dateStr) {
+  if (!dateStr) return "-"
+  const d = new Date(dateStr)
+  const parts = d.toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" }).split(" ")
+  if (parts.length >= 3) {
+    parts[1] = parts[1].charAt(0).toUpperCase() + parts[1].slice(1)
+  }
+  return parts.join(" ")
+}
 
 export default function DashboardAdmin() {
   const [users, setUsers] = useState([])
-  const [showModal, setShowModal] = useState(false)
-  const [editing, setEditing] = useState(null)
-  const [form, setForm] = useState({ name: '', email: '', password: '', role: 'User' })
+  const [sports, setSports] = useState([])
+  const [showUserModal, setShowUserModal] = useState(false)
+  const [selectedUser, setSelectedUser] = useState(null)
+  const [showSportModal, setShowSportModal] = useState(false)
+  const [selectedSport, setSelectedSport] = useState(null)
 
-  const loadUsers = async () => {
+  const loadUsers = useCallback(async () => {
     try {
-      const { data } = await api.get('/users')
-      setUsers(Array.isArray(data) ? data : data?.users || [])
-    } catch (e) { console.error(e) }
-  }
+      const data = await getUsers()
+      setUsers(data)
+    } catch { Swal.fire("Error", "No se pudieron cargar los usuarios", "error") }
+  }, [])
 
-  useEffect(() => { loadUsers() }, [])
-
-  const handleSave = async () => {
+  const loadSports = useCallback(async () => {
     try {
-      if (editing) {
-        const payload = { name: form.name, email: form.email, role: form.role }
-        if (form.password) payload.password = form.password
-        await api.put(`/users/${editing}`, payload)
+      const data = await getSports()
+      setSports(data)
+    } catch { Swal.fire("Error", "No se pudieron cargar los deportes", "error") }
+  }, [])
+
+  useEffect(() => { loadUsers(); loadSports() }, [loadUsers, loadSports])
+
+  const openCreateUser = () => { setSelectedUser(null); setShowUserModal(true) }
+  const openEditUser = (u) => { setSelectedUser(u); setShowUserModal(true) }
+  const closeUserModal = () => { setShowUserModal(false); setSelectedUser(null) }
+
+  const handleSaveUser = async (formData) => {
+    try {
+      if (selectedUser) {
+        const payload = { name: formData.name, email: formData.email, role: formData.role }
+        if (formData.password) payload.password = formData.password
+        await updateUser(selectedUser.id, payload)
+        Swal.fire("Actualizado", "Usuario actualizado correctamente", "success")
       } else {
-        await api.post('/users', { ...form, password: form.password || 'Pass123!' })
+        await createUser({ ...formData, password: formData.password || "12345678" })
+        Swal.fire("Creado", "Usuario creado correctamente", "success")
       }
-      setShowModal(false)
-      setEditing(null)
-      setForm({ name: '', email: '', password: '', role: 'User' })
-      loadUsers()
-    } catch (e) { alert('Error: ' + (e.response?.data?.message || e.message)) }
+      closeUserModal(); loadUsers()
+    } catch (e) { Swal.fire("Error", e.response?.data?.message || e.message, "error") }
   }
 
-  const handleDelete = async (id) => {
-    if (!window.confirm('¿Estás seguro de eliminar este usuario?')) return
+  const handleDeleteUser = async (id) => {
+    const result = await Swal.fire({
+      title: "Eliminar usuario?",
+      text: "Esta accion no se puede deshacer",
+      icon: "warning", showCancelButton: true,
+      confirmButtonText: "Si, eliminar", cancelButtonText: "Cancelar", confirmButtonColor: "#d33",
+    })
+    if (!result.isConfirmed) return
     try {
-      await api.delete(`/users/${id}`)
+      await deleteUser(id)
+      Swal.fire("Eliminado", "Usuario eliminado correctamente", "success")
       loadUsers()
-    } catch (e) { alert('Error: ' + (e.response?.data?.message || e.message)) }
+    } catch (e) { Swal.fire("Error", e.response?.data?.message || e.message, "error") }
   }
 
-  const openEdit = (u) => {
-    setEditing(u.id || u._id)
-    setForm({ name: u.name || '', email: u.email || '', password: '', role: u.role || 'User' })
-    setShowModal(true)
+  const openCreateSport = () => { setSelectedSport(null); setShowSportModal(true) }
+  const openEditSport = (s) => { setSelectedSport(s); setShowSportModal(true) }
+  const closeSportModal = () => { setShowSportModal(false); setSelectedSport(null) }
+
+  const handleSaveSport = async (formData) => {
+    try {
+      if (selectedSport) {
+        await updateSport(selectedSport.id, formData)
+        Swal.fire("Actualizado", "Deporte actualizado correctamente", "success")
+      } else {
+        await createSport(formData)
+        Swal.fire("Creado", "Deporte creado correctamente", "success")
+      }
+      closeSportModal(); loadSports()
+    } catch (e) { Swal.fire("Error", e.response?.data?.message || e.message, "error") }
   }
 
-  const openCreate = () => {
-    setEditing(null)
-    setForm({ name: '', email: '', password: '', role: 'User' })
-    setShowModal(true)
+  const handleDeleteSport = async (id) => {
+    const result = await Swal.fire({
+      title: "Eliminar deporte?",
+      text: "Esta accion no se puede deshacer",
+      icon: "warning", showCancelButton: true,
+      confirmButtonText: "Si, eliminar", cancelButtonText: "Cancelar", confirmButtonColor: "#d33",
+    })
+    if (!result.isConfirmed) return
+    try {
+      await deleteSport(id)
+      Swal.fire("Eliminado", "Deporte eliminado correctamente", "success")
+      loadSports()
+    } catch (e) { Swal.fire("Error", e.response?.data?.message || e.message, "error") }
+  }
+
+  const handleToggleStatus = async (sport) => {
+    try {
+      const updated = await toggleSportStatus(sport.id, !sport.status)
+      Swal.fire("Estado actualizado", updated.status ? "Deporte activado" : "Deporte desactivado", "success")
+      loadSports()
+    } catch (e) { Swal.fire("Error", e.response?.data?.message || e.message, "error") }
   }
 
   const stats = [
-    { icon: '👥', label: 'Total usuarios', value: users.length, color: accent },
-    { icon: '👨‍🏫', label: 'Coaches', value: users.filter(u => u.role === 'Coach').length, color: 'var(--coach-color)' },
-    { icon: '🏋️', label: 'Atletas', value: users.filter(u => u.role === 'User').length, color: 'var(--user-color)' },
-    { icon: '🛡️', label: 'Administradores', value: users.filter(u => u.role === 'Admin').length, color: '#8a5ab8' },
-  ]
-
-  const controlPanel = [
-    { label: 'Usuarios activos', detail: 'Total de miembros registrados', value: users.length, color: 'var(--user-color)' },
-    { label: 'Clases del día', detail: 'Programadas para hoy', value: '6', color: 'var(--gold)' },
-    { label: 'Reservas activas', detail: 'En las últimas 24h', value: '12', color: 'var(--coach-color)' },
-    { label: 'Pagos pendientes', detail: 'Membresías por vencer', value: '3', color: 'var(--admin-color)' },
+    { icon: <UsersIcon size={22} />, label: "Total usuarios", value: users.length, color: accent },
+    { icon: <UsersIcon size={22} />, label: "Coaches", value: users.filter(u => u.role === "Coach").length, color: "var(--coach-color)" },
+    { icon: <DumbbellIcon size={22} />, label: "Deportes", value: sports.length, color: "var(--gold)" },
+    { icon: <ShieldIcon size={22} />, label: "Administradores", value: users.filter(u => u.role === "Admin").length, color: "#8a5ab8" },
   ]
 
   return (
     <DashboardLayout>
       <div className="dash-header d-flex justify-content-between align-items-center mb-4">
         <div>
-          <h2 className="dash-title" style={{ color: accent }}>Panel de Administración</h2>
-          <p className="dash-subtitle">Gestión de usuarios, estadísticas y control del sistema</p>
+          <h2 className="dash-title" style={{ color: accent }}>Panel de Administracion</h2>
+          <p className="dash-subtitle">Gestion de usuarios, deportes y control del sistema</p>
         </div>
-        <Button variant="" className="btn-outline-gold btn-sm" onClick={openCreate}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="me-1"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Añadir usuario
-        </Button>
+        <div className="d-flex gap-2">
+          <Button variant="" className="btn-outline-gold btn-sm" onClick={openCreateUser}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="me-1"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Anadir usuario
+          </Button>
+          <Button variant="" className="btn-outline-gold btn-sm" onClick={openCreateSport}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="me-1"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Anadir deporte
+          </Button>
+        </div>
       </div>
 
       <Row className="g-3 mb-4">
         {stats.map((s) => (
           <Col key={s.label} md={3}>
-            <Card className="stat-card h-100" style={{ borderLeft: `4px solid ${s.color}` }}>
+            <Card className="stat-card h-100" style={{ borderLeft: "4px solid " + s.color }}>
               <Card.Body className="d-flex align-items-center gap-3">
-                <span style={{ fontSize: 28, lineHeight: 1 }}>{s.icon}</span>
+                <span style={{ fontSize: 22, lineHeight: 1, color: s.color }}>{s.icon}</span>
                 <div>
                   <div className="fw-bold fs-4" style={{ color: s.color, lineHeight: 1.2 }}>{s.value}</div>
-                  <div style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>{s.label}</div>
+                  <div style={{ color: "var(--text-muted)", fontSize: "0.78rem" }}>{s.label}</div>
                 </div>
               </Card.Body>
             </Card>
@@ -99,28 +160,29 @@ export default function DashboardAdmin() {
         ))}
       </Row>
 
-      <Row className="g-3">
+      <Row className="g-3 mb-4">
         <Col md={8}>
           <Card className="list-card">
-            <Card.Header style={{ color: accent, background: 'rgba(192,64,96,0.08)' }}>
-              👥 Gestión de Usuarios
+            <Card.Header className="d-flex justify-content-between align-items-center"
+              style={{ color: accent, background: "rgba(208,64,80,0.08)" }}>
+              <span><UsersIcon size={14} /> Gestion de Usuarios</span>
             </Card.Header>
             <Card.Body className="p-0">
               <Table className="mb-0 small" variant="dark">
                 <thead><tr><th>Nombre</th><th>Email</th><th>Rol</th><th className="text-center">Acciones</th></tr></thead>
                 <tbody>
                   {users.map((u) => {
-                    const badgeClass = u.role === 'Admin' ? 'danger' : u.role === 'Coach' ? 'success' : 'primary'
+                    const badgeClass = u.role === "Admin" ? "danger" : u.role === "Coach" ? "success" : "primary"
                     return (
-                      <tr key={u.id || u._id}>
+                      <tr key={u.id}>
                         <td className="fw-medium">{u.name}</td>
-                        <td style={{ color: 'var(--text-secondary)' }}>{u.email}</td>
+                        <td style={{ color: "var(--text-secondary)" }}>{u.email}</td>
                         <td><Badge bg={badgeClass}>{u.role}</Badge></td>
                         <td className="text-center">
-                          <Button variant="" size="sm" className="btn-outline-gold me-1" style={{ padding: '0.2rem 0.5rem' }} onClick={() => openEdit(u)} title="Editar">
+                          <Button variant="" size="sm" className="btn-outline-gold me-1" style={{ padding: "0.2rem 0.5rem" }} onClick={() => openEditUser(u)} title="Editar">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                           </Button>
-                          <Button variant="" size="sm" style={{ padding: '0.2rem 0.5rem', color: 'var(--admin-color)', border: '1px solid var(--admin-color)', background: 'transparent', borderRadius: 8 }} onClick={() => handleDelete(u.id || u._id)} title="Eliminar">
+                          <Button variant="" size="sm" style={{ padding: "0.2rem 0.5rem", color: "var(--admin-color)", border: "1px solid var(--admin-color)", background: "transparent", borderRadius: 8 }} onClick={() => handleDeleteUser(u.id)} title="Eliminar">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                           </Button>
                         </td>
@@ -135,60 +197,107 @@ export default function DashboardAdmin() {
 
         <Col md={4}>
           <Card className="list-card">
-            <Card.Header style={{ color: accent, background: 'rgba(192,64,96,0.08)' }}>
-              📊 Panel de Control
+            <Card.Header style={{ color: accent, background: "rgba(208,64,80,0.08)" }}>
+              <ChartIcon size={14} /> Panel de Control
             </Card.Header>
             <Card.Body>
-              {controlPanel.map((c) => (
-                <div key={c.label} className="d-flex justify-content-between align-items-center py-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                  <div>
-                    <div className="fw-medium" style={{ fontSize: '0.82rem' }}>{c.label}</div>
-                    <div style={{ color: 'var(--text-muted)', fontSize: '0.68rem' }}>{c.detail}</div>
-                  </div>
-                  <Badge bg="" style={{ background: c.color, fontSize: '0.75rem', minWidth: 28 }}>{c.value}</Badge>
+              <div className="d-flex justify-content-between align-items-center py-2" style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+                <div>
+                  <div className="fw-medium" style={{ fontSize: "0.82rem" }}>Usuarios activos</div>
+                  <div style={{ color: "var(--text-muted)", fontSize: "0.68rem" }}>Total de miembros registrados</div>
                 </div>
-              ))}
+                <Badge bg="" style={{ background: "var(--user-color)", fontSize: "0.75rem", minWidth: 28 }}>{users.length}</Badge>
+              </div>
+              <div className="d-flex justify-content-between align-items-center py-2" style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+                <div>
+                  <div className="fw-medium" style={{ fontSize: "0.82rem" }}>Deportes</div>
+                  <div style={{ color: "var(--text-muted)", fontSize: "0.68rem" }}>Disponibles en el sistema</div>
+                </div>
+                <Badge bg="" style={{ background: "var(--gold)", fontSize: "0.75rem", minWidth: 28 }}>{sports.length}</Badge>
+              </div>
+              <div className="d-flex justify-content-between align-items-center py-2" style={{ borderBottom: "1px solid rgba(255,255,255,0.04)" }}>
+                <div>
+                  <div className="fw-medium" style={{ fontSize: "0.82rem" }}>Clases del dia</div>
+                  <div style={{ color: "var(--text-muted)", fontSize: "0.68rem" }}>Programadas para hoy</div>
+                </div>
+                <Badge bg="" style={{ background: "var(--coach-color)", fontSize: "0.75rem", minWidth: 28 }}>6</Badge>
+              </div>
             </Card.Body>
           </Card>
         </Col>
       </Row>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered contentClassName="bg-dark text-light">
-        <Modal.Header closeButton closeVariant="white">
-          <Modal.Title style={{ fontSize: '0.95rem', fontWeight: 700 }}>{editing ? 'Editar Usuario' : 'Nuevo Usuario'}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3">
-              <Form.Label>Nombre completo</Form.Label>
-              <Form.Control size="sm" value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} placeholder="Ej. Juan Pérez" />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Correo electrónico</Form.Label>
-              <Form.Control size="sm" type="email" value={form.email} onChange={(e) => setForm({...form, email: e.target.value})} placeholder="juan@correo.com" />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Contraseña {editing && <span style={{ color: 'var(--text-muted)', fontWeight: 400, fontSize: '0.7rem' }}>(dejar vacío para mantener)</span>}</Form.Label>
-              <Form.Control size="sm" type="password" value={form.password} onChange={(e) => setForm({...form, password: e.target.value})} placeholder={editing ? 'Nueva contraseña' : 'Mínimo 6 caracteres'} />
-            </Form.Group>
-            <Form.Group className="mb-0">
-              <Form.Label>Rol</Form.Label>
-              <Form.Select size="sm" value={form.role} onChange={(e) => setForm({...form, role: e.target.value})}>
-                <option value="User">Atleta</option>
-                <option value="Coach">Coach</option>
-                <option value="Admin">Admin</option>
-              </Form.Select>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="" size="sm" style={{ color: 'var(--text-secondary)', background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8 }} onClick={() => setShowModal(false)}>Cancelar</Button>
-          <Button variant="" size="sm" className="btn-gold" onClick={handleSave} style={{ fontSize: '0.8rem' }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="me-1"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-            Guardar
+      <Card className="list-card mb-4">
+        <Card.Header className="d-flex justify-content-between align-items-center"
+          style={{ color: accent, background: "rgba(208,64,80,0.08)" }}>
+          <span><DumbbellIcon size={14} /> Gestion de Deportes</span>
+          <Button variant="" className="btn-outline-gold btn-sm" onClick={loadSports}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="me-1"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            Refrescar
           </Button>
-        </Modal.Footer>
-      </Modal>
+        </Card.Header>
+        <Card.Body className="p-0">
+          <Table className="mb-0 small" variant="dark">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Objetivo</th>
+                <th>Duracion</th>
+                <th>Estado</th>
+                <th>Fecha creacion</th>
+                <th className="text-center">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sports.map((s) => (
+                <tr key={s.id}>
+                  <td className="fw-medium">{s.name}</td>
+                  <td style={{ color: "var(--text-secondary)", maxWidth: 250, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.objective}</td>
+                  <td style={{ color: "var(--text-secondary)" }}>{s.duration} min</td>
+                  <td>
+                    <Form.Check
+                      type="switch"
+                      id={"sport-status-" + s.id}
+                      checked={s.status}
+                      onChange={() => handleToggleStatus(s)}
+                      label={s.status ? "Activo" : "Inactivo"}
+                    />
+                  </td>
+                  <td style={{ color: "var(--text-muted)", fontSize: "0.78rem" }}>{formatDate(s.created_at)}</td>
+                  <td className="text-center">
+                    <Button variant="" size="sm" className="btn-outline-gold me-1" style={{ padding: "0.2rem 0.5rem" }} onClick={() => openEditSport(s)} title="Editar">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    </Button>
+                    <Button variant="" size="sm" style={{ padding: "0.2rem 0.5rem", color: "var(--admin-color)", border: "1px solid var(--admin-color)", background: "transparent", borderRadius: 8 }} onClick={() => handleDeleteSport(s.id)} title="Eliminar">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+              {sports.length === 0 && (
+                <tr>
+                  <td colSpan="6" className="text-center py-3" style={{ color: "var(--text-muted)" }}>
+                    No hay deportes registrados
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </Card.Body>
+      </Card>
+
+      <UserFormModal
+        show={showUserModal}
+        handleClose={closeUserModal}
+        handleSave={handleSaveUser}
+        selectedUser={selectedUser}
+      />
+      <SportFormModal
+        show={showSportModal}
+        handleClose={closeSportModal}
+        handleSave={handleSaveSport}
+        selectedSport={selectedSport}
+      />
     </DashboardLayout>
   )
 }
