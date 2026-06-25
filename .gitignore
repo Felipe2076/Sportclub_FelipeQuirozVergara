@@ -3,3 +3,11 @@ backend/.env
 js/config.js
 node_modules/
 dist/
+*.log
+backend_err.txt
+backend_log.txt
+debug_db.cjs
+debug_password.cjs
+login.json
+test_login.js
+test_login.py
