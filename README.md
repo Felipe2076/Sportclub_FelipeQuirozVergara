@@ -18,29 +18,23 @@ Aplicación web SPA para la gestión de un gimnasio/centro deportivo, desarrolla
 ## Instalación de dependencias
 
 ```bash
-# Instalar dependencias del frontend (raíz del proyecto)
+# Con npm (raíz del proyecto)
 npm install
+cd backend && npm install
 
-# Instalar dependencias del backend
-cd backend
-npm install
+# Con pnpm (raíz del proyecto, instala backend automáticamente)
+pnpm install
 ```
 
-## Cómo ejecutar el frontend
+## Cómo ejecutar
 
 ```bash
-# Desde la raíz del proyecto - solo frontend (puerto 5173)
-npm run dev
-
-# Frontend + backend simultáneamente
+# Frontend + backend simultáneamente (puerto 5173 + 4000)
 npm run dev:all
-```
 
-## Cómo ejecutar el backend
-
-```bash
-cd backend
-npm start
+# O por separado:
+npm run dev          # Frontend en http://localhost:5173
+npm run dev:backend  # Backend en http://localhost:4000
 ```
 
 El backend corre en `http://localhost:4000`.
@@ -49,6 +43,6 @@ El backend corre en `http://localhost:4000`.
 
 | Rol | Email | Contraseña |
 |---|---|---|
-| Admin | admin@gorilasport.com | Pass123! |
-| Coach | coach@gorilasport.com | Pass123! |
-| Usuario | atleta@gorilasport.com | Pass123! |
+| Admin | admin1@demo.cl | 12345678 |
+| Coach | coach1@demo.cl | 12345678 |
+| Usuario | user1@demo.cl | 12345678 |
