@@ -119,7 +119,7 @@ if (password.newPass.length < 8) {
                   <Col md={6}>
                     <Form.Group className="mb-3">
                       <Form.Label>Nueva contrase\u00f1a</Form.Label>
-                      <Form.Control type="password" value={password.newPass} onChange={(e) => setPassword({...password, newPass: e.target.value})} placeholder="M\u00edn. 6 caracteres" />
+                      <Form.Control type="password" value={password.newPass} onChange={(e) => setPassword({...password, newPass: e.target.value})} placeholder="Mín. 8 caracteres" />
                     </Form.Group>
                   </Col>
                   <Col md={6}>

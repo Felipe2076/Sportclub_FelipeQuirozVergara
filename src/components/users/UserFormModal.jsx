@@ -3,8 +3,19 @@ import { Button, Form, Modal } from 'react-bootstrap'
 
 const initialForm = { name: '', email: '', password: '', role: 'User' }
 
+function validate(form, selectedUser) {
+  const errors = {}
+  if (!form.name || form.name.trim().length < 3) errors.name = 'El nombre debe tener al menos 3 caracteres'
+  if (!form.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) errors.email = 'Ingrese un correo válido'
+  if (!selectedUser && (!form.password || form.password.length < 8)) errors.password = 'La contraseña debe tener al menos 8 caracteres'
+  if (selectedUser && form.password && form.password.length < 8) errors.password = 'La contraseña debe tener al menos 8 caracteres'
+  if (!form.role) errors.role = 'Seleccione un rol'
+  return errors
+}
+
 export default function UserFormModal({ show, handleClose, handleSave, selectedUser }) {
   const [formData, setFormData] = useState(initialForm)
+  const [errors, setErrors] = useState({})
 
   useEffect(() => {
     if (selectedUser) {
@@ -17,15 +28,20 @@ export default function UserFormModal({ show, handleClose, handleSave, selectedU
     } else {
       setFormData(initialForm)
     }
+    setErrors({})
   }, [selectedUser, show])
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }))
   }
 
   const onSubmit = (e) => {
     e.preventDefault()
+    const validationErrors = validate(formData, selectedUser)
+    setErrors(validationErrors)
+    if (Object.keys(validationErrors).length > 0) return
     handleSave(formData)
   }
 
@@ -47,8 +63,10 @@ export default function UserFormModal({ show, handleClose, handleSave, selectedU
               value={formData.name}
               onChange={handleChange}
               placeholder="Ej. Juan Pérez"
+              isInvalid={!!errors.name}
               required
             />
+            <Form.Control.Feedback type="invalid">{errors.name}</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -60,8 +78,10 @@ export default function UserFormModal({ show, handleClose, handleSave, selectedU
               value={formData.email}
               onChange={handleChange}
               placeholder="juan@correo.com"
+              isInvalid={!!errors.email}
               required
             />
+            <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -80,17 +100,20 @@ export default function UserFormModal({ show, handleClose, handleSave, selectedU
               value={formData.password}
               onChange={handleChange}
               placeholder={selectedUser ? 'Nueva contraseña' : 'Mínimo 8 caracteres'}
+              isInvalid={!!errors.password}
               required={!selectedUser}
             />
+            <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group className="mb-0">
             <Form.Label>Rol</Form.Label>
-            <Form.Select size="sm" name="role" value={formData.role} onChange={handleChange}>
+            <Form.Select size="sm" name="role" value={formData.role} onChange={handleChange} isInvalid={!!errors.role}>
               <option value="User">Atleta</option>
               <option value="Coach">Coach</option>
               <option value="Admin">Admin</option>
             </Form.Select>
+            <Form.Control.Feedback type="invalid">{errors.role}</Form.Control.Feedback>
           </Form.Group>
         </Modal.Body>
 

@@ -65,7 +65,7 @@ export default function Register() {
                     <Col md={6}>
                       <Form.Group className="mb-3">
                         <Form.Label>Contraseña</Form.Label>
-                        <Form.Control type="password" name="password" value={form.password} onChange={handleChange} placeholder="Mín. 6" required />
+                        <Form.Control type="password" name="password" value={form.password} onChange={handleChange} placeholder="Mín. 8 caracteres" required />
                       </Form.Group>
                     </Col>
                     <Col md={6}>

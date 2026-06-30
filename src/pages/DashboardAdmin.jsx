@@ -137,6 +137,10 @@ export default function DashboardAdmin() {
           <p className="dash-subtitle">Gestion de usuarios, deportes y control del sistema</p>
         </div>
         <div className="d-flex gap-2">
+          <Button variant="" className="btn-outline-gold btn-sm" onClick={() => { loadUsers(); loadSports() }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="me-1"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            Refrescar
+          </Button>
           <Button variant="" className="btn-outline-gold btn-sm" onClick={openCreateUser}>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="me-1"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
             Anadir usuario
@@ -175,25 +179,33 @@ export default function DashboardAdmin() {
               <Table className="mb-0 small" variant="dark">
                 <thead><tr><th>Nombre</th><th>Email</th><th>Rol</th><th className="text-center">Acciones</th></tr></thead>
                 <tbody>
-                  {users.map((u) => {
-                    const role = u.role.toLowerCase();
-                    const badgeClass = role === 'admin' ? 'danger' : role === 'coach' ? 'success' : 'primary'
-                    return (
-                      <tr key={u.id}>
-                        <td className="fw-medium">{u.name}</td>
-                        <td style={{ color: 'var(--text-secondary)' }}>{u.email}</td>
-                        <td><Badge bg={badgeClass}>{u.role}</Badge></td>
-                        <td className="text-center">
-                          <Button variant="" size="sm" className="btn-outline-gold me-1" style={{ padding: '0.2rem 0.5rem' }} onClick={() => openEditUser(u)} title="Editar">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                          </Button>
-                          <Button variant="" size="sm" style={{ padding: '0.2rem 0.5rem', color: 'var(--admin-color)', border: '1px solid var(--admin-color)', background: 'transparent', borderRadius: 8 }} onClick={() => handleDeleteUser(u.id)} title="Eliminar">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                          </Button>
-                        </td>
-                      </tr>
-                    )
-                  })}
+                  {users.length === 0 ? (
+                    <tr>
+                      <td colSpan="4" className="text-center py-3" style={{ color: 'var(--text-muted)' }}>
+                        No hay usuarios registrados
+                      </td>
+                    </tr>
+                  ) : (
+                    users.map((u) => {
+                      const role = u.role.toLowerCase();
+                      const badgeClass = role === 'admin' ? 'danger' : role === 'coach' ? 'success' : 'primary'
+                      return (
+                        <tr key={u.id}>
+                          <td className="fw-medium">{u.name}</td>
+                          <td style={{ color: 'var(--text-secondary)' }}>{u.email}</td>
+                          <td><Badge bg={badgeClass}>{u.role}</Badge></td>
+                          <td className="text-center">
+                            <Button variant="" size="sm" className="btn-outline-gold me-1" style={{ padding: '0.2rem 0.5rem' }} onClick={() => openEditUser(u)} title="Editar">
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            </Button>
+                            <Button variant="" size="sm" style={{ padding: '0.2rem 0.5rem', color: 'var(--admin-color)', border: '1px solid var(--admin-color)', background: 'transparent', borderRadius: 8 }} onClick={() => handleDeleteUser(u.id)} title="Eliminar">
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            </Button>
+                          </td>
+                        </tr>
+                      )
+                    })
+                  )}
                 </tbody>
               </Table>
             </Card.Body>

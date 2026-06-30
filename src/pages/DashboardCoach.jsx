@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
-import { Row, Col, Card, Table, Badge } from 'react-bootstrap'
+import { useEffect, useState, useCallback } from 'react'
+import { Row, Col, Card, Table, Badge, Button } from 'react-bootstrap'
+import Swal from 'sweetalert2'
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import DashboardLayout from '../components/DashboardLayout'
 import { UsersIcon, DumbbellIcon, TrophyIcon, ClockIcon, BookIcon, CalendarIcon } from '../components/Icons'
@@ -21,11 +22,16 @@ const pieColors = ['#3daa7a', '#45b888', '#50c898', '#f0c040']
 export default function DashboardCoach() {
   const [athletes, setAthletes] = useState([])
 
-  useEffect(() => {
-    api.get('/coach/dashboard').then(({ data }) => {
+  const loadData = useCallback(async () => {
+    try {
+      const { data } = await api.get('/coach/dashboard')
       if (data.athletes) setAthletes(data.athletes)
-    }).catch(() => {})
+    } catch (err) {
+      Swal.fire('Error', 'No se pudieron cargar los datos del coach', 'error')
+    }
   }, [])
+
+  useEffect(() => { loadData() }, [loadData])
 
   const stats = [
     { icon: <UsersIcon size={22} />, label: 'Alumnos activos', value: String(athletes.length || 4), color: accent },
@@ -36,9 +42,15 @@ export default function DashboardCoach() {
 
   return (
     <DashboardLayout>
-      <div className="mb-4">
-        <h2 className="dash-title" style={{ color: accent }}>Panel del Coach</h2>
-        <p className="dash-subtitle">Gestión de alumnos, clases y rendimiento</p>
+      <div className="dash-header d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 className="dash-title" style={{ color: accent }}>Panel del Coach</h2>
+          <p className="dash-subtitle">Gestión de alumnos, clases y rendimiento</p>
+        </div>
+        <Button variant="" className="btn-outline-gold btn-sm" onClick={loadData}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="me-1"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Refrescar
+        </Button>
       </div>
 
       <Row className="g-3 mb-4">
