@@ -40,7 +40,7 @@ async function findAll(filters = {}) {
                 as: "schedules"
             }
         ],
-         order: [["createdAt", "DESC"]]
+         order: [["created_at", "DESC"]]
     });
 }
 
