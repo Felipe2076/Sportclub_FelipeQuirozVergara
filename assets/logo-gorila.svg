@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="shieldBg" x1="256" y1="32" x2="256" y2="480" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#2E1A47"/>
+      <stop offset="100%" stop-color="#1a0f2a"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffd633"/>
+      <stop offset="100%" stop-color="#F2B705"/>
+    </linearGradient>
+  </defs>
+
+  <path d="M256 16 L430 90 L430 230 Q430 360 256 480 Q82 360 82 230 L82 90 Z" fill="url(#shieldBg)" stroke="url(#goldGrad)" stroke-width="8"/>
+  <path d="M256 56 L390 115 L390 220 Q390 335 256 440 Q122 335 122 220 L122 115 Z" fill="none" stroke="rgba(242,183,5,0.2)" stroke-width="3"/>
+
+  <ellipse cx="256" cy="230" rx="88" ry="92" fill="#1a0f2a"/>
+  <ellipse cx="158" cy="190" rx="30" ry="36" fill="#1a0f2a" stroke="url(#goldGrad)" stroke-width="3"/>
+  <ellipse cx="158" cy="190" rx="16" ry="22" fill="#3a205a"/>
+  <ellipse cx="354" cy="190" rx="30" ry="36" fill="#1a0f2a" stroke="url(#goldGrad)" stroke-width="3"/>
+  <ellipse cx="354" cy="190" rx="16" ry="22" fill="#3a205a"/>
+  <ellipse cx="256" cy="238" rx="56" ry="50" fill="#3a205a"/>
+  <path d="M190 208 Q256 190 322 208" fill="none" stroke="#1a0f2a" stroke-width="10" stroke-linecap="round"/>
+
+  <ellipse cx="228" cy="218" rx="12" ry="14" fill="#120a1e"/>
+  <ellipse cx="228" cy="218" rx="7" ry="8" fill="url(#goldGrad)"/>
+  <ellipse cx="226" cy="215" rx="3" ry="3" fill="#fff"/>
+  <ellipse cx="284" cy="218" rx="12" ry="14" fill="#120a1e"/>
+  <ellipse cx="284" cy="218" rx="7" ry="8" fill="url(#goldGrad)"/>
+  <ellipse cx="282" cy="215" rx="3" ry="3" fill="#fff"/>
+
+  <ellipse cx="256" cy="242" rx="14" ry="10" fill="#1a0f2a"/>
+  <ellipse cx="250" cy="241" rx="5" ry="6" fill="#120a1e"/>
+  <ellipse cx="262" cy="241" rx="5" ry="6" fill="#120a1e"/>
+  <path d="M234 258 Q256 272 278 258" fill="none" stroke="#120a1e" stroke-width="4" stroke-linecap="round"/>
+
+  <path d="M178 148 Q190 130 200 145 Q215 125 228 142 Q240 128 256 140 Q272 128 284 142 Q297 125 312 145 Q322 130 334 148" fill="none" stroke="#1a0f2a" stroke-width="12" stroke-linecap="round"/>
+  <path d="M206 280 Q215 305 230 315 Q240 322 256 326 Q272 322 282 315 Q297 305 306 280" fill="#1a0f2a"/>
+
+  <text x="256" y="395" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="38" letter-spacing="6" fill="url(#goldGrad)">SPORTCLUB</text>
+  <text x="256" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="14" letter-spacing="6" fill="#a090b8">CLUB DEPORTIVO</text>
+
+  <path d="M256 448 L259 454 L266 455 L261 460 L262 468 L256 464 L250 468 L251 460 L246 455 L253 454 Z" fill="url(#goldGrad)"/>
+</svg>

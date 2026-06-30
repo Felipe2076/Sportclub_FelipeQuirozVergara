@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Panel — SportClub</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo-icon.svg" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body class="dash-user-role">
+  <div class="page">
+    <aside class="sidebar">
+      <a href="#" class="sidebar-item active" title="Inicio"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></a>
+      <a href="#" class="sidebar-item" title="Reservas"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></a>
+      <a href="#" class="sidebar-item" title="Perfil"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+      <a href="#" class="sidebar-item" title="Pagos"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></a>
+    </aside>
+
+    <div class="main-content">
+      <header class="dash-topbar">
+        <div class="dash-brand">
+          <img src="assets/logo-icon.svg" alt="SportClub" width="32" height="32" />
+          <strong>MI PANEL</strong>
+        </div>
+        <div class="dash-user">
+          <span class="user-name" id="user-welcome">Cargando...</span>
+          <img class="user-avatar" src="https://i.pravatar.cc/34?img=3" alt="Avatar" />
+          <button class="btn btn-sm btn-ghost" id="logout-button" style="padding: 0.4rem 0.8rem; font-size: 0.75rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Salir
+          </button>
+        </div>
+      </header>
+
+      <main class="dash-container">
+        <div class="dash-header">
+          <div>
+            <h1>Bienvenido a tu Espacio</h1>
+            <p>Sigue tu progreso y gestiona tu membresía</p>
+          </div>
+          <button class="btn btn-role btn-sm"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Editar perfil</button>
+        </div>
+
+        <div class="dash-stats">
+          <div class="stat-box"><span class="stat-icon">&#x1F4C5;</span><div class="stat-num">5</div><div class="stat-label">Reservas este mes</div></div>
+          <div class="stat-box"><span class="stat-icon">&#x1F3CB;</span><div class="stat-num">12</div><div class="stat-label">Entrenamientos</div></div>
+          <div class="stat-box"><span class="stat-icon">&#x23F0;</span><div class="stat-num">18h</div><div class="stat-label">Horas entrenadas</div></div>
+          <div class="stat-box"><span class="stat-icon">&#x1F525;</span><div class="stat-num">7</div><div class="stat-label">Racha activa (días)</div></div>
+        </div>
+
+        <div class="grid-layout">
+          <!-- Profile -->
+          <div class="profile-card">
+            <img class="avatar" src="https://i.pravatar.cc/80?img=3" alt="Avatar" />
+            <h3 id="user-name-display">Cargando...</h3>
+            <p id="user-email-display">...</p>
+            <p id="user-sport-display" style="color: var(--text-muted); font-size: 0.85rem;"></p>
+            <div style="display: flex; gap: 0.75rem; justify-content: center; margin-top: 1rem;">
+              <button class="btn btn-role btn-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editar</button>
+              <button class="btn btn-sm btn-ghost">Ver datos</button>
+            </div>
+          </div>
+
+          <!-- Reservations -->
+          <div class="list-card">
+            <div class="list-card-header"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Mis Reservas</div>
+            <div class="list-card-body">
+              <div class="list-item">
+                <div class="item-info"><strong>CrossFit</strong><span>Lunes 18:00 — Cancha 1</span></div>
+                <span class="item-tag tag-blue">Confirmado</span>
+              </div>
+              <div class="list-item">
+                <div class="item-info"><strong>Yoga</strong><span>Miércoles 07:00 — Sala A</span></div>
+                <span class="item-tag tag-green">Disponible</span>
+              </div>
+              <div class="list-item">
+                <div class="item-info"><strong>Funcional</strong><span>Viernes 19:30 — Sala B</span></div>
+                <span class="item-tag tag-gold">Pendiente</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Classes -->
+          <div class="list-card">
+            <div class="list-card-header"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Clases Disponibles</div>
+            <div class="list-card-body">
+              <div class="list-item"><div class="item-info"><strong>Yoga</strong><span>Lun · Mié · Vie · 07:00</span></div><span class="item-tag tag-green">Libre</span></div>
+              <div class="list-item"><div class="item-info"><strong>Funcional</strong><span>Mar · Jue · 18:00</span></div><span class="item-tag tag-green">Libre</span></div>
+              <div class="list-item"><div class="item-info"><strong>Spinning</strong><span>Lun · Mié · 19:00</span></div><span class="item-tag tag-gold">Cupos limitados</span></div>
+              <div class="list-item"><div class="item-info"><strong>Natación</strong><span>Sáb · 10:00</span></div><span class="item-tag tag-blue">Disponible</span></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('gorilaToken');
+      if (!token) { window.location.href = 'login.html'; return; }
+
+      const user = JSON.parse(localStorage.getItem('gorilaUser') || '{}');
+      document.getElementById('user-welcome').textContent = 'Hola, ' + (user.name || 'Atleta');
+      document.getElementById('user-name-display').textContent = user.name || 'Atleta';
+      document.getElementById('user-email-display').textContent = user.email || '...';
+      document.getElementById('user-sport-display').textContent = 'Deporte: ' + (user.sportType || 'No especificado');
+
+      document.getElementById('logout-button')?.addEventListener('click', () => {
+        localStorage.removeItem('gorilaToken');
+        localStorage.removeItem('gorilaUser');
+        window.location.href = 'login.html';
+      });
+    });
+  </script>
+</body>
+</html>
