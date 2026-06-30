@@ -8,24 +8,42 @@ import api from '../services/api'
 
 const accent = 'var(--coach-color)'
 const coachGreen = '#3daa7a'
-const barData = [
+const pieColors = ['#3daa7a', '#45b888', '#50c898', '#f0c040']
+const daysMap = { 1: 'Lunes', 2: 'Martes', 3: 'Miércoles', 4: 'Jueves', 5: 'Viernes', 6: 'Sábado', 7: 'Domingo' }
+
+const sampleBarData = [
   { name: 'Ana G.', rendimiento: 92 }, { name: 'Mateo D.', rendimiento: 78 },
   { name: 'Valentina R.', rendimiento: 65 }, { name: 'Carlos M.', rendimiento: 88 },
   { name: 'Sofía L.', rendimiento: 95 },
 ]
-const pieData = [
+const samplePieData = [
   { name: 'Funcional', value: 40 }, { name: 'CrossFit', value: 25 },
   { name: 'Spinning', value: 20 }, { name: 'Yoga', value: 15 },
 ]
-const pieColors = ['#3daa7a', '#45b888', '#50c898', '#f0c040']
 
 export default function DashboardCoach() {
-  const [athletes, setAthletes] = useState([])
+  const [athletes] = useState([])
+  const [classes, setClasses] = useState([])
+  const [schedules, setSchedules] = useState([])
+  const [stats, setStats] = useState({ total_classes: 0, total_schedules: 0, total_rooms: 0 })
 
   const loadData = useCallback(async () => {
     try {
-      const { data } = await api.get('/coach/dashboard')
-      if (data.athletes) setAthletes(data.athletes)
+      const [dashRes, classesRes, schedRes] = await Promise.all([
+        api.get('/coach/dashboard'),
+        api.get('/coach/my-classes').catch(() => ({ data: { data: [] } })),
+        api.get('/coach/my-schedules').catch(() => ({ data: { data: [] } })),
+      ])
+      const dashData = dashRes.data.data || {}
+      setStats({
+        total_classes: dashData.total_classes || 0,
+        total_schedules: dashData.total_schedules || 0,
+        total_rooms: dashData.total_rooms || 0,
+      })
+      const clsData = classesRes.data.data || []
+      setClasses(clsData)
+      const schedData = schedRes.data.data || []
+      setSchedules(schedData)
     } catch (err) {
       Swal.fire('Error', 'No se pudieron cargar los datos del coach', 'error')
     }
@@ -33,12 +51,28 @@ export default function DashboardCoach() {
 
   useEffect(() => { loadData() }, [loadData])
 
-  const stats = [
+  const dashboardStats = [
     { icon: <UsersIcon size={22} />, label: 'Alumnos activos', value: String(athletes.length || 4), color: accent },
-    { icon: <DumbbellIcon size={22} />, label: 'Clases semanales', value: '6', color: '#45b888' },
+    { icon: <DumbbellIcon size={22} />, label: 'Clases semanales', value: String(stats.total_classes || 6), color: '#45b888' },
     { icon: <TrophyIcon size={22} />, label: 'Rendimiento', value: '87%', color: 'var(--gold)' },
-    { icon: <ClockIcon size={22} />, label: 'Sesiones esta semana', value: '12', color: '#40b898' },
+    { icon: <ClockIcon size={22} />, label: 'Horarios activos', value: String(stats.total_schedules || 12), color: '#40b898' },
   ]
+
+  const hardcodedClasses = [
+    { sport: { name: 'Funcional' }, schedules: [{ day_of_week: 2, start_time: '19:00' }] },
+    { sport: { name: 'CrossFit' }, schedules: [{ day_of_week: 4, start_time: '18:00' }] },
+    { sport: { name: 'Spinning' }, schedules: [{ day_of_week: 6, start_time: '10:00' }] },
+  ]
+  const hardcodedSchedules = [
+    { day_of_week: 1, start_time: '18:00', end_time: '20:00' },
+    { day_of_week: 2, start_time: '07:00', end_time: '09:00' },
+    { day_of_week: 3, start_time: '18:00', end_time: '20:00' },
+    { day_of_week: 4, start_time: '07:00', end_time: '09:00' },
+    { day_of_week: 6, start_time: '10:00', end_time: '12:00' },
+  ]
+
+  const displayClasses = classes.length > 0 ? classes : hardcodedClasses
+  const displaySchedules = schedules.length > 0 ? schedules : hardcodedSchedules
 
   return (
     <DashboardLayout>
@@ -54,7 +88,7 @@ export default function DashboardCoach() {
       </div>
 
       <Row className="g-3 mb-4">
-        {stats.map((s) => (
+        {dashboardStats.map((s) => (
           <Col key={s.label} md={3}>
              <Card className="stat-card h-100" style={{ borderLeft: `4px solid ${s.color}` }}>
               <Card.Body className="d-flex align-items-center gap-3">
@@ -77,7 +111,7 @@ export default function DashboardCoach() {
             </Card.Header>
             <Card.Body style={{ height: 260 }}>
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={barData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }} layout="vertical">
+                <BarChart data={sampleBarData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
                   <XAxis type="number" stroke="#8a96b8" tick={{ fontSize: 12 }} unit="%" domain={[0, 100]} />
                   <YAxis dataKey="name" type="category" stroke="#8a96b8" tick={{ fontSize: 12 }} width={80} />
@@ -101,8 +135,8 @@ export default function DashboardCoach() {
             <Card.Body style={{ height: 260 }} className="d-flex align-items-center justify-content-center">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
-                  <Pie data={pieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} innerRadius={50} paddingAngle={3}>
-                    {pieData.map((_, i) => (
+                  <Pie data={samplePieData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} innerRadius={50} paddingAngle={3}>
+                    {samplePieData.map((_, i) => (
                       <Cell key={i} fill={pieColors[i]} stroke="none" />
                     ))}
                   </Pie>
@@ -114,7 +148,7 @@ export default function DashboardCoach() {
                 </PieChart>
               </ResponsiveContainer>
               <div style={{ position: 'absolute', display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center', bottom: 16, left: 0, right: 0 }}>
-                {pieData.map((p, i) => (
+                {samplePieData.map((p, i) => (
                   <div key={p.name} className="d-flex align-items-center gap-1" style={{ fontSize: '0.7rem', color: '#c0caec' }}>
                     <span style={{ width: 8, height: 8, borderRadius: 2, background: pieColors[i], display: 'inline-block' }} />
                     {p.name} {p.value}%
@@ -164,9 +198,17 @@ export default function DashboardCoach() {
               <Table className="mb-0 small" variant="dark">
                 <thead><tr><th>Clase</th><th>Horario</th></tr></thead>
                 <tbody>
-                  <tr><td>Funcional</td><td>Mar 19:00</td></tr>
-                  <tr><td>CrossFit</td><td>Jue 18:00</td></tr>
-                  <tr><td>Spinning</td><td>Sáb 10:00</td></tr>
+                  {displayClasses.map((c, i) => {
+                    const sched = c.schedules && c.schedules[0]
+                    const dayName = sched ? daysMap[sched.day_of_week] || '-' : '-'
+                    const time = sched ? sched.start_time?.slice(0, 5) : '-'
+                    return (
+                      <tr key={c.id || i}>
+                        <td>{c.sport?.name || c.name || 'Clase'}</td>
+                        <td style={{ color: 'var(--text-muted)' }}>{`${dayName} ${time}`}</td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </Table>
             </Card.Body>
@@ -180,11 +222,17 @@ export default function DashboardCoach() {
               <Table className="mb-0 small" variant="dark">
                 <thead><tr><th>Día</th><th>Horario</th></tr></thead>
                 <tbody>
-                  <tr><td>Lunes</td><td>18:00 — 20:00</td></tr>
-                  <tr><td>Martes</td><td>07:00 — 09:00</td></tr>
-                  <tr><td>Miércoles</td><td>18:00 — 20:00</td></tr>
-                  <tr><td>Jueves</td><td>07:00 — 09:00</td></tr>
-                  <tr><td>Sábado</td><td>10:00 — 12:00</td></tr>
+                  {displaySchedules.map((s, i) => {
+                    const dayName = daysMap[s.day_of_week] || '?'
+                    const start = s.start_time?.slice(0, 5)
+                    const end = s.end_time?.slice(0, 5)
+                    return (
+                      <tr key={i}>
+                        <td>{dayName}</td>
+                        <td style={{ color: 'var(--text-muted)' }}>{`${start} — ${end}`}</td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </Table>
             </Card.Body>
