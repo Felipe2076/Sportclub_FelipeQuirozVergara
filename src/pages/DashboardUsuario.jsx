@@ -8,7 +8,8 @@ import api from '../services/api'
 
 const accent = 'var(--user-color)'
 const userBlue = '#5a90d0'
-const barData = [
+
+const defaultBarData = [
   { day: 'Lun', hours: 1.5 }, { day: 'Mar', hours: 2 }, { day: 'Mié', hours: 0.5 },
   { day: 'Jue', hours: 1.5 }, { day: 'Vie', hours: 2 }, { day: 'Sáb', hours: 1 }, { day: 'Dom', hours: 0 },
 ]
@@ -16,6 +17,7 @@ const barData = [
 export default function DashboardUsuario() {
   const [classes, setClasses] = useState([])
   const [reservations, setReservations] = useState([])
+  const [barData, setBarData] = useState(defaultBarData)
 
   const loadData = useCallback(async () => {
     try {
@@ -38,6 +40,24 @@ export default function DashboardUsuario() {
 
       setClasses(mappedClasses)
       setReservations(resData)
+
+      if (resData.length > 0) {
+        const dayCount = [0, 0, 0, 0, 0, 0, 0]
+        const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb']
+        resData.forEach(r => {
+          if (r.created_at) {
+            const d = new Date(r.created_at)
+            const day = d.getDay()
+            dayCount[day] = (dayCount[day] || 0) + 1
+          }
+        })
+        const maxVal = Math.max(...dayCount, 1)
+        const computedBar = dayNames.map((day, i) => ({
+          day,
+          hours: Math.round((dayCount[i] / maxVal) * 20 * 10) / 10 || 0.5
+        }))
+        setBarData(computedBar)
+      }
     } catch (err) { 
       console.error("Error loading data:", err)
     }

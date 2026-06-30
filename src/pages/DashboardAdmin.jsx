@@ -245,7 +245,7 @@ export default function DashboardAdmin() {
       </Row>
 
       <Row className="g-3">
-        <Col md={8}>
+        <Col md={12}>
           <Card className="list-card">
             <Card.Header className="d-flex justify-content-between align-items-center"
               style={{ color: accent, background: 'rgba(208,64,80,0.08)' }}>
@@ -298,37 +298,6 @@ export default function DashboardAdmin() {
                   )}
                 </tbody>
               </Table>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Col md={4}>
-          <Card className="list-card">
-            <Card.Header style={{ color: accent, background: 'rgba(208,64,80,0.08)' }}>
-              <ChartIcon size={14} /> Panel de Control
-            </Card.Header>
-            <Card.Body>
-              <div className="d-flex justify-content-between align-items-center py-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                <div>
-                  <div className="fw-medium" style={{ fontSize: '0.82rem' }}>Usuarios activos</div>
-                  <div style={{ color: 'var(--text-muted)', fontSize: '0.68rem' }}>Total de miembros registrados</div>
-                </div>
-                <Badge bg="" style={{ background: 'var(--user-color)', fontSize: '0.75rem', minWidth: 28 }}>{users.length}</Badge>
-              </div>
-              <div className="d-flex justify-content-between align-items-center py-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                <div>
-                  <div className="fw-medium" style={{ fontSize: '0.82rem' }}>Deportes</div>
-                  <div style={{ color: 'var(--text-muted)', fontSize: '0.68rem' }}>Disponibles en el sistema</div>
-                </div>
-                <Badge bg="" style={{ background: 'var(--gold)', fontSize: '0.75rem', minWidth: 28 }}>{sports.length}</Badge>
-              </div>
-              <div className="d-flex justify-content-between align-items-center py-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                <div>
-                  <div className="fw-medium" style={{ fontSize: '0.82rem' }}>Clases del dia</div>
-                  <div style={{ color: 'var(--text-muted)', fontSize: '0.68rem' }}>Programadas para hoy</div>
-                </div>
-                <Badge bg="" style={{ background: 'var(--coach-color)', fontSize: '0.75rem', minWidth: 28 }}>6</Badge>
-              </div>
             </Card.Body>
           </Card>
         </Col>

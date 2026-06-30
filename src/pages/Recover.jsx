@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap'
+import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap'
+import Swal from 'sweetalert2'
 import { authService } from '../services/authService'
 
 const roleRedirect = { Admin: '/dashboard/admin', Coach: '/dashboard/coach', User: '/dashboard/usuario' }
@@ -18,7 +19,15 @@ export default function Recover() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (email) setSent(true)
+    if (email) {
+      setSent(true)
+      Swal.fire({
+        icon: 'success',
+        title: 'Correo enviado',
+        text: `Si la cuenta existe, recibirás instrucciones en ${email}`,
+        confirmButtonColor: '#f0c040',
+      })
+    }
   }
 
   return (
@@ -36,10 +45,9 @@ export default function Recover() {
                 </div>
 
                 {sent ? (
-                  <Alert variant="" style={{ borderRadius: 12, background: 'rgba(61,170,122,0.15)', border: '1px solid rgba(61,170,122,0.3)', color: '#a0e0c0' }}>
-                    <p className="fw-semibold mb-1" style={{ fontSize: '0.9rem' }}>Correo enviado</p>
-                    <small>Si la cuenta existe, recibirás instrucciones en {email}</small>
-                  </Alert>
+                  <div className="text-center">
+                    <p style={{ color: 'var(--coach-color)', fontSize: '0.9rem' }}>Correo enviado correctamente</p>
+                  </div>
                 ) : (
                   <Form onSubmit={handleSubmit}>
                     <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1.2rem', lineHeight: 1.5 }}>
