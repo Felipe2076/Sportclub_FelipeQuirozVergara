@@ -14,6 +14,8 @@ const defaultBarData = [
   { day: 'Jue', hours: 1.5 }, { day: 'Vie', hours: 2 }, { day: 'Sáb', hours: 1 }, { day: 'Dom', hours: 0 },
 ]
 
+const DAYS = ['', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']
+
 export default function DashboardUsuario() {
   const [classes, setClasses] = useState([])
   const [reservations, setReservations] = useState([])
@@ -23,7 +25,7 @@ export default function DashboardUsuario() {
     try {
       const [clsRes, resRes] = await Promise.all([
         api.get('/class-schedules'),
-        api.get('/reservations'),
+        api.get('/reservations/my-reservations'),
       ])
       
       const clsData = clsRes.data.data || []
@@ -65,7 +67,7 @@ export default function DashboardUsuario() {
 
   useEffect(() => { loadData() }, [loadData])
 
-  const userClassIds = reservations.map((r) => r.classId)
+  const userClassIds = reservations.map((r) => r.class_schedule_id)
 
   const pieData = [
     { name: 'Confirmadas', value: reservations.filter((r) => r.status === 'confirmed').length },
@@ -218,9 +220,11 @@ export default function DashboardUsuario() {
                   <tbody>
                     {reservations.map((r) => (
                       <tr key={r.id}>
-                        <td className="fw-medium">{r.className || 'Clase'}</td>
-                        <td style={{ color: 'var(--text-secondary)' }}>{r.schedule || '-'}</td>
-                        <td><Badge bg="success">Confirmada</Badge></td>
+                        <td className="fw-medium">{r.classSchedule?.sportRoom?.sport?.name || 'Clase'}</td>
+                        <td style={{ color: 'var(--text-secondary)' }}>
+                          {r.classSchedule ? `${DAYS[r.classSchedule.day_of_week] || ''} ${(r.classSchedule.start_time || '').slice(0,5)}` : '-'}
+                        </td>
+                        <td><Badge bg={r.status === 'active' ? 'success' : 'secondary'}>{r.status === 'active' ? 'Activa' : 'Cancelada'}</Badge></td>
                         <td className="text-center">
                           <Button
                             variant=""
