@@ -4,45 +4,71 @@
 
 Aplicación web SPA para la gestión de un gimnasio/centro deportivo, desarrollada con React + Vite y Node.js/Express.
 
-## Tecnologías utilizadas
+---
 
-- **Frontend:** React 19, Vite, React-Bootstrap, SweetAlert2, Axios, React Router
-- **Backend:** Node.js, Express, JWT, bcryptjs
-- **Estilos:** CSS personalizado con glassmorphism, Bootstrap 5
+## 🚀 Cómo ejecutar el proyecto (para el profesor)
 
-## Requisitos previos
+### 1. Requisitos previos
+- Node.js 18 o superior
+- **npm** (viene con Node.js) o **pnpm**
 
-- Node.js 18+
-- npm o pnpm
-
-## Instalación de dependencias
+### 2. Abrir una terminal en la carpeta del proyecto
 
 ```bash
-# Con npm (raíz del proyecto)
-npm install
-cd backend && npm install
+cd Sportclub_FelipeQuirozVergara
+```
 
-# Con pnpm (raíz del proyecto, instala backend automáticamente)
+### 3. Instalar dependencias
+
+```bash
+# Con pnpm (recomendado):
 pnpm install
+
+# Con npm:
+npm install
 ```
 
-## Cómo ejecutar
+### 4. Iniciar el servidor
 
 ```bash
-# Frontend + backend simultáneamente (puerto 5173 + 4000)
+# Opción 1: Backend + Frontend automáticamente (recomendado)
 npm run dev:all
-
-# O por separado:
-npm run dev          # Frontend en http://localhost:5173
-npm run dev:backend  # Backend en http://localhost:4000
 ```
 
-El backend corre en `http://localhost:4000`.
+Esto inicia:
+- **Backend** → `http://localhost:4000`
+- **Frontend** → `http://localhost:5173`
 
-## Usuarios de prueba
+> Abrir `http://localhost:5173` en el navegador. Todo funciona desde ahí.
+
+### 5. Credenciales de prueba
 
 | Rol | Email | Contraseña |
 |---|---|---|
-| Admin | admin1@demo.cl | 12345678 |
-| Coach | coach1@demo.cl | 12345678 |
-| Usuario | user1@demo.cl | 12345678 |
+| 👑 Admin | admin1@demo.cl | 12345678 |
+| 🏋️ Coach | coach1@demo.cl | 12345678 |
+| 👤 Usuario | user1@demo.cl | 12345678 |
+
+---
+
+## 🔧 Solo backend (si no quieres el frontend)
+
+```bash
+node backend/src/server.js
+# Servidor en http://localhost:4000
+```
+
+Probar con curl o Postman:
+```bash
+curl -X POST http://localhost:4000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin1@demo.cl","password":"12345678"}'
+```
+
+---
+
+## 🛠️ Tecnologías utilizadas
+
+- **Frontend:** React 19, Vite, React-Bootstrap, SweetAlert2, Axios, React Router
+- **Backend:** Node.js, Express, JWT, bcryptjs, Sequelize, SQLite
+- **Estilos:** CSS personalizado con glassmorphism, paleta morado/dorado
