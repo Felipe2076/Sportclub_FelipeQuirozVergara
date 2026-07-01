@@ -191,7 +191,7 @@ export default function DashboardAdmin() {
                       const badgeClass = role === 'admin' ? 'danger' : role === 'coach' ? 'success' : 'primary'
                       return (
                         <tr key={u.id}>
-                          <td className="fw-medium">{u.name}</td>
+                          <td className="fw-medium">{u.full_name}</td>
                           <td style={{ color: 'var(--text-secondary)' }}>{u.email}</td>
                           <td><Badge bg={badgeClass}>{u.role}</Badge></td>
                           <td className="text-center">
